@@ -1,0 +1,41 @@
+﻿using BusinessLogic;
+using BusinessLogic.Items;
+
+namespace SharedTestingResources
+{
+	public class TestingRoomRepository : IRoomRepository
+	{
+		public Room[] Rooms { get; } =
+		{
+			new Room("You are in an empty room. The walls are smooth.",
+				new ItemCollection
+				{
+					new Bottle(),
+					new Book(),
+					new FireballSpellBook(),
+				},
+				new[]
+				{
+					new Passage(1, "north"),
+					new Passage(2, "west"),
+				}),
+			new Room("You are in a dark room.",
+				new ItemCollection(),
+				new[]
+				{
+					new Passage(0, "south"),
+				},
+				new[]
+				{
+					new Creature("Big Evil Guy", "The evil threat of the campaign."),
+				}),
+			new Room("You are in a bright room.",
+				new ItemCollection(),
+				new[]
+				{
+					new Passage(0, "east"),
+				}),
+
+		};
+	}
+}
