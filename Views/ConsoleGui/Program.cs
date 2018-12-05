@@ -22,7 +22,6 @@ namespace Views.ConsoleGui
 					Console.Write(">");
 				}
 			}
-			writer.WriteDescription("The only way to escape alive, is to end the game.");
 		}
 	}
 }
