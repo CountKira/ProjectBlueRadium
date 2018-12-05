@@ -30,7 +30,10 @@ namespace SharedTestingResources
 					new Creature("Big Evil Guy", "The evil threat of the campaign."),
 				}),
 			new Room("You are in a bright room.",
-				new ItemCollection(),
+				new ItemCollection()
+				{
+					new Sword(),
+				},
 				new[]
 				{
 					new Passage(0, "east"),

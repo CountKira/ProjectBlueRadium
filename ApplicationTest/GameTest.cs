@@ -223,6 +223,16 @@ namespace ApplicationTest
 		}
 
 		[Fact]
+		public void LookAtSword()
+		{
+			var (game, testWriter) = GetCommonGame();
+			game.EnterCommand("go west");
+			game.EnterCommand("look sword");
+			var result = testWriter.Description;
+			Assert.Equal("A sharp sword.", result);
+		}
+
+		[Fact]
 		public void LookAtPickedUpItem()
 		{
 			var (game, testWriter) = GetCommonGame();
@@ -272,7 +282,10 @@ namespace ApplicationTest
 			game.EnterCommand("look");
 			var result = testWriter.SeenThings;
 			Assert.Equal("You are in a bright room.", result.EntityDescription);
-			var items = new ItemCollection();
+			var items = new ItemCollection()
+			{
+				new Sword(),
+			};
 			Assert.Equal(items, result.Items, new ItemComparer());
 			var passages = new[]
 			{
