@@ -9,7 +9,7 @@ namespace Views.ConsoleGui
 		/// <inheritdoc />
 		public void WriteDescription(string text)
 		{
-			Console.WriteLine(StringSplitter.BreakText(text, Console.WindowWidth));
+			WriteLine(StringSplitter.BreakText(text, Console.WindowWidth));
 		}
 
 		/// <inheritdoc />
@@ -18,13 +18,13 @@ namespace Views.ConsoleGui
 			switch (invalidCommand.CommandType)
 			{
 				case InvalidCommandType.ItemNotFound:
-					WriteDescription($"There is no {invalidCommand.Specifier} in this room.");
+					WriteLine($"There is no {invalidCommand.Specifier} in this room.");
 					break;
 				case InvalidCommandType.UnknownCommand:
-					WriteDescription("Unknown command.");
+					WriteLine("Unknown command.");
 					break;
 				case InvalidCommandType.PassageNotFound:
-					WriteDescription($"There is no {invalidCommand.Specifier} to go to.");
+					WriteLine($"There is no {invalidCommand.Specifier} to go to.");
 					break;
 				default:
 					throw new ArgumentOutOfRangeException();
@@ -35,19 +35,19 @@ namespace Views.ConsoleGui
 		/// <inheritdoc />
 		public void YouDiedByPoison()
 		{
-			WriteDescription("This was not a good idea. The bottle contained poison. You're dead.");
+			WriteLine("This was not a good idea. The bottle contained poison. You're dead.");
 		}
 
 		/// <inheritdoc />
 		public void DisplaySpells(bool spellKnown)
 		{
-			WriteDescription(spellKnown ? "Fireball" : "You have no spells.");
+			WriteLine(spellKnown ? "Fireball" : "You have no spells.");
 		}
 
 		/// <inheritdoc />
 		public void LearnedFireball()
 		{
-			WriteDescription("You learned the spell fireball.");
+			WriteLine("You learned the spell fireball.");
 		}
 
 		/// <inheritdoc />
@@ -60,7 +60,7 @@ namespace Views.ConsoleGui
 				case Verb.Look:
 					break;
 				case Verb.Get:
-					WriteDescription($"You pick up the {actionDto.Specifier}.");
+					WriteLine($"You pick up the {actionDto.Specifier}.");
 					break;
 			}
 		}
@@ -75,20 +75,22 @@ namespace Views.ConsoleGui
 			var passageMessage =
 				seen.Passages.Length > 0 ? $" There is a passage {string.Join(" and ", seen.Passages.Select(p => p.DisplayName))}." : "";
 			var result = $"{seen.EntityDescription}{passageMessage}{creatureS}{items}";
-			WriteDescription(result);
+			WriteLine(result);
 		}
 
 		/// <inheritdoc />
 		public void DescribeSelf(string description)
 		{
-			WriteDescription(description);
+			WriteLine(description);
 		}
 
 		/// <inheritdoc />
 		public void ShowInventory(ItemCollection inventory)
 		{
 			var items = ItemCollectionToString.GetItemNameConcat(inventory);
-			WriteDescription($"You have {items}.");
+			WriteLine($"You have {items}.");
 		}
+
+		void WriteLine(string text) => Console.WriteLine(text);
 	}
 }
