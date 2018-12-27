@@ -7,10 +7,7 @@ namespace Views.ConsoleGui
 	class ConsoleWriter : IWriter
 	{
 		/// <inheritdoc />
-		public void WriteDescription(string text)
-		{
-			WriteLine(StringSplitter.BreakText(text, Console.WindowWidth));
-		}
+		public void WriteDescription(string text) => WriteLine(text);
 
 		/// <inheritdoc />
 		public void SetInvalidCommand(InvalidCommand invalidCommand)
@@ -91,6 +88,6 @@ namespace Views.ConsoleGui
 			WriteLine($"You have {items}.");
 		}
 
-		void WriteLine(string text) => Console.WriteLine(text);
+		static void WriteLine(string text) => Console.WriteLine(StringSplitter.BreakText(text, Console.WindowWidth));
 	}
 }
