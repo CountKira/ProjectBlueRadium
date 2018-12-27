@@ -70,6 +70,9 @@ namespace BusinessLogic
 				case "me":
 					writer.DescribeSelf("It is you.");
 					break;
+				case "inventory":
+					writer.ShowInventory(Inventory);
+					break;
 				default:
 					if (!TryParseCommand(inputText))
 						writer.SetInvalidCommand(new InvalidCommand(InvalidCommandType.UnknownCommand));

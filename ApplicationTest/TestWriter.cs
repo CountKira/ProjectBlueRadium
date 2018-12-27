@@ -13,6 +13,7 @@ namespace ApplicationTest
 		public ActionDTO Action { get; private set; }
 		public SeenObjects SeenThings { get; private set; }
 		public string Me { get; private set; }
+		public ItemCollection Inventory { get; private set; }
 
 		/// <inheritdoc />
 		public void WriteDescription(string text)
@@ -60,6 +61,12 @@ namespace ApplicationTest
 		public void DescribeSelf(string description)
 		{
 			Me = description;
+		}
+
+		/// <inheritdoc />
+		public void ShowInventory(ItemCollection inventory)
+		{
+			Inventory = inventory;
 		}
 	}
 }

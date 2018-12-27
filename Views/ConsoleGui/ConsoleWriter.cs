@@ -83,5 +83,12 @@ namespace Views.ConsoleGui
 		{
 			WriteDescription(description);
 		}
+
+		/// <inheritdoc />
+		public void ShowInventory(ItemCollection inventory)
+		{
+			var items = ItemCollectionToString.GetItemNameConcat(inventory);
+			WriteDescription($"You have {items}.");
+		}
 	}
 }

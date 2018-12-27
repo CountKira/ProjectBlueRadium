@@ -10,5 +10,6 @@
 		void WriteAction(ActionDTO actionDto);
 		void WriteSeenObjects(SeenObjects seen);
 		void DescribeSelf(string description);
+		void ShowInventory(ItemCollection inventory);
 	}
 }

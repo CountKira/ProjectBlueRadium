@@ -376,5 +376,21 @@ namespace ApplicationTest
 			Assert.Equal("The evil threat of the campaign.", result);
 		}
 
+		[Fact]
+		public void Inventory()
+		{
+			var (game, testWriter) = GetCommonGame();
+			game.EnterCommand("get bottle");
+			game.EnterCommand("get book");
+			game.EnterCommand("inventory");
+			var items = new ItemCollection
+			{
+				new Bottle(),
+				new Book(),
+			};
+			var actual = testWriter.Inventory;
+			Assert.Equal(items, actual, new ItemComparer());
+		}
+
 	}
 }
