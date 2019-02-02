@@ -7,13 +7,14 @@ namespace Views.ConsoleGui
 	class ConsoleWriter : IWriter
 	{
 		/// <inheritdoc />
-		public void WriteDescription(string text) => WriteLine(text);
+		public void WriteTextOutput(string text) => WriteLine(text);
 
 		/// <inheritdoc />
 		public void SetInvalidCommand(InvalidCommand invalidCommand)
 		{
 			switch (invalidCommand.CommandType)
 			{
+				case InvalidCommandType.EnemyNotFound:
 				case InvalidCommandType.ItemNotFound:
 					WriteLine($"There is no {invalidCommand.Specifier} in this room.");
 					break;

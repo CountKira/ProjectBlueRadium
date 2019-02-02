@@ -64,7 +64,7 @@ namespace BusinessLogic
 
 					break;
 				case "spells":
-					
+
 					writer.DisplaySpells(spellKnown);
 					break;
 				case "me":
@@ -75,6 +75,14 @@ namespace BusinessLogic
 					break;
 				case "equipment":
 					writer.ShowEquipment();
+					break;
+				case "attack bad evil guy":
+					if (room.GetCreature("bad evil guy") is null)
+					{
+						writer.SetInvalidCommand(new InvalidCommand(InvalidCommandType.EnemyNotFound) { Specifier = "bad evil guy" });
+					}
+					writer.WriteTextOutput("Since you do not wield any weapons, the bad evil guy can easily kill you.");
+					IsRunning = false;
 					break;
 				default:
 					if (!TryParseCommand(inputText))
@@ -186,7 +194,7 @@ namespace BusinessLogic
 
 		public void WriteDescription(string text)
 		{
-			writer.WriteDescription(text);
+			writer.WriteTextOutput(text);
 		}
 
 		public void YouDiedByPoison()

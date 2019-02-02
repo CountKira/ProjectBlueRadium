@@ -209,7 +209,7 @@ namespace ApplicationTest
 		{
 			var (game, testWriter) = GetCommonGame();
 			game.EnterCommand("look bottle");
-			var result = testWriter.Description;
+			var result = testWriter.TextOutput;
 			Assert.Equal("This is a glass bottle, with a green substance inside it.", result);
 		}
 
@@ -218,7 +218,7 @@ namespace ApplicationTest
 		{
 			var (game, testWriter) = GetCommonGame();
 			game.EnterCommand("look book");
-			var result = testWriter.Description;
+			var result = testWriter.TextOutput;
 			Assert.Equal("The book contains the story of boatmurdered.", result);
 		}
 
@@ -228,7 +228,7 @@ namespace ApplicationTest
 			var (game, testWriter) = GetCommonGame();
 			game.EnterCommand("go west");
 			game.EnterCommand("look sword");
-			var result = testWriter.Description;
+			var result = testWriter.TextOutput;
 			Assert.Equal("A sharp sword.", result);
 		}
 
@@ -238,7 +238,7 @@ namespace ApplicationTest
 			var (game, testWriter) = GetCommonGame();
 			game.EnterCommand("get book");
 			game.EnterCommand("look book");
-			var result = testWriter.Description;
+			var result = testWriter.TextOutput;
 			Assert.Equal("The book contains the story of boatmurdered.", result);
 		}
 
@@ -372,7 +372,7 @@ namespace ApplicationTest
 			var (game, testWriter) = GetCommonGame();
 			game.EnterCommand("go north");
 			game.EnterCommand("look Big Evil Guy");
-			var result = testWriter.Description;
+			var result = testWriter.TextOutput;
 			Assert.Equal("The evil threat of the campaign.", result);
 		}
 
@@ -400,5 +400,25 @@ namespace ApplicationTest
 			Assert.True(actual);
 		}
 
+		[Fact]
+		public void AttackingTheBadEvilGuyWithoutAnythingEndsTheGame()
+		{
+			var (game, testWriter) = GetCommonGame();
+			game.EnterCommand("go north");
+			game.EnterCommand("attack bad evil guy");
+			var actual = testWriter.TextOutput;
+			Assert.Equal("Since you do not wield any weapons, the bad evil guy can easily kill you.", actual);
+			Assert.False(game.IsRunning);
+
+		}
+		[Fact]
+		public void TheBadEvilGuyCanOnlyBeAttackedWhenThePlayerIsInTheSameRoom()
+		{
+			var (game, testWriter) = GetCommonGame();
+			game.EnterCommand("attack bad evil guy");
+			var result = testWriter.InvalidCommand;
+			Assert.Equal(InvalidCommandType.EnemyNotFound, result.CommandType);
+			Assert.Equal("bad evil guy", result.Specifier);
+		}
 	}
 }

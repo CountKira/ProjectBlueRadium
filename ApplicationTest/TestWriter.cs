@@ -5,7 +5,7 @@ namespace ApplicationTest
 {
 	class TestWriter : IWriter
 	{
-		public string Description { get; private set; }
+		public string TextOutput { get; private set; }
 		public bool DiedPyPoison { get; private set; }
 		public bool SpellKnown { get; private set; }
 		public bool FireballLearned { get; private set; }
@@ -17,9 +17,9 @@ namespace ApplicationTest
 		public bool HasNothingEquipped { get; private set; }
 
 		/// <inheritdoc />
-		public void WriteDescription(string text)
+		public void WriteTextOutput(string text)
 		{
-			Description = text;
+			TextOutput = text;
 		}
 
 		/// <inheritdoc />

@@ -2,7 +2,7 @@
 {
 	public interface IWriter
 	{
-		void WriteDescription(string text);
+		void WriteTextOutput(string text);
 		void SetInvalidCommand(InvalidCommand invalidCommand);
 		void YouDiedByPoison();
 		void DisplaySpells(bool spellKnown);
