@@ -73,6 +73,9 @@ namespace BusinessLogic
 				case "inventory":
 					writer.ShowInventory(Inventory);
 					break;
+				case "equipment":
+					writer.ShowEquipment();
+					break;
 				default:
 					if (!TryParseCommand(inputText))
 						writer.SetInvalidCommand(new InvalidCommand(InvalidCommandType.UnknownCommand));

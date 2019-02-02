@@ -14,6 +14,7 @@ namespace ApplicationTest
 		public SeenObjects SeenThings { get; private set; }
 		public string Me { get; private set; }
 		public ItemCollection Inventory { get; private set; }
+		public bool HasNothingEquipped { get; private set; }
 
 		/// <inheritdoc />
 		public void WriteDescription(string text)
@@ -67,6 +68,12 @@ namespace ApplicationTest
 		public void ShowInventory(ItemCollection inventory)
 		{
 			Inventory = inventory;
+		}
+
+		/// <inheritdoc />
+		public void ShowEquipment()
+		{
+			HasNothingEquipped = true;
 		}
 	}
 }

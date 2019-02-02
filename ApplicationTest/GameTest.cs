@@ -46,7 +46,7 @@ namespace ApplicationTest
 			return (game, testWriter);
 		}
 
-		const string RoomDescription ="You are in an empty room. The walls are smooth.";
+		const string RoomDescription = "You are in an empty room. The walls are smooth.";
 
 		[Fact]
 		public void Exit()
@@ -83,20 +83,20 @@ namespace ApplicationTest
 			var (game, testWriter) = GetCommonGame();
 			game.EnterCommand("look");
 			var result = testWriter.SeenThings;
-			Assert.Equal(RoomDescription,result.EntityDescription);
+			Assert.Equal(RoomDescription, result.EntityDescription);
 			var items = new ItemCollection
 			{
 				new Bottle(),
 				new Book(),
 				new FireballSpellBook(),
 			};
-			Assert.Equal(items, result.Items,new ItemComparer());
+			Assert.Equal(items, result.Items, new ItemComparer());
 			var passages = new[]
 			{
 				new Passage(1, "north"),
 				new Passage(2, "west"),
 			};
-			Assert.Equal(passages, result.Passages,new PassageComparer());
+			Assert.Equal(passages, result.Passages, new PassageComparer());
 		}
 
 		[Fact]
@@ -341,7 +341,7 @@ namespace ApplicationTest
 		{
 			var (game, testWriter) = GetCommonGame();
 			game.EnterCommand("read fireball spell book");
-			Assert.True( testWriter.FireballLearned);
+			Assert.True(testWriter.FireballLearned);
 			game.EnterCommand("spells");
 			Assert.True(testWriter.SpellKnown);
 		}
@@ -390,6 +390,14 @@ namespace ApplicationTest
 			};
 			var actual = testWriter.Inventory;
 			Assert.Equal(items, actual, new ItemComparer());
+		}
+		[Fact]
+		public void NothingEquipped()
+		{
+			var (game, testWriter) = GetCommonGame();
+			game.EnterCommand("equipment");
+			var actual = testWriter.HasNothingEquipped;
+			Assert.True(actual);
 		}
 
 	}
