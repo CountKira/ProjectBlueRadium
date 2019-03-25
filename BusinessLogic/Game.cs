@@ -19,11 +19,6 @@ namespace BusinessLogic
 			this.writer = writer;
 			this.roomRepository = roomRepository;
 			room = roomRepository.Rooms[0];
-			Inventory.RegisterGame(this);
-			foreach (var roomRepositoryRoom in roomRepository.Rooms)
-			{
-				roomRepositoryRoom.RegisterGame(this);
-			}
 		}
 
 		public bool IsRunning { get; set; } = true;
@@ -51,7 +46,7 @@ namespace BusinessLogic
 						writer.SetInvalidCommand(invalidCommand);
 					}
 					else
-						entityObj.Act(Verb.Drink);
+						entityObj.Act(Verb.Drink, this);
 					break;
 				case "read fireball spell book":
 					if (room.HasItem("fireball spell book"))
@@ -134,7 +129,7 @@ namespace BusinessLogic
 				if (itemObj is null)
 					writer.SetInvalidCommand(new InvalidCommand(InvalidCommandType.ItemNotFound) { Specifier = item });
 				else
-					itemObj.Act(Verb.Get);
+					itemObj.Act(Verb.Get, this);
 
 				return true;
 			}
@@ -173,7 +168,7 @@ namespace BusinessLogic
 						writer.SetInvalidCommand(new InvalidCommand(InvalidCommandType.ItemNotFound) { Specifier = entity });
 						break;
 					case Item item:
-						item.Act(Verb.Look);
+						item.Act(Verb.Look, this);
 						break;
 					case Creature creature:
 						WriteDescription(creature.Description);
@@ -188,7 +183,7 @@ namespace BusinessLogic
 
 		public void PickUpItem(Item item)
 		{
-			room.PickUpItem(item);
+			room.PickUpItem(item, this);
 		}
 
 

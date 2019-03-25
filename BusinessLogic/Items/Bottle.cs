@@ -11,7 +11,7 @@ namespace BusinessLogic.Items
 		}
 
 		/// <inheritdoc />
-		public override void Act(Verb verb)
+		public override void Act(Verb verb, Game game)
 		{
 			switch (verb)
 			{

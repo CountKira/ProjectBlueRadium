@@ -6,7 +6,6 @@ namespace BusinessLogic.Items
 	[DebuggerDisplay("{" + nameof(Name) + "}")]
 	public abstract class Item
 	{
-		protected Game game;
 		protected Item(string name, string description)
 		{
 			Name = name;
@@ -16,11 +15,6 @@ namespace BusinessLogic.Items
 		public string Name { get; }
 		protected string Description { get; }
 
-		public abstract void Act(Verb verb);
-
-		public void RegisterGame(Game game)
-		{
-			this.game = game;
-		}
+		public abstract void Act(Verb verb, Game game);
 	}
 }

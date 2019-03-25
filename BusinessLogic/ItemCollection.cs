@@ -8,12 +8,10 @@ namespace BusinessLogic
 {
 	public class ItemCollection : IEnumerable<Item>
 	{
-		private Game game;
 		private readonly List<Item> items = new List<Item>();
 		public void Add(Item item)
 		{
 			items.Add(item);
-			item.RegisterGame(game);
 		}
 
 		public void Remove(Item item) => items.Remove(item);
@@ -25,13 +23,5 @@ namespace BusinessLogic
 		/// <inheritdoc />
 		IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
-		public void RegisterGame(Game game)
-		{
-			this.game = game;
-			foreach (var item in items)
-			{
-				item.RegisterGame(game);
-			}
-		}
 	}
 }

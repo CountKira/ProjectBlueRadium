@@ -11,7 +11,6 @@ namespace BusinessLogic
 		private readonly ItemCollection inventory;
 		private readonly Passage[] passages;
 		private readonly Creature[] creatures;
-		private Game game;
 
 
 		public Room(string description, ItemCollection inventory, Passage[] passages = null, Creature[] creatures = null)
@@ -40,7 +39,7 @@ namespace BusinessLogic
 			return false;
 		}
 
-		public void PickUpItem(Item item)
+		public void PickUpItem(Item item, Game game)
 		{
 			game.WriteAction(new ActionDTO(Verb.Get) { Specifier = item.Name });
 			inventory.Remove(item);
@@ -50,12 +49,6 @@ namespace BusinessLogic
 		public bool HasItem(string item) => inventory.HasItem(item);
 
 		public Item GetItem(string item) => inventory.First(i => i.Name == item);
-
-		public void RegisterGame(Game game)
-		{
-			this.game = game;
-			inventory.RegisterGame(game);
-		}
 
 		public Creature GetCreature(string creatureName) => creatures.FirstOrDefault(a => a.Name.Equals(creatureName,StringComparison.OrdinalIgnoreCase));
 	}
