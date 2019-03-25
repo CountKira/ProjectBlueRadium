@@ -58,7 +58,7 @@ namespace ApplicationTest
 			}
 
 			/// <inheritdoc />
-			public override void Act(Verb verb, Game game)
+			public override void Act(Verb verb, IGame game)
 			{
 				throw new System.NotImplementedException();
 			}

@@ -6,7 +6,7 @@ using BusinessLogic.Items;
 
 namespace BusinessLogic
 {
-	public class Game
+	public class Game : IGame
 	{
 		private readonly IWriter writer;
 		private Room room;
@@ -21,7 +21,7 @@ namespace BusinessLogic
 			room = roomRepository.Rooms[0];
 		}
 
-		public bool IsRunning { get; set; } = true;
+		public bool IsRunning { get; private set; } = true;
 
 		public void EnterCommand(string text)
 		{
@@ -195,6 +195,12 @@ namespace BusinessLogic
 		public void YouDiedByPoison()
 		{
 			writer.YouDiedByPoison();
+		}
+
+		/// <inheritdoc />
+		public void Stop()
+		{
+			IsRunning = false;
 		}
 
 		public void WriteAction(ActionDTO actionDto)

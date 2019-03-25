@@ -39,7 +39,7 @@ namespace BusinessLogic
 			return false;
 		}
 
-		public void PickUpItem(Item item, Game game)
+		public void PickUpItem(Item item, IGame game)
 		{
 			game.WriteAction(new ActionDTO(Verb.Get) { Specifier = item.Name });
 			inventory.Remove(item);

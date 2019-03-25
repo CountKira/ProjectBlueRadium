@@ -15,6 +15,6 @@ namespace BusinessLogic.Items
 		public string Name { get; }
 		protected string Description { get; }
 
-		public abstract void Act(Verb verb, Game game);
+		public abstract void Act(Verb verb, IGame game);
 	}
 }

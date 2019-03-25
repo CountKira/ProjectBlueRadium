@@ -11,13 +11,13 @@ namespace BusinessLogic.Items
 		}
 
 		/// <inheritdoc />
-		public override void Act(Verb verb, Game game)
+		public override void Act(Verb verb, IGame game)
 		{
 			switch (verb)
 			{
 				case Verb.Drink:
 					game.YouDiedByPoison();
-					game.IsRunning = false;
+					game.Stop();
 					break;
 				case Verb.Look:
 					game.WriteDescription(Description);
