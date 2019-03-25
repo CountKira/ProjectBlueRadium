@@ -7,11 +7,11 @@ namespace BusinessLogic
 {
 	public class Room
 	{
-		readonly string description;
-		readonly ItemCollection inventory;
-		readonly Passage[] passages;
-		readonly Creature[] creatures;
-		Game game;
+		private readonly string description;
+		private readonly ItemCollection inventory;
+		private readonly Passage[] passages;
+		private readonly Creature[] creatures;
+		private Game game;
 
 
 		public Room(string description, ItemCollection inventory, Passage[] passages = null, Creature[] creatures = null)

@@ -95,6 +95,6 @@ namespace Views.ConsoleGui
 			WriteLine("You do not have anything equipped.");
 		}
 
-		static void WriteLine(string text) => Console.WriteLine(StringSplitter.BreakText(text, Console.WindowWidth));
+		private static void WriteLine(string text) => Console.WriteLine(StringSplitter.BreakText(text, Console.WindowWidth));
 	}
 }

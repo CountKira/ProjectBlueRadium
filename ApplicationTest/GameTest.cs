@@ -12,7 +12,7 @@ namespace ApplicationTest
 {
 	public class GameTest
 	{
-		class ItemComparer : IEqualityComparer<Item>
+		private class ItemComparer : IEqualityComparer<Item>
 		{
 			/// <inheritdoc />
 			public bool Equals(Item x, Item y) => x.Name == y.Name;
@@ -21,7 +21,7 @@ namespace ApplicationTest
 			public int GetHashCode(Item obj) => obj.GetHashCode();
 		}
 
-		class PassageComparer : IEqualityComparer<Passage>
+		private class PassageComparer : IEqualityComparer<Passage>
 		{
 			/// <inheritdoc />
 			public bool Equals(Passage x, Passage y) => x.RoomGuid == y.RoomGuid;
@@ -29,7 +29,8 @@ namespace ApplicationTest
 			/// <inheritdoc />
 			public int GetHashCode(Passage obj) => obj.GetHashCode();
 		}
-		class CreatureComparer : IEqualityComparer<Creature>
+
+		private class CreatureComparer : IEqualityComparer<Creature>
 		{
 			/// <inheritdoc />
 			public bool Equals(Creature x, Creature y) => x.Name == y.Name &&
@@ -39,14 +40,14 @@ namespace ApplicationTest
 			public int GetHashCode(Creature obj) => obj.GetHashCode();
 		}
 
-		static (Game game, TestWriter writer) GetCommonGame()
+		private static (Game game, TestWriter writer) GetCommonGame()
 		{
 			var testWriter = new TestWriter();
 			var game = new Game(testWriter, new TestingRoomRepository());
 			return (game, testWriter);
 		}
 
-		const string RoomDescription = "You are in an empty room. The walls are smooth.";
+		private const string RoomDescription = "You are in an empty room. The walls are smooth.";
 
 		[Fact]
 		public void Exit()

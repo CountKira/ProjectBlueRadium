@@ -15,10 +15,10 @@ namespace BusinessLogic.Items
 			switch (verb)
 			{
 				case Verb.Look:
-					Game.WriteDescription(Description);
+					game.WriteDescription(Description);
 					break;
 				case Verb.Get:
-					Game.PickUpItem(this);
+					game.PickUpItem(this);
 					break;
 				default: throw new NotImplementedException();
 			}

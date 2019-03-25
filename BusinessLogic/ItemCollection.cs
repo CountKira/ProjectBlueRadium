@@ -8,8 +8,8 @@ namespace BusinessLogic
 {
 	public class ItemCollection : IEnumerable<Item>
 	{
-		Game game;
-		readonly List<Item> items = new List<Item>();
+		private Game game;
+		private readonly List<Item> items = new List<Item>();
 		public void Add(Item item)
 		{
 			items.Add(item);

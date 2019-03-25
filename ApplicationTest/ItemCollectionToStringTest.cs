@@ -50,7 +50,7 @@ namespace ApplicationTest
 			Assert.Equal("a Thing, a Thing2 and a Thing3", text);
 		}
 
-		class DummyItem : Item
+		private class DummyItem : Item
 		{
 			/// <inheritdoc />
 			public DummyItem(string name, string description) : base(name, description)

@@ -4,7 +4,7 @@ namespace BusinessLogic.Items
 {
 	public class Bottle : Item
 	{
-		const string Desc = "This is a glass bottle, with a green substance inside it.";
+		private const string Desc = "This is a glass bottle, with a green substance inside it.";
 		/// <inheritdoc />
 		public Bottle() : base("bottle", Desc)
 		{
@@ -16,14 +16,14 @@ namespace BusinessLogic.Items
 			switch (verb)
 			{
 				case Verb.Drink:
-					Game.YouDiedByPoison();
-					Game.IsRunning = false;
+					game.YouDiedByPoison();
+					game.IsRunning = false;
 					break;
 				case Verb.Look:
-					Game.WriteDescription(Description);
+					game.WriteDescription(Description);
 					break;
 				case Verb.Get:
-					Game.PickUpItem(this);
+					game.PickUpItem(this);
 					break;
 				default:
 					throw new ArgumentOutOfRangeException(nameof(verb), verb, null);

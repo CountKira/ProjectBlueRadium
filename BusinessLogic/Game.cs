@@ -8,11 +8,11 @@ namespace BusinessLogic
 {
 	public class Game
 	{
-		readonly IWriter writer;
-		Room room;
+		private readonly IWriter writer;
+		private Room room;
 		public ItemCollection Inventory { get; } = new ItemCollection();
-		readonly IRoomRepository roomRepository;
-		bool spellKnown;
+		private readonly IRoomRepository roomRepository;
+		private bool spellKnown;
 
 		public Game(IWriter writer, IRoomRepository roomRepository)
 		{
@@ -91,7 +91,7 @@ namespace BusinessLogic
 			}
 		}
 
-		object GetLocalAvailableEntity(string entityName)
+		private object GetLocalAvailableEntity(string entityName)
 		{
 			var item = GetItemObjectInRoom(entityName);
 			if (item != null)
@@ -113,19 +113,19 @@ namespace BusinessLogic
 			return null;
 		}
 
-		Item GetItemObjectInRoom(string itemName)
+		private Item GetItemObjectInRoom(string itemName)
 		{
 			return room.HasItem(itemName) ? room.GetItem(itemName) : null;
 		}
 
-		bool TryParseCommand(string inputText)
+		private bool TryParseCommand(string inputText)
 		{
 			return ParseGetCommand(inputText) ||
 					ParseGoCommand(inputText) ||
 					ParseLookCommand(inputText);
 		}
 
-		bool ParseGetCommand(string inputText)
+		private bool ParseGetCommand(string inputText)
 		{
 			if (inputText.StartsWith("get "))
 			{
@@ -142,7 +142,7 @@ namespace BusinessLogic
 			return false;
 		}
 
-		bool ParseGoCommand(string inputText)
+		private bool ParseGoCommand(string inputText)
 		{
 			if (inputText.StartsWith("go "))
 			{
@@ -161,7 +161,7 @@ namespace BusinessLogic
 			return false;
 		}
 
-		bool ParseLookCommand(string inputText)
+		private bool ParseLookCommand(string inputText)
 		{
 			if (inputText.StartsWith("look "))
 			{
