@@ -2,6 +2,7 @@
 {
 	public interface IRoomRepository
 	{
-		Room[] Rooms { get; }
+		Room GetStartRoom();
+		Room GetRoomById(int id);
 	}
 }

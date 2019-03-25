@@ -18,7 +18,7 @@ namespace BusinessLogic
 		{
 			this.writer = writer;
 			this.roomRepository = roomRepository;
-			room = roomRepository.Rooms[0];
+			room = roomRepository.GetStartRoom();
 		}
 
 		public bool IsRunning { get; private set; } = true;
@@ -144,7 +144,7 @@ namespace BusinessLogic
 				var passageName = inputText.Substring(3);
 				if (room.TryGetRoom(passageName, out var roomId))
 				{
-					room = roomRepository.Rooms[roomId];
+					room = roomRepository.GetRoomById(roomId);
 					writer.WriteSeenObjects(room.GetDescription());
 				}
 				else

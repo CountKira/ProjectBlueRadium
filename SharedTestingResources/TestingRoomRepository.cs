@@ -1,11 +1,12 @@
-﻿using BusinessLogic;
+﻿using System.Linq;
+using BusinessLogic;
 using BusinessLogic.Items;
 
 namespace SharedTestingResources
 {
 	public class TestingRoomRepository : IRoomRepository
 	{
-		public Room[] Rooms { get; } =
+		private readonly Room[] rooms =
 		{
 			new Room("You are in an empty room. The walls are smooth.",
 				new ItemCollection
@@ -40,5 +41,11 @@ namespace SharedTestingResources
 				}),
 
 		};
+
+		/// <inheritdoc />
+		public Room GetStartRoom() => rooms.FirstOrDefault();
+
+		/// <inheritdoc />
+		public Room GetRoomById(int id) => rooms[id];
 	}
 }
