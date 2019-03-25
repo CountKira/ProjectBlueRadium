@@ -25,7 +25,6 @@ namespace BusinessLogic
 
 		public void EnterCommand(string text)
 		{
-
 			var inputText = text.ToLower();
 			switch (inputText)
 			{
@@ -36,8 +35,9 @@ namespace BusinessLogic
 					writer.WriteSeenObjects(room.GetDescription());
 					break;
 				case "drink bottle":
-					var entityObj = GetLocalAvailableEntity("bottle") as Item;
-					if (entityObj is null)
+					if (GetLocalAvailableEntity("bottle") is Item entityObj)
+						entityObj.Act(Verb.Drink, this);
+					else
 					{
 						var invalidCommand = new InvalidCommand(InvalidCommandType.ItemNotFound)
 						{
@@ -45,8 +45,7 @@ namespace BusinessLogic
 						};
 						writer.SetInvalidCommand(invalidCommand);
 					}
-					else
-						entityObj.Act(Verb.Drink, this);
+
 					break;
 				case "read fireball spell book":
 					if (room.HasItem("fireball spell book"))
@@ -117,7 +116,7 @@ namespace BusinessLogic
 		{
 			return ParseGetCommand(inputText) ||
 					ParseGoCommand(inputText) ||
-					ParseLookCommand(inputText);
+					TryParseLookCommand(inputText);
 		}
 
 		private bool ParseGetCommand(string inputText)
@@ -156,24 +155,12 @@ namespace BusinessLogic
 			return false;
 		}
 
-		private bool ParseLookCommand(string inputText)
+		private bool TryParseLookCommand(string inputText)
 		{
 			if (inputText.StartsWith("look "))
 			{
 				var entity = inputText.Substring(5);
-				var entityObj = GetLocalAvailableEntity(entity);
-				switch (entityObj)
-				{
-					case null:
-						writer.SetInvalidCommand(new InvalidCommand(InvalidCommandType.ItemNotFound) { Specifier = entity });
-						break;
-					case Item item:
-						item.Act(Verb.Look, this);
-						break;
-					case Creature creature:
-						WriteDescription(creature.Description);
-						break;
-				}
+				ExecuteLookCommand(entity);
 
 				return true;
 			}
@@ -181,32 +168,34 @@ namespace BusinessLogic
 			return false;
 		}
 
-		public void PickUpItem(Item item)
+		private void ExecuteLookCommand(string entity)
 		{
-			room.PickUpItem(item, this);
+			var entityObj = GetLocalAvailableEntity(entity);
+			switch (entityObj)
+			{
+				case null:
+					writer.SetInvalidCommand(new InvalidCommand(InvalidCommandType.ItemNotFound) {Specifier = entity});
+					break;
+				case Item item:
+					item.Act(Verb.Look, this);
+					break;
+				case Creature creature:
+					WriteDescription(creature.Description);
+					break;
+			}
 		}
 
+		public void PickUpItem(Item item) => room.PickUpItem(item, this);
 
-		public void WriteDescription(string text)
-		{
-			writer.WriteTextOutput(text);
-		}
 
-		public void YouDiedByPoison()
-		{
-			writer.YouDiedByPoison();
-		}
+		public void WriteDescription(string text) => writer.WriteTextOutput(text);
+
+		public void YouDiedByPoison() => writer.YouDiedByPoison();
 
 		/// <inheritdoc />
-		public void Stop()
-		{
-			IsRunning = false;
-		}
+		public void Stop() => IsRunning = false;
 
-		public void WriteAction(ActionDTO actionDto)
-		{
-			writer.WriteAction(actionDto);
-		}
+		public void WriteAction(ActionDTO actionDto) => writer.WriteAction(actionDto);
 	}
 }
 
