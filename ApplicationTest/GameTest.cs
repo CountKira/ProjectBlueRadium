@@ -186,6 +186,16 @@ namespace ApplicationTest
 		}
 
 		[Fact]
+		public void GetFireBallSpellBook()
+		{
+			var (game, testWriter) = GetCommonGame();
+			game.EnterCommand("get fireball spell book");
+			var result = testWriter.Action;
+			Assert.Equal(Verb.Get, result.Verb);
+			Assert.Equal("fireball spell book", result.Specifier);
+		}
+
+		[Fact]
 		public void GetBookAgain()
 		{
 			var (game, testWriter) = GetCommonGame();
