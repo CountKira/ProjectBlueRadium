@@ -280,7 +280,7 @@ namespace ApplicationTest
 			Assert.Equal(passages, result.Passages, new PassageComparer());
 			var creatures = new[]
 			{
-				new Creature("Big Evil Guy", "The evil threat of the campaign.")
+				new Creature("Evil guy", "The evil threat of the campaign.")
 			};
 			Assert.Equal(creatures, result.Creatures, new CreatureComparer());
 		}
@@ -382,7 +382,7 @@ namespace ApplicationTest
 		{
 			var (game, testWriter) = GetCommonGame();
 			game.EnterCommand("go north");
-			game.EnterCommand("look Big Evil Guy");
+			game.EnterCommand("look evil guy");
 			var result = testWriter.TextOutput;
 			Assert.Equal("The evil threat of the campaign.", result);
 		}
@@ -402,6 +402,7 @@ namespace ApplicationTest
 			var actual = testWriter.Inventory;
 			Assert.Equal(items, actual, new ItemComparer());
 		}
+
 		[Fact]
 		public void NothingEquipped()
 		{
@@ -416,20 +417,21 @@ namespace ApplicationTest
 		{
 			var (game, testWriter) = GetCommonGame();
 			game.EnterCommand("go north");
-			game.EnterCommand("attack bad evil guy");
+			game.EnterCommand("attack evil guy");
 			var actual = testWriter.TextOutput;
-			Assert.Equal("Since you do not wield any weapons, the bad evil guy can easily kill you.", actual);
+			Assert.Equal("Since you do not wield any weapons, the evil guy can easily kill you.", actual);
 			Assert.False(game.IsRunning);
 
 		}
+
 		[Fact]
 		public void TheBadEvilGuyCanOnlyBeAttackedWhenThePlayerIsInTheSameRoom()
 		{
 			var (game, testWriter) = GetCommonGame();
-			game.EnterCommand("attack bad evil guy");
+			game.EnterCommand("attack evil guy");
 			var result = testWriter.InvalidCommand;
 			Assert.Equal(InvalidCommandType.EnemyNotFound, result.CommandType);
-			Assert.Equal("bad evil guy", result.Specifier);
+			Assert.Equal("evil guy", result.Specifier);
 		}
 	}
 }

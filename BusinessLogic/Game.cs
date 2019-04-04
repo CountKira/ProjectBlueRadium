@@ -70,12 +70,12 @@ namespace BusinessLogic
 				case "equipment":
 					writer.ShowEquipment();
 					break;
-				case "attack bad evil guy":
-					if (room.GetCreature("bad evil guy") is null)
+				case "attack evil guy":
+					if (room.GetCreature("evil guy") is null)
 					{
-						writer.SetInvalidCommand(new InvalidCommand(InvalidCommandType.EnemyNotFound) { Specifier = "bad evil guy" });
+						writer.SetInvalidCommand(new InvalidCommand(InvalidCommandType.EnemyNotFound) { Specifier = "evil guy" });
 					}
-					writer.WriteTextOutput("Since you do not wield any weapons, the bad evil guy can easily kill you.");
+					writer.WriteTextOutput("Since you do not wield any weapons, the evil guy can easily kill you.");
 					IsRunning = false;
 					break;
 				default:
