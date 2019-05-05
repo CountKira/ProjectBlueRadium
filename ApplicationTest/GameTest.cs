@@ -49,7 +49,7 @@ namespace ApplicationTest
 
 		private const string RoomDescription = "You are in an empty room. The walls are smooth.";
 
-		public static IEnumerable<object[]> ItemOnFloorData =>
+		public static IEnumerable<object[]> LookAtItemOnFloorData =>
 			new List<object[]>
 			{
 				new object[] {new[] {"look bottle"}, "This is a glass bottle, with a green substance inside it."},
@@ -58,13 +58,33 @@ namespace ApplicationTest
 			};
 
 		[Theory]
-		[MemberData(nameof(ItemOnFloorData))]
+		[MemberData(nameof(LookAtItemOnFloorData))]
 		public void LookAtItemOnFloor(string[] commands, string expectedResult)
 		{
 			var (game, testWriter) = GetCommonGame();
 			foreach (var command in commands) game.EnterCommand(command);
 			var result = testWriter.TextOutput;
 			Assert.Equal(expectedResult, result);
+		}
+
+		public static IEnumerable<object[]> GetItemOnFloorData =>
+			new List<object[]>
+			{
+				new object[] {new[] {"get bottle"}, "bottle"},
+				new object[] {new[] {"get book"}, "book"},
+				new object[] {new[] {"go west", "get sword"}, "sword"}
+			};
+
+
+		[Theory]
+		[MemberData(nameof(GetItemOnFloorData))]
+		public void GetItemOnFloor(string[] commands, string expectedItemName)
+		{
+			var (game, testWriter) = GetCommonGame();
+			foreach (var command in commands) game.EnterCommand(command);
+			var result = testWriter.Action;
+			Assert.Equal(Verb.Get, result.Verb);
+			Assert.Equal(expectedItemName, result.Specifier);
 		}
 
 		[Fact]
@@ -115,16 +135,6 @@ namespace ApplicationTest
 		}
 
 		[Fact]
-		public void GetBook()
-		{
-			var (game, testWriter) = GetCommonGame();
-			game.EnterCommand("get book");
-			var result = testWriter.Action;
-			Assert.Equal(Verb.Get, result.Verb);
-			Assert.Equal("book", result.Specifier);
-		}
-
-		[Fact]
 		public void GetBookAgain()
 		{
 			var (game, testWriter) = GetCommonGame();
@@ -164,16 +174,6 @@ namespace ApplicationTest
 			var result = testWriter.Action;
 			Assert.Equal(Verb.Get, result.Verb);
 			Assert.Equal("bottle", result.Specifier);
-		}
-
-		[Fact]
-		public void GetFireBallSpellBook()
-		{
-			var (game, testWriter) = GetCommonGame();
-			game.EnterCommand("get fireball spell book");
-			var result = testWriter.Action;
-			Assert.Equal(Verb.Get, result.Verb);
-			Assert.Equal("fireball spell book", result.Specifier);
 		}
 
 		[Fact]
