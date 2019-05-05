@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using BusinessLogic;
+using SharedTestingResources.Items;
 
 namespace SharedTestingResources
 {

@@ -1,7 +1,7 @@
 ﻿using System;
 using BusinessLogic;
 
-namespace SharedTestingResources
+namespace SharedTestingResources.Items
 {
 	public class Sword : Item
 	{
