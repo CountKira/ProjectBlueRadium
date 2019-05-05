@@ -1,6 +1,7 @@
 ﻿using System;
+using BusinessLogic;
 
-namespace BusinessLogic.Items
+namespace SharedTestingResources
 {
 	public class Book : Item
 	{

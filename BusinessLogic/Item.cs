@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 
-namespace BusinessLogic.Items
+namespace BusinessLogic
 {
 	[DebuggerDisplay("{" + nameof(Name) + "}")]
 	public abstract class Item

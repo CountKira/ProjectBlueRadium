@@ -1,6 +1,5 @@
 ﻿using System;
 using BusinessLogic;
-using BusinessLogic.Items;
 using Xunit;
 
 namespace ApplicationTest

@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BusinessLogic;
-using BusinessLogic.Items;
 using SharedTestingResources;
 using Xunit;
 
@@ -34,7 +33,7 @@ namespace ApplicationTest
 		{
 			/// <inheritdoc />
 			public bool Equals(Creature x, Creature y) => x.Name == y.Name &&
-														  x.Description == y.Description;
+			                                              x.Description == y.Description;
 
 			/// <inheritdoc />
 			public int GetHashCode(Creature obj) => obj.GetHashCode();
@@ -48,6 +47,24 @@ namespace ApplicationTest
 		}
 
 		private const string RoomDescription = "You are in an empty room. The walls are smooth.";
+
+		public static IEnumerable<object[]> ItemOnFloorData =>
+			new List<object[]>
+			{
+				new object[] {new[] {"look bottle"}, "This is a glass bottle, with a green substance inside it."},
+				new object[] {new[] {"look book"}, "The book contains the story of boatmurdered."},
+				new object[] {new[] {"go west", "look sword"}, "A sharp sword."}
+			};
+
+		[Theory]
+		[MemberData(nameof(ItemOnFloorData))]
+		public void LookAtItemOnFloor(string[] commands, string expectedResult)
+		{
+			var (game, testWriter) = GetCommonGame();
+			foreach (var command in commands) game.EnterCommand(command);
+			var result = testWriter.TextOutput;
+			Assert.Equal(expectedResult, result);
+		}
 
 		[Fact]
 		public void AttackingTheBadEvilGuyWithoutAnythingEndsTheGame()
@@ -270,27 +287,6 @@ namespace ApplicationTest
 				new Passage(2, "west")
 			};
 			Assert.Equal(passages, result.Passages, new PassageComparer());
-		}
-
-		public static IEnumerable<object[]> ItemOnFloorData =>
-			new List<object[]>
-			{
-				new object[] {new[] { "look bottle" }, "This is a glass bottle, with a green substance inside it." },
-				new object[] {new[] { "look book" }, "The book contains the story of boatmurdered." },
-				new object[] {new[] {"go west", "look sword"}, "A sharp sword."},
-			};
-
-		[Theory]
-		[MemberData(nameof(ItemOnFloorData))]
-		public void LookAtItemOnFloor(string[] commands, string expectedResult)
-		{
-			var (game, testWriter) = GetCommonGame();
-			foreach (var command in commands)
-			{
-				game.EnterCommand(command);
-			}
-			var result = testWriter.TextOutput;
-			Assert.Equal(expectedResult, result);
 		}
 
 		[Fact]
