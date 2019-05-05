@@ -13,7 +13,7 @@ namespace BusinessLogic.Items
 		}
 
 		public string Name { get; }
-		protected string Description { get; }
+		public string Description { get; }
 
 		public abstract void Act(Verb verb, IGame game);
 	}

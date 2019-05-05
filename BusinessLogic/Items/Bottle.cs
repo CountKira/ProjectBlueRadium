@@ -20,9 +20,6 @@ namespace BusinessLogic.Items
 					game.YouDiedByPoison();
 					game.Stop();
 					break;
-				case Verb.Look:
-					game.WriteDescription(Description);
-					break;
 				default:
 					throw new ArgumentOutOfRangeException(nameof(verb), verb, null);
 			}

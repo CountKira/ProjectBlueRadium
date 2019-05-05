@@ -182,7 +182,7 @@ namespace BusinessLogic
 					writer.SetInvalidCommand(new InvalidCommand(InvalidCommandType.ItemNotFound) {Specifier = entity});
 					break;
 				case Item item:
-					item.Act(Verb.Look, this);
+					WriteDescription(item.Description);
 					break;
 				case Creature creature:
 					WriteDescription(creature.Description);
