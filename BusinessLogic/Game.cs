@@ -130,7 +130,7 @@ namespace BusinessLogic
 				if (itemObj is null)
 					writer.SetInvalidCommand(new InvalidCommand(InvalidCommandType.ItemNotFound) {Specifier = item});
 				else
-					itemObj.Act(Verb.Get, this);
+					PickUpItem(itemObj);
 
 				return true;
 			}

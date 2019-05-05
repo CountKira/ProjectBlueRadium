@@ -13,13 +13,7 @@ namespace BusinessLogic.Items
 		/// <inheritdoc />
 		public override void Act(Verb verb, IGame game)
 		{
-			switch (verb)
-			{
-				case Verb.Get:
-					game.PickUpItem(this);
-					break;
-				default: throw new NotImplementedException();
-			}
+			throw new NotImplementedException();
 		}
 	}
 }

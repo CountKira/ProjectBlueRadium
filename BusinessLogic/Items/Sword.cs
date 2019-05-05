@@ -17,9 +17,6 @@ namespace BusinessLogic.Items
 				case Verb.Look:
 					game.WriteDescription(Description);
 					break;
-				case Verb.Get:
-					game.PickUpItem(this);
-					break;
 				default:
 					throw new ArgumentOutOfRangeException(nameof(verb), verb, null);
 			}
