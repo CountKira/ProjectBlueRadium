@@ -26,7 +26,6 @@ namespace Views.ConsoleGui
 					break;
 				default:
 					throw new ArgumentOutOfRangeException();
-
 			}
 		}
 
@@ -71,7 +70,9 @@ namespace Views.ConsoleGui
 			var creature = seen.Creatures.FirstOrDefault()?.Name;
 			var creatureS = creature == null ? "" : $" There is a {creature} standing in the room.";
 			var passageMessage =
-				seen.Passages.Length > 0 ? $" There is a passage {string.Join(" and ", seen.Passages.Select(p => p.DisplayName))}." : "";
+				seen.Passages.Length > 0
+					? $" There is a passage {string.Join(" and ", seen.Passages.Select(p => p.DisplayName))}."
+					: "";
 			var result = $"{seen.EntityDescription}{passageMessage}{creatureS}{items}";
 			WriteLine(result);
 		}
@@ -95,6 +96,7 @@ namespace Views.ConsoleGui
 			WriteLine("You do not have anything equipped.");
 		}
 
-		private static void WriteLine(string text) => Console.WriteLine(StringSplitter.BreakText(text, Console.WindowWidth));
+		private static void WriteLine(string text) =>
+			Console.WriteLine(StringSplitter.BreakText(text, Console.WindowWidth));
 	}
 }

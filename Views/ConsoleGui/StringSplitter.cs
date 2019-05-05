@@ -5,7 +5,6 @@ namespace Views.ConsoleGui
 {
 	public static class StringSplitter
 	{
-
 		public static string BreakText(string text, int width)
 		{
 			var sb = new StringBuilder();
@@ -33,12 +32,8 @@ namespace Views.ConsoleGui
 		private static int FindLastSpace(string text, int startPosition)
 		{
 			for (var i = startPosition; i >= 0; i--)
-			{
 				if (text[i] == ' ')
-				{
 					return i;
-				}
-			}
 
 			return -1;
 		}

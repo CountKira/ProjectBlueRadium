@@ -17,10 +17,7 @@ namespace Views.ConsoleGui
 				var input = Console.ReadLine();
 				Console.WriteLine();
 				game.EnterCommand(input);
-				if (game.IsRunning)
-				{
-					Console.Write(">");
-				}
+				if (game.IsRunning) Console.Write(">");
 			}
 		}
 	}

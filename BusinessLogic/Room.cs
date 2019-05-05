@@ -7,13 +7,14 @@ namespace BusinessLogic
 {
 	public class Room
 	{
+		private readonly Creature[] creatures;
 		private readonly string description;
 		private readonly ItemCollection inventory;
 		private readonly Passage[] passages;
-		private readonly Creature[] creatures;
 
 
-		public Room(string description, ItemCollection inventory, Passage[] passages = null, Creature[] creatures = null)
+		public Room(string description, ItemCollection inventory, Passage[] passages = null,
+			Creature[] creatures = null)
 		{
 			this.description = description;
 			this.inventory = inventory;
@@ -21,10 +22,7 @@ namespace BusinessLogic
 			this.creatures = creatures ?? new Creature[0];
 		}
 
-		public SeenObjects GetDescription()
-		{
-			return new SeenObjects(description, passages, inventory, creatures);
-		}
+		public SeenObjects GetDescription() => new SeenObjects(description, passages, inventory, creatures);
 
 		public bool TryGetRoom(string roomName, out int i)
 		{
@@ -41,7 +39,7 @@ namespace BusinessLogic
 
 		public void PickUpItem(Item item, IGame game)
 		{
-			game.WriteAction(new ActionDTO(Verb.Get) { Specifier = item.Name });
+			game.WriteAction(new ActionDTO(Verb.Get) {Specifier = item.Name});
 			inventory.Remove(item);
 			game.Inventory.Add(item);
 		}
@@ -50,6 +48,7 @@ namespace BusinessLogic
 
 		public Item GetItem(string item) => inventory.First(i => i.Name == item);
 
-		public Creature GetCreature(string creatureName) => creatures.FirstOrDefault(a => a.Name.Equals(creatureName,StringComparison.OrdinalIgnoreCase));
+		public Creature GetCreature(string creatureName) =>
+			creatures.FirstOrDefault(a => a.Name.Equals(creatureName, StringComparison.OrdinalIgnoreCase));
 	}
 }

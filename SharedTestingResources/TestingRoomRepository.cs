@@ -13,33 +13,32 @@ namespace SharedTestingResources
 				{
 					new Bottle(),
 					new Book(),
-					new FireballSpellBook(),
+					new FireballSpellBook()
 				},
 				new[]
 				{
 					new Passage(1, "north"),
-					new Passage(2, "west"),
+					new Passage(2, "west")
 				}),
 			new Room("You are in a dark room.",
 				new ItemCollection(),
 				new[]
 				{
-					new Passage(0, "south"),
+					new Passage(0, "south")
 				},
 				new[]
 				{
-					new Creature("Evil guy", "The evil threat of the campaign."),
+					new Creature("Evil guy", "The evil threat of the campaign.")
 				}),
 			new Room("You are in a bright room.",
-				new ItemCollection()
+				new ItemCollection
 				{
-					new Sword(),
+					new Sword()
 				},
 				new[]
 				{
-					new Passage(0, "east"),
-				}),
-
+					new Passage(0, "east")
+				})
 		};
 
 		/// <inheritdoc />

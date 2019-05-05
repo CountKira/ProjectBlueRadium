@@ -8,10 +8,9 @@ namespace BusinessLogic
 {
 	public class Game : IGame
 	{
+		private readonly IRoomRepository roomRepository;
 		private readonly IWriter writer;
 		private Room room;
-		public ItemCollection Inventory { get; } = new ItemCollection();
-		private readonly IRoomRepository roomRepository;
 		private bool spellKnown;
 
 		public Game(IWriter writer, IRoomRepository roomRepository)
@@ -22,6 +21,19 @@ namespace BusinessLogic
 		}
 
 		public bool IsRunning { get; private set; } = true;
+		public ItemCollection Inventory { get; } = new ItemCollection();
+
+		public void PickUpItem(Item item) => room.PickUpItem(item, this);
+
+
+		public void WriteDescription(string text) => writer.WriteTextOutput(text);
+
+		public void YouDiedByPoison() => writer.YouDiedByPoison();
+
+		/// <inheritdoc />
+		public void Stop() => IsRunning = false;
+
+		public void WriteAction(ActionDTO actionDto) => writer.WriteAction(actionDto);
 
 		public void EnterCommand(string text)
 		{
@@ -36,7 +48,9 @@ namespace BusinessLogic
 					break;
 				case "drink bottle":
 					if (GetLocalAvailableEntity("bottle") is Item entityObj)
+					{
 						entityObj.Act(Verb.Drink, this);
+					}
 					else
 					{
 						var invalidCommand = new InvalidCommand(InvalidCommandType.ItemNotFound)
@@ -54,7 +68,10 @@ namespace BusinessLogic
 						spellKnown = true;
 					}
 					else
-						writer.SetInvalidCommand(new InvalidCommand(InvalidCommandType.ItemNotFound) { Specifier = "fireball spell book" });
+					{
+						writer.SetInvalidCommand(new InvalidCommand(InvalidCommandType.ItemNotFound)
+							{Specifier = "fireball spell book"});
+					}
 
 					break;
 				case "spells":
@@ -72,9 +89,8 @@ namespace BusinessLogic
 					break;
 				case "attack evil guy":
 					if (room.GetCreature("evil guy") is null)
-					{
-						writer.SetInvalidCommand(new InvalidCommand(InvalidCommandType.EnemyNotFound) { Specifier = "evil guy" });
-					}
+						writer.SetInvalidCommand(new InvalidCommand(InvalidCommandType.EnemyNotFound)
+							{Specifier = "evil guy"});
 					writer.WriteTextOutput("Since you do not wield any weapons, the evil guy can easily kill you.");
 					IsRunning = false;
 					break;
@@ -88,36 +104,22 @@ namespace BusinessLogic
 		private object GetLocalAvailableEntity(string entityName)
 		{
 			var item = GetItemObjectInRoom(entityName);
-			if (item != null)
-			{
-				return item;
-			}
-			if (Inventory.HasItem(entityName))
-			{
-				return Inventory.First(i => i.Name == entityName);
-			}
+			if (item != null) return item;
+			if (Inventory.HasItem(entityName)) return Inventory.First(i => i.Name == entityName);
 
 			var creature = room.GetCreature(entityName);
-			if (creature != null)
-			{
-				return creature;
-			}
+			if (creature != null) return creature;
 
 
 			return null;
 		}
 
-		private Item GetItemObjectInRoom(string itemName)
-		{
-			return room.HasItem(itemName) ? room.GetItem(itemName) : null;
-		}
+		private Item GetItemObjectInRoom(string itemName) => room.HasItem(itemName) ? room.GetItem(itemName) : null;
 
-		private bool TryParseCommand(string inputText)
-		{
-			return ParseGetCommand(inputText) ||
-					ParseGoCommand(inputText) ||
-					TryParseLookCommand(inputText);
-		}
+		private bool TryParseCommand(string inputText) =>
+			ParseGetCommand(inputText) ||
+			ParseGoCommand(inputText) ||
+			TryParseLookCommand(inputText);
 
 		private bool ParseGetCommand(string inputText)
 		{
@@ -126,7 +128,7 @@ namespace BusinessLogic
 				var item = inputText.Substring(4);
 				var itemObj = GetItemObjectInRoom(item);
 				if (itemObj is null)
-					writer.SetInvalidCommand(new InvalidCommand(InvalidCommandType.ItemNotFound) { Specifier = item });
+					writer.SetInvalidCommand(new InvalidCommand(InvalidCommandType.ItemNotFound) {Specifier = item});
 				else
 					itemObj.Act(Verb.Get, this);
 
@@ -147,7 +149,10 @@ namespace BusinessLogic
 					writer.WriteSeenObjects(room.GetDescription());
 				}
 				else
-					writer.SetInvalidCommand(new InvalidCommand(InvalidCommandType.PassageNotFound) { Specifier = passageName });
+				{
+					writer.SetInvalidCommand(new InvalidCommand(InvalidCommandType.PassageNotFound)
+						{Specifier = passageName});
+				}
 
 				return true;
 			}
@@ -184,18 +189,5 @@ namespace BusinessLogic
 					break;
 			}
 		}
-
-		public void PickUpItem(Item item) => room.PickUpItem(item, this);
-
-
-		public void WriteDescription(string text) => writer.WriteTextOutput(text);
-
-		public void YouDiedByPoison() => writer.YouDiedByPoison();
-
-		/// <inheritdoc />
-		public void Stop() => IsRunning = false;
-
-		public void WriteAction(ActionDTO actionDto) => writer.WriteAction(actionDto);
 	}
 }
-

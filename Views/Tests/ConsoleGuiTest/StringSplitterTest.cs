@@ -13,6 +13,7 @@ namespace ConsoleGuiTest
 			var split = StringSplitter.BreakText(text, 2);
 			Assert.Equal("ab\r\ncd", split);
 		}
+
 		[Fact]
 		public void Foo2()
 		{

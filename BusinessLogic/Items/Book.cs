@@ -22,7 +22,6 @@ namespace BusinessLogic.Items
 					break;
 				default: throw new NotImplementedException();
 			}
-
 		}
 	}
 }

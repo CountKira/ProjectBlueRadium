@@ -34,7 +34,7 @@ namespace ApplicationTest
 		{
 			/// <inheritdoc />
 			public bool Equals(Creature x, Creature y) => x.Name == y.Name &&
-													x.Description == y.Description;
+			                                              x.Description == y.Description;
 
 			/// <inheritdoc />
 			public int GetHashCode(Creature obj) => obj.GetHashCode();
@@ -50,11 +50,25 @@ namespace ApplicationTest
 		private const string RoomDescription = "You are in an empty room. The walls are smooth.";
 
 		[Fact]
-		public void Exit()
+		public void AttackingTheBadEvilGuyWithoutAnythingEndsTheGame()
 		{
-			var (game, _) = GetCommonGame();
-			game.EnterCommand("exit");
+			var (game, testWriter) = GetCommonGame();
+			game.EnterCommand("go north");
+			game.EnterCommand("attack evil guy");
+			var actual = testWriter.TextOutput;
+			Assert.Equal("Since you do not wield any weapons, the evil guy can easily kill you.", actual);
 			Assert.False(game.IsRunning);
+		}
+
+		[Fact]
+		public void CanNotReadNonExistingItem()
+		{
+			var (game, testWriter) = GetCommonGame();
+			game.EnterCommand("go north");
+			game.EnterCommand("read fireball spell book");
+			var result = testWriter.InvalidCommand;
+			Assert.Equal(InvalidCommandType.ItemNotFound, result.CommandType);
+			Assert.Equal("fireball spell book", result.Specifier);
 		}
 
 		[Fact]
@@ -67,112 +81,19 @@ namespace ApplicationTest
 		}
 
 		[Fact]
-		public void TryDrinkingFromNotAvailableBottle()
+		public void EmptySpellBook()
 		{
 			var (game, testWriter) = GetCommonGame();
-			game.EnterCommand("go north");
-			game.EnterCommand("drink bottle");
-			var result = testWriter.InvalidCommand;
-			Assert.Equal(InvalidCommandType.ItemNotFound, result.CommandType);
-			Assert.Equal("bottle", result.Specifier);
-			Assert.True(game.IsRunning);
+			game.EnterCommand("spells");
+			Assert.False(testWriter.SpellKnown);
 		}
 
 		[Fact]
-		public void Look()
+		public void Exit()
 		{
-			var (game, testWriter) = GetCommonGame();
-			game.EnterCommand("look");
-			var result = testWriter.SeenThings;
-			Assert.Equal(RoomDescription, result.EntityDescription);
-			var items = new ItemCollection
-			{
-				new Bottle(),
-				new Book(),
-				new FireballSpellBook(),
-			};
-			Assert.Equal(items, result.Items, new ItemComparer());
-			var passages = new[]
-			{
-				new Passage(1, "north"),
-				new Passage(2, "west"),
-			};
-			Assert.Equal(passages, result.Passages, new PassageComparer());
-		}
-
-		[Fact]
-		public void RoomDescriptionAfterTakingBottle()
-		{
-			var (game, testWriter) = GetCommonGame();
-			game.EnterCommand("get bottle");
-			game.EnterCommand("look");
-			var result = testWriter.SeenThings;
-			Assert.Equal(RoomDescription, result.EntityDescription);
-			var items = new ItemCollection
-			{
-				new Book(),
-				new FireballSpellBook(),
-			};
-			Assert.Equal(items, result.Items, new ItemComparer());
-			var passages = new[]
-			{
-				new Passage(1, "north"),
-				new Passage(2, "west"),
-			};
-			Assert.Equal(passages, result.Passages, new PassageComparer());
-		}
-
-		[Fact]
-		public void RoomDescriptionAfterTakingBook()
-		{
-			var (game, testWriter) = GetCommonGame();
-			game.EnterCommand("get book");
-			game.EnterCommand("look");
-			var result = testWriter.SeenThings;
-			Assert.Equal(RoomDescription, result.EntityDescription);
-			var items = new ItemCollection
-			{
-				new Bottle(),
-				new FireballSpellBook(),
-			};
-			Assert.Equal(items, result.Items, new ItemComparer());
-			var passages = new[]
-			{
-				new Passage(1, "north"),
-				new Passage(2, "west"),
-			};
-			Assert.Equal(passages, result.Passages, new PassageComparer());
-		}
-
-		[Fact]
-		public void GetBottleUpperCase()
-		{
-			var (game, testWriter) = GetCommonGame();
-			game.EnterCommand("get Bottle");
-			var result = testWriter.Action;
-			Assert.Equal(Verb.Get, result.Verb);
-			Assert.Equal("bottle", result.Specifier);
-		}
-
-		[Fact]
-		public void GetBottleLowerCase()
-		{
-			var (game, testWriter) = GetCommonGame();
-			game.EnterCommand("get bottle");
-			var result = testWriter.Action;
-			Assert.Equal(Verb.Get, result.Verb);
-			Assert.Equal("bottle", result.Specifier);
-		}
-
-		[Fact]
-		public void GetBottleAgain()
-		{
-			var (game, testWriter) = GetCommonGame();
-			game.EnterCommand("get bottle");
-			game.EnterCommand("get bottle");
-			var result = testWriter.InvalidCommand;
-			Assert.Equal(InvalidCommandType.ItemNotFound, result.CommandType);
-			Assert.Equal("bottle", result.Specifier);
+			var (game, _) = GetCommonGame();
+			game.EnterCommand("exit");
+			Assert.False(game.IsRunning);
 		}
 
 		[Fact]
@@ -183,16 +104,6 @@ namespace ApplicationTest
 			var result = testWriter.Action;
 			Assert.Equal(Verb.Get, result.Verb);
 			Assert.Equal("book", result.Specifier);
-		}
-
-		[Fact]
-		public void GetFireBallSpellBook()
-		{
-			var (game, testWriter) = GetCommonGame();
-			game.EnterCommand("get fireball spell book");
-			var result = testWriter.Action;
-			Assert.Equal(Verb.Get, result.Verb);
-			Assert.Equal("fireball spell book", result.Specifier);
 		}
 
 		[Fact]
@@ -207,60 +118,54 @@ namespace ApplicationTest
 		}
 
 		[Fact]
-		public void UnknownCommand()
+		public void GetBottleAgain()
 		{
 			var (game, testWriter) = GetCommonGame();
-			game.EnterCommand("This is not a real command");
-			var result = testWriter.InvalidCommand.CommandType;
-			Assert.Equal(InvalidCommandType.UnknownCommand, result);
-		}
-
-		[Fact]
-		public void LookAtBottle()
-		{
-			var (game, testWriter) = GetCommonGame();
-			game.EnterCommand("look bottle");
-			var result = testWriter.TextOutput;
-			Assert.Equal("This is a glass bottle, with a green substance inside it.", result);
-		}
-
-		[Fact]
-		public void LookAtBook()
-		{
-			var (game, testWriter) = GetCommonGame();
-			game.EnterCommand("look book");
-			var result = testWriter.TextOutput;
-			Assert.Equal("The book contains the story of boatmurdered.", result);
-		}
-
-		[Fact]
-		public void LookAtSword()
-		{
-			var (game, testWriter) = GetCommonGame();
-			game.EnterCommand("go west");
-			game.EnterCommand("look sword");
-			var result = testWriter.TextOutput;
-			Assert.Equal("A sharp sword.", result);
-		}
-
-		[Fact]
-		public void LookAtPickedUpItem()
-		{
-			var (game, testWriter) = GetCommonGame();
-			game.EnterCommand("get book");
-			game.EnterCommand("look book");
-			var result = testWriter.TextOutput;
-			Assert.Equal("The book contains the story of boatmurdered.", result);
-		}
-
-		[Fact]
-		public void LookAtNonExistingItem()
-		{
-			var (game, testWriter) = GetCommonGame();
-			game.EnterCommand("look sasquatchIsMyFather");
+			game.EnterCommand("get bottle");
+			game.EnterCommand("get bottle");
 			var result = testWriter.InvalidCommand;
 			Assert.Equal(InvalidCommandType.ItemNotFound, result.CommandType);
-			Assert.Equal("sasquatchismyfather", result.Specifier);
+			Assert.Equal("bottle", result.Specifier);
+		}
+
+		[Fact]
+		public void GetBottleLowerCase()
+		{
+			var (game, testWriter) = GetCommonGame();
+			game.EnterCommand("get bottle");
+			var result = testWriter.Action;
+			Assert.Equal(Verb.Get, result.Verb);
+			Assert.Equal("bottle", result.Specifier);
+		}
+
+		[Fact]
+		public void GetBottleUpperCase()
+		{
+			var (game, testWriter) = GetCommonGame();
+			game.EnterCommand("get Bottle");
+			var result = testWriter.Action;
+			Assert.Equal(Verb.Get, result.Verb);
+			Assert.Equal("bottle", result.Specifier);
+		}
+
+		[Fact]
+		public void GetFireBallSpellBook()
+		{
+			var (game, testWriter) = GetCommonGame();
+			game.EnterCommand("get fireball spell book");
+			var result = testWriter.Action;
+			Assert.Equal(Verb.Get, result.Verb);
+			Assert.Equal("fireball spell book", result.Specifier);
+		}
+
+		[Fact]
+		public void GoingIntoANonExistingRoom()
+		{
+			var (game, testWriter) = GetCommonGame();
+			game.EnterCommand("go saberwook");
+			var result = testWriter.InvalidCommand;
+			Assert.Equal(InvalidCommandType.PassageNotFound, result.CommandType);
+			Assert.Equal("saberwook", result.Specifier);
 		}
 
 		[Fact]
@@ -275,7 +180,7 @@ namespace ApplicationTest
 			Assert.Equal(items, result.Items, new ItemComparer());
 			var passages = new[]
 			{
-				new Passage(0, "south"),
+				new Passage(0, "south")
 			};
 			Assert.Equal(passages, result.Passages, new PassageComparer());
 			var creatures = new[]
@@ -293,14 +198,14 @@ namespace ApplicationTest
 			game.EnterCommand("look");
 			var result = testWriter.SeenThings;
 			Assert.Equal("You are in a bright room.", result.EntityDescription);
-			var items = new ItemCollection()
+			var items = new ItemCollection
 			{
-				new Sword(),
+				new Sword()
 			};
 			Assert.Equal(items, result.Items, new ItemComparer());
 			var passages = new[]
 			{
-				new Passage(0, "east"),
+				new Passage(0, "east")
 			};
 			Assert.Equal(passages, result.Passages, new PassageComparer());
 		}
@@ -318,63 +223,101 @@ namespace ApplicationTest
 			{
 				new Bottle(),
 				new Book(),
-				new FireballSpellBook(),
+				new FireballSpellBook()
 			};
 			Assert.Equal(items, result.Items, new ItemComparer());
 			var passages = new[]
 			{
 				new Passage(1, "north"),
-				new Passage(2, "west"),
+				new Passage(2, "west")
 			};
 			Assert.Equal(passages, result.Passages, new PassageComparer());
 		}
 
 		[Fact]
-		public void GoingIntoANonExistingRoom()
+		public void Inventory()
 		{
 			var (game, testWriter) = GetCommonGame();
-			game.EnterCommand("go saberwook");
-			var result = testWriter.InvalidCommand;
-			Assert.Equal(InvalidCommandType.PassageNotFound, result.CommandType);
-			Assert.Equal("saberwook", result.Specifier);
+			game.EnterCommand("get bottle");
+			game.EnterCommand("get book");
+			game.EnterCommand("inventory");
+			var items = new ItemCollection
+			{
+				new Bottle(),
+				new Book()
+			};
+			var actual = testWriter.Inventory;
+			Assert.Equal(items, actual, new ItemComparer());
 		}
 
 		[Fact]
-		public void EmptySpellBook()
+		public void Look()
 		{
 			var (game, testWriter) = GetCommonGame();
-			game.EnterCommand("spells");
-			Assert.False(testWriter.SpellKnown);
+			game.EnterCommand("look");
+			var result = testWriter.SeenThings;
+			Assert.Equal(RoomDescription, result.EntityDescription);
+			var items = new ItemCollection
+			{
+				new Bottle(),
+				new Book(),
+				new FireballSpellBook()
+			};
+			Assert.Equal(items, result.Items, new ItemComparer());
+			var passages = new[]
+			{
+				new Passage(1, "north"),
+				new Passage(2, "west")
+			};
+			Assert.Equal(passages, result.Passages, new PassageComparer());
 		}
 
 		[Fact]
-		public void ReadSpellBook()
+		public void LookAtBook()
 		{
 			var (game, testWriter) = GetCommonGame();
-			game.EnterCommand("read fireball spell book");
-			Assert.True(testWriter.FireballLearned);
-			game.EnterCommand("spells");
-			Assert.True(testWriter.SpellKnown);
+			game.EnterCommand("look book");
+			var result = testWriter.TextOutput;
+			Assert.Equal("The book contains the story of boatmurdered.", result);
 		}
 
 		[Fact]
-		public void CanNotReadNonExistingItem()
+		public void LookAtBottle()
 		{
 			var (game, testWriter) = GetCommonGame();
-			game.EnterCommand("go north");
-			game.EnterCommand("read fireball spell book");
+			game.EnterCommand("look bottle");
+			var result = testWriter.TextOutput;
+			Assert.Equal("This is a glass bottle, with a green substance inside it.", result);
+		}
+
+		[Fact]
+		public void LookAtNonExistingItem()
+		{
+			var (game, testWriter) = GetCommonGame();
+			game.EnterCommand("look sasquatchIsMyFather");
 			var result = testWriter.InvalidCommand;
 			Assert.Equal(InvalidCommandType.ItemNotFound, result.CommandType);
-			Assert.Equal("fireball spell book", result.Specifier);
+			Assert.Equal("sasquatchismyfather", result.Specifier);
 		}
 
 		[Fact]
-		public void Me()
+		public void LookAtPickedUpItem()
 		{
 			var (game, testWriter) = GetCommonGame();
-			game.EnterCommand("me");
-			var result = testWriter.Me;
-			Assert.Equal("It is you.", result);
+			game.EnterCommand("get book");
+			game.EnterCommand("look book");
+			var result = testWriter.TextOutput;
+			Assert.Equal("The book contains the story of boatmurdered.", result);
+		}
+
+		[Fact]
+		public void LookAtSword()
+		{
+			var (game, testWriter) = GetCommonGame();
+			game.EnterCommand("go west");
+			game.EnterCommand("look sword");
+			var result = testWriter.TextOutput;
+			Assert.Equal("A sharp sword.", result);
 		}
 
 		[Fact]
@@ -388,19 +331,12 @@ namespace ApplicationTest
 		}
 
 		[Fact]
-		public void Inventory()
+		public void Me()
 		{
 			var (game, testWriter) = GetCommonGame();
-			game.EnterCommand("get bottle");
-			game.EnterCommand("get book");
-			game.EnterCommand("inventory");
-			var items = new ItemCollection
-			{
-				new Bottle(),
-				new Book(),
-			};
-			var actual = testWriter.Inventory;
-			Assert.Equal(items, actual, new ItemComparer());
+			game.EnterCommand("me");
+			var result = testWriter.Me;
+			Assert.Equal("It is you.", result);
 		}
 
 		[Fact]
@@ -413,15 +349,57 @@ namespace ApplicationTest
 		}
 
 		[Fact]
-		public void AttackingTheBadEvilGuyWithoutAnythingEndsTheGame()
+		public void ReadSpellBook()
 		{
 			var (game, testWriter) = GetCommonGame();
-			game.EnterCommand("go north");
-			game.EnterCommand("attack evil guy");
-			var actual = testWriter.TextOutput;
-			Assert.Equal("Since you do not wield any weapons, the evil guy can easily kill you.", actual);
-			Assert.False(game.IsRunning);
+			game.EnterCommand("read fireball spell book");
+			Assert.True(testWriter.FireballLearned);
+			game.EnterCommand("spells");
+			Assert.True(testWriter.SpellKnown);
+		}
 
+		[Fact]
+		public void RoomDescriptionAfterTakingBook()
+		{
+			var (game, testWriter) = GetCommonGame();
+			game.EnterCommand("get book");
+			game.EnterCommand("look");
+			var result = testWriter.SeenThings;
+			Assert.Equal(RoomDescription, result.EntityDescription);
+			var items = new ItemCollection
+			{
+				new Bottle(),
+				new FireballSpellBook()
+			};
+			Assert.Equal(items, result.Items, new ItemComparer());
+			var passages = new[]
+			{
+				new Passage(1, "north"),
+				new Passage(2, "west")
+			};
+			Assert.Equal(passages, result.Passages, new PassageComparer());
+		}
+
+		[Fact]
+		public void RoomDescriptionAfterTakingBottle()
+		{
+			var (game, testWriter) = GetCommonGame();
+			game.EnterCommand("get bottle");
+			game.EnterCommand("look");
+			var result = testWriter.SeenThings;
+			Assert.Equal(RoomDescription, result.EntityDescription);
+			var items = new ItemCollection
+			{
+				new Book(),
+				new FireballSpellBook()
+			};
+			Assert.Equal(items, result.Items, new ItemComparer());
+			var passages = new[]
+			{
+				new Passage(1, "north"),
+				new Passage(2, "west")
+			};
+			Assert.Equal(passages, result.Passages, new PassageComparer());
 		}
 
 		[Fact]
@@ -432,6 +410,27 @@ namespace ApplicationTest
 			var result = testWriter.InvalidCommand;
 			Assert.Equal(InvalidCommandType.EnemyNotFound, result.CommandType);
 			Assert.Equal("evil guy", result.Specifier);
+		}
+
+		[Fact]
+		public void TryDrinkingFromNotAvailableBottle()
+		{
+			var (game, testWriter) = GetCommonGame();
+			game.EnterCommand("go north");
+			game.EnterCommand("drink bottle");
+			var result = testWriter.InvalidCommand;
+			Assert.Equal(InvalidCommandType.ItemNotFound, result.CommandType);
+			Assert.Equal("bottle", result.Specifier);
+			Assert.True(game.IsRunning);
+		}
+
+		[Fact]
+		public void UnknownCommand()
+		{
+			var (game, testWriter) = GetCommonGame();
+			game.EnterCommand("This is not a real command");
+			var result = testWriter.InvalidCommand.CommandType;
+			Assert.Equal(InvalidCommandType.UnknownCommand, result);
 		}
 	}
 }
