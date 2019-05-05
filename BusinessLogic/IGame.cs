@@ -1,4 +1,6 @@
-﻿namespace BusinessLogic.Items
+﻿using BusinessLogic.Items;
+
+namespace BusinessLogic
 {
 	public interface IGame
 	{
