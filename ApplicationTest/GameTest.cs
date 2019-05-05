@@ -34,7 +34,7 @@ namespace ApplicationTest
 		{
 			/// <inheritdoc />
 			public bool Equals(Creature x, Creature y) => x.Name == y.Name &&
-			                                              x.Description == y.Description;
+														  x.Description == y.Description;
 
 			/// <inheritdoc />
 			public int GetHashCode(Creature obj) => obj.GetHashCode();
@@ -272,22 +272,25 @@ namespace ApplicationTest
 			Assert.Equal(passages, result.Passages, new PassageComparer());
 		}
 
-		[Fact]
-		public void LookAtBook()
-		{
-			var (game, testWriter) = GetCommonGame();
-			game.EnterCommand("look book");
-			var result = testWriter.TextOutput;
-			Assert.Equal("The book contains the story of boatmurdered.", result);
-		}
+		public static IEnumerable<object[]> ItemOnFloorData =>
+			new List<object[]>
+			{
+				new object[] {new[] { "look bottle" }, "This is a glass bottle, with a green substance inside it." },
+				new object[] {new[] { "look book" }, "The book contains the story of boatmurdered." },
+				new object[] {new[] {"go west", "look sword"}, "A sharp sword."},
+			};
 
-		[Fact]
-		public void LookAtBottle()
+		[Theory]
+		[MemberData(nameof(ItemOnFloorData))]
+		public void LookAtItemOnFloor(string[] commands, string expectedResult)
 		{
 			var (game, testWriter) = GetCommonGame();
-			game.EnterCommand("look bottle");
+			foreach (var command in commands)
+			{
+				game.EnterCommand(command);
+			}
 			var result = testWriter.TextOutput;
-			Assert.Equal("This is a glass bottle, with a green substance inside it.", result);
+			Assert.Equal(expectedResult, result);
 		}
 
 		[Fact]
@@ -310,15 +313,6 @@ namespace ApplicationTest
 			Assert.Equal("The book contains the story of boatmurdered.", result);
 		}
 
-		[Fact]
-		public void LookAtSword()
-		{
-			var (game, testWriter) = GetCommonGame();
-			game.EnterCommand("go west");
-			game.EnterCommand("look sword");
-			var result = testWriter.TextOutput;
-			Assert.Equal("A sharp sword.", result);
-		}
 
 		[Fact]
 		public void LookEnemy()
