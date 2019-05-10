@@ -94,7 +94,7 @@ namespace BusinessLogic
 					IsRunning = false;
 					break;
 				default:
-					if (!TryParseCommand(inputText))
+					if (!TryParseCommand(text))
 						writer.SetInvalidCommand(new InvalidCommand(InvalidCommandType.UnknownCommand));
 					break;
 			}

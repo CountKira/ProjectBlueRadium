@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using BusinessLogic;
 
-namespace BusinessLogic.Tests
+namespace SharedTestingResources
 {
-	class TestWriter : IWriter
+	public class TestWriter : IWriter
 	{
 		public string TextOutput { get; private set; }
 		public bool DiedPyPoison { get; private set; }
