@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\BusinessLogic\BusinessLogic.csproj" />
+    <ProjectReference Include="..\..\BusinessLogic\BusinessLogic\BusinessLogic.csproj" />
     <ProjectReference Include="..\..\SharedTestingResources\SharedTestingResources.csproj" />
   </ItemGroup>
 

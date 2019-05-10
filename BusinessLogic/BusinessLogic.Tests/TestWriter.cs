@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
-using BusinessLogic;
 
-namespace ApplicationTest
+namespace BusinessLogic.Tests
 {
 	class TestWriter : IWriter
 	{

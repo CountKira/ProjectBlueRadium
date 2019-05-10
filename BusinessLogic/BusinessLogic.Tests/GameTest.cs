@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using BusinessLogic;
 using SharedTestingResources;
 using SharedTestingResources.Items;
 using Xunit;
 
-namespace ApplicationTest
+namespace BusinessLogic.Tests
 {
 	public class GameTest
 	{

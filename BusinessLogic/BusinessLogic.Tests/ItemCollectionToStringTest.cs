@@ -1,8 +1,7 @@
 ﻿using System;
-using BusinessLogic;
 using Xunit;
 
-namespace ApplicationTest
+namespace BusinessLogic.Tests
 {
 	public class ItemCollectionToStringTest
 	{
