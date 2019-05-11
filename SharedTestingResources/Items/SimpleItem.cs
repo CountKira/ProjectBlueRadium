@@ -1,13 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Text;
 using BusinessLogic;
 
 namespace SharedTestingResources.Items
 {
-	public class FireballSpellBook : Item
+	class SimpleItem : Item
 	{
 		/// <inheritdoc />
-		public FireballSpellBook() : base("fireball spell book",
-			"The book contains the teachings to learn the spell fireball.")
+		public SimpleItem(string name, string description) : base(name, description)
 		{
 		}
 
