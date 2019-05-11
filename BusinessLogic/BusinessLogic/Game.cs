@@ -21,6 +21,7 @@ namespace BusinessLogic
 
 		public bool IsRunning { get; private set; } = true;
 		public ItemCollection Inventory { get; } = new ItemCollection();
+		public ItemCollection Equipment { get; } = new ItemCollection();
 
 		public void PickUpItem(Item item) => room.PickUpItem(item, this);
 
@@ -69,7 +70,7 @@ namespace BusinessLogic
 					else
 					{
 						writer.SetInvalidCommand(new InvalidCommand(InvalidCommandType.ItemNotFound)
-							{Specifier = "fireball spell book"});
+						{ Specifier = "fireball spell book" });
 					}
 
 					break;
@@ -84,12 +85,12 @@ namespace BusinessLogic
 					writer.ShowInventory(Inventory);
 					break;
 				case "equipment":
-					writer.ShowEquipment();
+					writer.ShowEquipment(Equipment);
 					break;
 				case "attack evil guy":
 					if (room.GetCreature("evil guy") is null)
 						writer.SetInvalidCommand(new InvalidCommand(InvalidCommandType.EntityNotFound)
-							{Specifier = "evil guy"});
+						{ Specifier = "evil guy" });
 					writer.WriteTextOutput("Since you do not wield any weapons, the evil guy can easily kill you.");
 					IsRunning = false;
 					break;
@@ -109,7 +110,6 @@ namespace BusinessLogic
 			var creature = room.GetCreature(entityName);
 			if (creature != null) return creature;
 
-
 			return null;
 		}
 
@@ -118,7 +118,21 @@ namespace BusinessLogic
 		private bool TryParseCommand(string inputText) =>
 			ParseGetCommand(inputText) ||
 			ParseGoCommand(inputText) ||
-			TryParseLookCommand(inputText);
+			TryParseLookCommand(inputText) ||
+		TryParseEquipCommand(inputText);
+
+		private bool TryParseEquipCommand(string inputText)
+		{
+			if (inputText.StartsWith("equip "))
+			{
+				var itemName = inputText.Substring(6);
+				var itemObj = Inventory.First(i => i.Name == itemName);
+				Equipment.Add(itemObj);
+				return true;
+			}
+
+			return false;
+		}
 
 		private bool ParseGetCommand(string inputText)
 		{
@@ -127,7 +141,7 @@ namespace BusinessLogic
 				var item = inputText.Substring(4);
 				var itemObj = GetItemObjectInRoom(item);
 				if (itemObj is null)
-					writer.SetInvalidCommand(new InvalidCommand(InvalidCommandType.ItemNotFound) {Specifier = item});
+					writer.SetInvalidCommand(new InvalidCommand(InvalidCommandType.ItemNotFound) { Specifier = item });
 				else
 					PickUpItem(itemObj);
 
@@ -150,7 +164,7 @@ namespace BusinessLogic
 				else
 				{
 					writer.SetInvalidCommand(new InvalidCommand(InvalidCommandType.PassageNotFound)
-						{Specifier = passageName});
+					{ Specifier = passageName });
 				}
 
 				return true;
@@ -178,7 +192,7 @@ namespace BusinessLogic
 			switch (entityObj)
 			{
 				case null:
-					writer.SetInvalidCommand(new InvalidCommand(InvalidCommandType.EntityNotFound) {Specifier = entity});
+					writer.SetInvalidCommand(new InvalidCommand(InvalidCommandType.EntityNotFound) { Specifier = entity });
 					break;
 				case Item item:
 					WriteDescription(item.Description);

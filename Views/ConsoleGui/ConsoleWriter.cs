@@ -92,6 +92,13 @@ namespace Views.ConsoleGui
 		}
 
 		/// <inheritdoc />
+		public void ShowEquipment(ItemCollection equipment)
+		{
+			var items = ItemCollectionToString.GetItemNameConcat(equipment);
+			WriteLine($"You have {items} equipped.");
+		}
+
+		/// <inheritdoc />
 		public void ShowEquipment()
 		{
 			WriteLine("You do not have anything equipped.");

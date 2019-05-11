@@ -11,6 +11,6 @@
 		void WriteSeenObjects(SeenObjects seen);
 		void DescribeSelf(string description);
 		void ShowInventory(ItemCollection inventory);
-		void ShowEquipment();
+		void ShowEquipment(ItemCollection equipment);
 	}
 }

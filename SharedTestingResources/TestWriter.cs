@@ -13,7 +13,7 @@ namespace SharedTestingResources
 		public SeenObjects SeenThings { get; private set; }
 		public string Me { get; private set; }
 		public ItemCollection Inventory { get; private set; }
-		public bool HasNothingEquipped { get; private set; }
+		public ItemCollection Equipment { get; private set; }
 
 		/// <inheritdoc />
 		public void WriteTextOutput(string text)
@@ -70,9 +70,9 @@ namespace SharedTestingResources
 		}
 
 		/// <inheritdoc />
-		public void ShowEquipment()
+		public void ShowEquipment(ItemCollection equipment)
 		{
-			HasNothingEquipped = true;
+			Equipment = equipment;
 		}
 	}
 }

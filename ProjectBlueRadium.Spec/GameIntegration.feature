@@ -99,10 +99,6 @@ Scenario: Looking at an item that does not exist can not be found
 	When I enter look sasquatchIsMyFather
 	Then The entity sasquatchIsMyFather can not be found
 
-Scenario: At the start of the game the character has nothing equipped
-	When I enter equipment
-	Then I have nothing equipped
-
 Scenario: The bad evil guy can only be attacked when the player is in the same room
 	When I enter attack evil guy
 	Then The entity evil guy can not be found
@@ -131,7 +127,7 @@ Scenario: Looking into the room west
 	When I enter go west
 	And I enter look
 	Then The room is described as "You are in a bright room."
-	And I see the item "sword"
+	And I see the items "sword,shield"
 	And I see the passage "east"
 
 Scenario: Leaving the main room and then going back gives the description of the main room
@@ -168,3 +164,19 @@ Scenario: When the player gets all the items he can see no items in the room
 	And I enter get fireball spell book
 	And I enter look
 	Then I see no items
+
+Scenario: At the start of the game the character has nothing equipped
+	When I enter equipment
+	Then I have nothing equipped
+
+Scenario Outline: When I equip a item it shows up in the equippment
+	When I enter go west
+	And I enter get <item>
+	And I enter equip <item>
+	And I enter equipment
+	Then I have <item> equipped
+
+	Examples:
+		| item   |
+		| sword  |
+		| shield |

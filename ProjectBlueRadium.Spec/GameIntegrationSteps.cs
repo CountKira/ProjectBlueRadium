@@ -110,8 +110,8 @@ namespace ProjectBlueRadium.Spec
 		[Then(@"I have nothing equipped")]
 		public void ThenIHaveNothingEquipped()
 		{
-			var actual = writer.HasNothingEquipped;
-			Assert.True(actual);
+			var actual = writer.Equipment.Any();
+			Assert.False(actual);
 		}
 
 		[Then(@"The entity (.*) can not be found")]
@@ -178,6 +178,14 @@ namespace ProjectBlueRadium.Spec
 			var actual = writer.Inventory;
 			Assert.Equal(items, actual.Select(i => i.Name));
 		}
+
+		[Then(@"I have (?!nothing)(.*) equipped")]
+		public void ThenIHaveSwordEquipped(string item)
+		{
+			var actual = writer.Equipment;
+			Assert.Contains(item, actual.Select(e => e.Name));
+		}
+
 
 		[StepArgumentTransformation]
 		public string[] TransformToStringArray(string str) => str.Split(',');

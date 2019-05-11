@@ -33,7 +33,8 @@ namespace SharedTestingResources
 			new Room("You are in a bright room.",
 				new ItemCollection
 				{
-					new Sword()
+					new Sword(),
+					new Shield()
 				},
 				new[]
 				{
