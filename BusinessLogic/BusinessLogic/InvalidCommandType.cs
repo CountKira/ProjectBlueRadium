@@ -4,6 +4,7 @@
 	{
 		ItemNotFound,
 		EnemyNotFound,
+		EntityNotFound,
 		UnknownCommand,
 		PassageNotFound
 	}

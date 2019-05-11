@@ -16,6 +16,7 @@ namespace Views.ConsoleGui
 			{
 				case InvalidCommandType.EnemyNotFound:
 				case InvalidCommandType.ItemNotFound:
+				case InvalidCommandType.EntityNotFound:
 					WriteLine($"There is no {invalidCommand.Specifier} in this room.");
 					break;
 				case InvalidCommandType.UnknownCommand:

@@ -95,21 +95,17 @@ Scenario:  Can not go into a non existing room
 	When I enter go saberwooky
 	Then The passage saberwooky can not be found
 
-# Todo: The player can look at more than just items e.G. creatures
-# Expecting a message that the item can not be found is therefore wrong
 Scenario: Looking at an item that does not exist can not be found
 	When I enter look sasquatchIsMyFather
-	Then The item sasquatchIsMyFather can not be found
+	Then The entity sasquatchIsMyFather can not be found
 
 Scenario: At the start of the game the character has nothing equipped
 	When I enter equipment
 	Then I have nothing equipped
 
-# Not only creatures can be attacked.
-# Expecting a message that the enemy can not be found is therefore wrong
 Scenario: The bad evil guy can only be attacked when the player is in the same room
 	When I enter attack evil guy
-	Then The enemy evil guy can not be found
+	Then The entity evil guy can not be found
 
 Scenario: Try drinking from not available bottle
 	When I enter go north

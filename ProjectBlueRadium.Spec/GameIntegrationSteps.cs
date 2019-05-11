@@ -114,12 +114,12 @@ namespace ProjectBlueRadium.Spec
 			Assert.True(actual);
 		}
 
-		[Then(@"The enemy (.*) can not be found")]
-		public void ThenTheEnemyEvilGuyCanNotBeFound(string enemyName)
+		[Then(@"The entity (.*) can not be found")]
+		public void ThenEntityCanNotBeFound(string entity)
 		{
 			var result = writer.InvalidCommand;
-			Assert.Equal(InvalidCommandType.EnemyNotFound, result.CommandType);
-			Assert.Equal(enemyName, result.Specifier);
+			Assert.Equal(InvalidCommandType.EntityNotFound, result.CommandType);
+			Assert.Equal(entity, result.Specifier);
 		}
 
 		[Then(@"The game is running")]

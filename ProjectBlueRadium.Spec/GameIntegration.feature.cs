@@ -404,15 +404,15 @@ this.FeatureBackground();
         public virtual void LookingAtAnItemThatDoesNotExistCanNotBeFound()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Looking at an item that does not exist can not be found", null, ((string[])(null)));
-#line 100
+#line 98
 this.ScenarioInitialize(scenarioInfo);
             this.ScenarioStart();
 #line 4
 this.FeatureBackground();
-#line 101
+#line 99
  testRunner.When("I enter look sasquatchIsMyFather", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 102
- testRunner.Then("The item sasquatchIsMyFather can not be found", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 100
+ testRunner.Then("The entity sasquatchIsMyFather can not be found", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }
@@ -423,14 +423,14 @@ this.FeatureBackground();
         public virtual void AtTheStartOfTheGameTheCharacterHasNothingEquipped()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("At the start of the game the character has nothing equipped", null, ((string[])(null)));
-#line 104
+#line 102
 this.ScenarioInitialize(scenarioInfo);
             this.ScenarioStart();
 #line 4
 this.FeatureBackground();
-#line 105
+#line 103
  testRunner.When("I enter equipment", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 106
+#line 104
  testRunner.Then("I have nothing equipped", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
@@ -442,15 +442,15 @@ this.FeatureBackground();
         public virtual void TheBadEvilGuyCanOnlyBeAttackedWhenThePlayerIsInTheSameRoom()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("The bad evil guy can only be attacked when the player is in the same room", null, ((string[])(null)));
-#line 110
+#line 106
 this.ScenarioInitialize(scenarioInfo);
             this.ScenarioStart();
 #line 4
 this.FeatureBackground();
-#line 111
+#line 107
  testRunner.When("I enter attack evil guy", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 112
- testRunner.Then("The enemy evil guy can not be found", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 108
+ testRunner.Then("The entity evil guy can not be found", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }
@@ -461,18 +461,18 @@ this.FeatureBackground();
         public virtual void TryDrinkingFromNotAvailableBottle()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Try drinking from not available bottle", null, ((string[])(null)));
-#line 114
+#line 110
 this.ScenarioInitialize(scenarioInfo);
             this.ScenarioStart();
 #line 4
 this.FeatureBackground();
-#line 115
+#line 111
  testRunner.When("I enter go north", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 116
+#line 112
  testRunner.And("I enter drink bottle", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 117
+#line 113
  testRunner.Then("The item bottle can not be found", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 118
+#line 114
  testRunner.And("The game is running", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
@@ -484,18 +484,18 @@ this.FeatureBackground();
         public virtual void LookingIntoTheMainRoom()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Looking into the main room", null, ((string[])(null)));
-#line 120
+#line 116
 this.ScenarioInitialize(scenarioInfo);
             this.ScenarioStart();
 #line 4
 this.FeatureBackground();
-#line 121
+#line 117
  testRunner.When("I enter look", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 122
+#line 118
  testRunner.Then("The room is described as \"You are in an empty room. The walls are smooth.\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 123
+#line 119
  testRunner.And("I see the items \"bottle,book,fireball spell book\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 124
+#line 120
  testRunner.And("I see the passages \"north,west\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
@@ -507,22 +507,22 @@ this.FeatureBackground();
         public virtual void LookingIntoTheRoomNorth()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Looking into the room north", null, ((string[])(null)));
-#line 126
+#line 122
 this.ScenarioInitialize(scenarioInfo);
             this.ScenarioStart();
 #line 4
 this.FeatureBackground();
-#line 127
+#line 123
  testRunner.When("I enter go north", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 128
+#line 124
  testRunner.And("I enter look", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 129
+#line 125
  testRunner.Then("The room is described as \"You are in a dark room.\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 130
+#line 126
  testRunner.And("I see no items", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 131
+#line 127
  testRunner.And("I see the passages \"south\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 132
+#line 128
  testRunner.And("I see the creature \"Evil guy\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
@@ -534,20 +534,20 @@ this.FeatureBackground();
         public virtual void LookingIntoTheRoomWest()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Looking into the room west", null, ((string[])(null)));
-#line 134
+#line 130
 this.ScenarioInitialize(scenarioInfo);
             this.ScenarioStart();
 #line 4
 this.FeatureBackground();
-#line 135
+#line 131
  testRunner.When("I enter go west", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 136
+#line 132
  testRunner.And("I enter look", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 137
+#line 133
  testRunner.Then("The room is described as \"You are in a bright room.\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 138
+#line 134
  testRunner.And("I see the item \"sword\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 139
+#line 135
  testRunner.And("I see the passage \"east\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
@@ -559,22 +559,22 @@ this.FeatureBackground();
         public virtual void LeavingTheMainRoomAndThenGoingBackGivesTheDescriptionOfTheMainRoom()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Leaving the main room and then going back gives the description of the main room", null, ((string[])(null)));
-#line 141
+#line 137
 this.ScenarioInitialize(scenarioInfo);
             this.ScenarioStart();
 #line 4
 this.FeatureBackground();
-#line 142
+#line 138
  testRunner.When("I enter go west", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 143
+#line 139
  testRunner.And("I enter go east", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 144
+#line 140
  testRunner.And("I enter look", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 145
+#line 141
  testRunner.Then("The room is described as \"You are in an empty room. The walls are smooth.\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 146
+#line 142
  testRunner.And("I see the items \"bottle,book,fireball spell book\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 147
+#line 143
  testRunner.And("I see the passages \"north,west\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
@@ -586,18 +586,18 @@ this.FeatureBackground();
         public virtual void WhenIPickUpSomeItemsTheyAreInMyInventory()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("When i pick up some items they are in my inventory", null, ((string[])(null)));
-#line 149
+#line 145
 this.ScenarioInitialize(scenarioInfo);
             this.ScenarioStart();
 #line 4
 this.FeatureBackground();
-#line 150
+#line 146
  testRunner.When("I enter get bottle", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 151
+#line 147
  testRunner.And("I enter get book", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 152
+#line 148
  testRunner.And("I enter inventory", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 153
+#line 149
  testRunner.Then("I have \"bottle,book\" in my inventory", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
@@ -609,14 +609,14 @@ this.FeatureBackground();
         public virtual void TheCharacterDoesNotHaveAnyItemsAtTheBeginningOfTheGame()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("The character does not have any items at the beginning of the game", null, ((string[])(null)));
-#line 155
+#line 151
 this.ScenarioInitialize(scenarioInfo);
             this.ScenarioStart();
 #line 4
 this.FeatureBackground();
-#line 156
+#line 152
  testRunner.When("I enter inventory", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 157
+#line 153
  testRunner.Then("I have no items in my inventory", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
@@ -630,16 +630,16 @@ this.FeatureBackground();
         public virtual void WhenACharacterTakesAnItemOutOfTheRoomItCanNotBeSeenInTheRoom(string item, string remainingItems, string[] exampleTags)
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("When a character takes an item out of the room it can not be seen in the room", null, exampleTags);
-#line 159
+#line 155
 this.ScenarioInitialize(scenarioInfo);
             this.ScenarioStart();
 #line 4
 this.FeatureBackground();
-#line 160
+#line 156
  testRunner.When(string.Format("I enter get {0}", item), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 161
+#line 157
  testRunner.And("I enter look", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 162
+#line 158
  testRunner.Then(string.Format("I see the items \"{0}\"", remainingItems), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
@@ -651,20 +651,20 @@ this.FeatureBackground();
         public virtual void WhenThePlayerGetsAllTheItemsHeCanSeeNoItemsInTheRoom()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("When the player gets all the items he can see no items in the room", null, ((string[])(null)));
-#line 169
+#line 165
 this.ScenarioInitialize(scenarioInfo);
             this.ScenarioStart();
 #line 4
 this.FeatureBackground();
-#line 170
+#line 166
  testRunner.When("I enter get book", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 171
+#line 167
  testRunner.And("I enter get bottle", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 172
+#line 168
  testRunner.And("I enter get fireball spell book", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 173
+#line 169
  testRunner.And("I enter look", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 174
+#line 170
  testRunner.Then("I see no items", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();

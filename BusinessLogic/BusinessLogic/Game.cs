@@ -88,7 +88,7 @@ namespace BusinessLogic
 					break;
 				case "attack evil guy":
 					if (room.GetCreature("evil guy") is null)
-						writer.SetInvalidCommand(new InvalidCommand(InvalidCommandType.EnemyNotFound)
+						writer.SetInvalidCommand(new InvalidCommand(InvalidCommandType.EntityNotFound)
 							{Specifier = "evil guy"});
 					writer.WriteTextOutput("Since you do not wield any weapons, the evil guy can easily kill you.");
 					IsRunning = false;
@@ -178,7 +178,7 @@ namespace BusinessLogic
 			switch (entityObj)
 			{
 				case null:
-					writer.SetInvalidCommand(new InvalidCommand(InvalidCommandType.ItemNotFound) {Specifier = entity});
+					writer.SetInvalidCommand(new InvalidCommand(InvalidCommandType.EntityNotFound) {Specifier = entity});
 					break;
 				case Item item:
 					WriteDescription(item.Description);
