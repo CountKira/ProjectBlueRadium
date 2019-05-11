@@ -180,3 +180,7 @@ Scenario Outline: When I equip a item it shows up in the equippment
 		| item   |
 		| sword  |
 		| shield |
+
+Scenario: Can not equip non existent item
+	When I enter equip NotAItem
+	Then The entity NotAItem can not be found
