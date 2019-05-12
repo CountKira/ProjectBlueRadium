@@ -60,6 +60,9 @@ namespace Views.ConsoleGui
 				case Verb.Get:
 					WriteLine($"You pick up the {actionDto.Specifier}.");
 					break;
+				case Verb.Equip:
+					WriteLine($"You equipped a {actionDto.Specifier}.");
+					break;
 			}
 		}
 
@@ -87,15 +90,29 @@ namespace Views.ConsoleGui
 		/// <inheritdoc />
 		public void ShowInventory(ItemCollection inventory)
 		{
-			var items = ItemCollectionToString.GetItemNameConcat(inventory);
-			WriteLine($"You have {items}.");
+			if (inventory.Any())
+			{
+				var items = ItemCollectionToString.GetItemNameConcat(inventory);
+				WriteLine($"You have {items}.");
+			}
+			else
+			{
+				WriteLine("Your inventory is empty.");
+			}
 		}
 
 		/// <inheritdoc />
 		public void ShowEquipment(ItemCollection equipment)
 		{
-			var items = ItemCollectionToString.GetItemNameConcat(equipment);
-			WriteLine($"You have {items} equipped.");
+			if (equipment.Any())
+			{
+				var items = ItemCollectionToString.GetItemNameConcat(equipment);
+				WriteLine($"You have {items} equipped.");
+			}
+			else
+			{
+				WriteLine("You have nothing equipped");
+			}
 		}
 
 		private static void WriteLine(string text) =>
