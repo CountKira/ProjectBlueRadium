@@ -98,12 +98,6 @@ namespace Views.ConsoleGui
 			WriteLine($"You have {items} equipped.");
 		}
 
-		/// <inheritdoc />
-		public void ShowEquipment()
-		{
-			WriteLine("You do not have anything equipped.");
-		}
-
 		private static void WriteLine(string text) =>
 			Console.WriteLine(StringSplitter.BreakText(text, Console.WindowWidth));
 	}
