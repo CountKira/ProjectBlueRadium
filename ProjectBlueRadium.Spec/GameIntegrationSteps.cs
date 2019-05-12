@@ -205,6 +205,14 @@ namespace ProjectBlueRadium.Spec
 			Assert.Equal(item, actual.Specifier);
 		}
 
+		[Then(@"I get notified that the item \(sword\) is already equipped")]
+		public void ThenIGetNotifiedThatTheItemSwordIsAlreadyEquipped()
+		{
+			var actual = writer.InvalidCommand;
+			Assert.Equal(InvalidCommandType.AlreadyEquipped, actual.CommandType);
+			Assert.Equal("sword", actual.Specifier);
+		}
+
 
 		[StepArgumentTransformation]
 		public string[] TransformToStringArray(string str) => str.Split(',');

@@ -135,8 +135,15 @@ namespace BusinessLogic
 				{
 					if (itemObj.HasTag("weapon"))
 					{
-						writer.WriteAction(new ActionDTO(Verb.Equip) { Specifier = itemObj.Name });
-						Equipment.Add(itemObj);
+						if (Equipment.HasItem(itemObj.Name))
+						{
+							writer.SetInvalidCommand(new InvalidCommand(InvalidCommandType.AlreadyEquipped) { Specifier = itemObj.Name });
+						}
+						else
+						{
+							writer.WriteAction(new ActionDTO(Verb.Equip) { Specifier = itemObj.Name });
+							Equipment.Add(itemObj);
+						}
 					}
 					else
 					{

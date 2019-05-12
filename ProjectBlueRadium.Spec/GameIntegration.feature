@@ -211,3 +211,10 @@ Scenario Outline: Can not equip non weapon item
 		| item   |
 		| bottle |
 		| book   |
+
+Scenario: Same item can not be equipped multiple times
+When I enter go west
+And I enter get sword
+And I enter equip sword
+And I enter equip sword
+Then I get notified that the item (sword) is already equipped
