@@ -184,3 +184,9 @@ Scenario Outline: When I equip a item it shows up in the equippment
 Scenario: Can not equip non existent item
 	When I enter equip NotAItem
 	Then The entity NotAItem can not be found
+
+Scenario: Succesfully equipping an item gets confirmed
+	When I enter go west
+	And I enter get sword
+	And I enter equip sword
+	Then I equipped sword

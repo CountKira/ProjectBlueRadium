@@ -186,6 +186,14 @@ namespace ProjectBlueRadium.Spec
 			Assert.Contains(item, actual.Select(e => e.Name));
 		}
 
+		[Then(@"I equipped sword")]
+		public void ThenIEquippedSword()
+		{
+			var actual = writer.Action;
+			Assert.Equal(Verb.Equip, actual.Verb);
+			Assert.Equal("sword", actual.Specifier);
+		}
+
 
 		[StepArgumentTransformation]
 		public string[] TransformToStringArray(string str) => str.Split(',');

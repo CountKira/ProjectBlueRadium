@@ -4,6 +4,7 @@
 	{
 		Drink,
 		Look,
-		Get
+		Get,
+		Equip
 	}
 }

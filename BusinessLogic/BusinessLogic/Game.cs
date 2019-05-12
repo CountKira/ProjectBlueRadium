@@ -128,8 +128,14 @@ namespace BusinessLogic
 				var itemName = inputText.Substring(6);
 				var itemObj = Inventory.FirstOrDefault(i => i.Name == itemName);
 				if (itemObj is null)
+				{
 					writer.SetInvalidCommand(new InvalidCommand(InvalidCommandType.EntityNotFound) { Specifier = itemName });
-				Equipment.Add(itemObj);
+				}
+				else
+				{
+					writer.WriteAction(new ActionDTO(Verb.Equip) { Specifier = itemObj.Name });
+					Equipment.Add(itemObj);
+				}
 				return true;
 			}
 
