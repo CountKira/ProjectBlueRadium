@@ -25,6 +25,9 @@ namespace Views.ConsoleGui
 				case InvalidCommandType.PassageNotFound:
 					WriteLine($"There is no {invalidCommand.Specifier} to go to.");
 					break;
+				case InvalidCommandType.CanNotEquip:
+					WriteLine($"{invalidCommand.Specifier} can not be equipped, because it is not a weapon");
+					break;
 				default:
 					throw new ArgumentOutOfRangeException();
 			}
