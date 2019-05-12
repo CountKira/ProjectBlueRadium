@@ -26,7 +26,10 @@ namespace Views.ConsoleGui
 					WriteLine($"There is no {invalidCommand.Specifier} to go to.");
 					break;
 				case InvalidCommandType.CanNotEquip:
-					WriteLine($"{invalidCommand.Specifier} can not be equipped, because it is not a weapon");
+					WriteLine($"{invalidCommand.Specifier} can not be equipped, because it is not a weapon.");
+					break;
+				case InvalidCommandType.AlreadyEquipped:
+					WriteLine($"{invalidCommand.Specifier} is already equipped.");
 					break;
 				default:
 					throw new ArgumentOutOfRangeException();

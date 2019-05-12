@@ -88,17 +88,24 @@ namespace BusinessLogic
 					writer.ShowEquipment(Equipment);
 					break;
 				case "attack evil guy":
-					if (room.GetCreature("evil guy") is null)
-						writer.SetInvalidCommand(new InvalidCommand(InvalidCommandType.EntityNotFound)
-						{ Specifier = "evil guy" });
-					writer.WriteTextOutput("Since you do not wield any weapons, the evil guy can easily kill you.");
-					IsRunning = false;
+					HandleAttackingTheEvilGuy();
 					break;
 				default:
 					if (!TryParseCommand(text))
 						writer.SetInvalidCommand(new InvalidCommand(InvalidCommandType.UnknownCommand));
 					break;
 			}
+		}
+
+		private void HandleAttackingTheEvilGuy()
+		{
+			if (room.GetCreature("evil guy") is null)
+				writer.SetInvalidCommand(new InvalidCommand(InvalidCommandType.EntityNotFound)
+				{ Specifier = "evil guy" });
+			writer.WriteTextOutput(Equipment.HasItem("sword")
+				? "You have slain the enemy. A winner is you."
+				: "Since you do not wield any weapons, the evil guy can easily kill you.");
+			IsRunning = false;
 		}
 
 		private object GetLocalAvailableEntity(string entityName)

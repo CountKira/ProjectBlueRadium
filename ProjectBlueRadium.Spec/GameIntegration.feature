@@ -213,8 +213,18 @@ Scenario Outline: Can not equip non weapon item
 		| book   |
 
 Scenario: Same item can not be equipped multiple times
-When I enter go west
-And I enter get sword
-And I enter equip sword
-And I enter equip sword
-Then I get notified that the item (sword) is already equipped
+	When I enter go west
+	And I enter get sword
+	And I enter equip sword
+	And I enter equip sword
+	Then I get notified that the item (sword) is already equipped
+
+Scenario: Attacking the evil guy wins the game
+	When I enter go west
+	And I enter get sword
+	And I enter equip sword
+	And I enter go east
+	And I enter go north
+	And I enter attack evil guy
+	Then The output text shows You have slain the enemy. A winner is you.
+	And The game is over
