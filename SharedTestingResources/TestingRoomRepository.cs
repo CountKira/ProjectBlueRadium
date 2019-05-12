@@ -14,7 +14,7 @@ namespace SharedTestingResources
 					new Bottle(),
 					new SimpleItem("book", "The book contains the story of boatmurdered."),
 					new SimpleItem("fireball spell book",
-						"The book contains the teachings to learn the spell fireball."),
+						"The book contains the teachings to learn the spell fireball.")
 				},
 				new[]
 				{
@@ -34,8 +34,8 @@ namespace SharedTestingResources
 			new Room("You are in a bright room.",
 				new ItemCollection
 				{
-					new SimpleItem("sword", "A sharp sword.", new[]{"weapon"}),
-					new SimpleItem("shield", "A shield", new[]{"weapon"}),
+					new SimpleItem("sword", "A sharp sword.", new[] {"weapon"}),
+					new SimpleItem("shield", "A shield", new[] {"weapon"})
 				},
 				new[]
 				{

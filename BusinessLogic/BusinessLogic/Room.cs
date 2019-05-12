@@ -38,14 +38,15 @@ namespace BusinessLogic
 
 		public void PickUpItem(Item item, IGame game)
 		{
-			game.WriteAction(new ActionDTO(Verb.Get) { Specifier = item.Name });
+			game.WriteAction(new ActionDTO(Verb.Get) {Specifier = item.Name});
 			inventory.Remove(item);
 			game.Inventory.Add(item);
 		}
 
 		public bool HasItem(string item) => inventory.HasItem(item);
 
-		public Item GetItem(string item) => inventory.First(i => i.Name.Equals(item, StringComparison.OrdinalIgnoreCase));
+		public Item GetItem(string item) =>
+			inventory.First(i => i.Name.Equals(item, StringComparison.OrdinalIgnoreCase));
 
 		public Creature GetCreature(string creatureName) =>
 			creatures.FirstOrDefault(a => a.Name.Equals(creatureName, StringComparison.OrdinalIgnoreCase));

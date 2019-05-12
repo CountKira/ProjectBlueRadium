@@ -4,7 +4,7 @@ using BusinessLogic;
 using SharedTestingResources;
 using TechTalk.SpecFlow;
 using Xunit;
-
+// ReSharper disable ParameterTypeCanBeEnumerable.Global
 // ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable UnusedMember.Global
 // ReSharper disable ParameterOnlyUsedForPreconditionCheck.Global
