@@ -7,9 +7,9 @@ using Xunit;
 
 namespace ProjectBlueRadium.Spec
 {
-    [Binding]
-    public class GameIntegrationSteps
-    {
+	[Binding]
+	public class GameIntegrationSteps
+	{
 		private readonly TestWriter writer = new TestWriter();
 		private Game game;
 
@@ -192,6 +192,14 @@ namespace ProjectBlueRadium.Spec
 			var actual = writer.Action;
 			Assert.Equal(Verb.Equip, actual.Verb);
 			Assert.Equal("sword", actual.Specifier);
+		}
+
+		[Then(@"I get notified that the (.*) can not be equipped")]
+		public void ThenIGetNotifiedThatTheItemCanNotBeEquipped(string item)
+		{
+			var actual = writer.InvalidCommand;
+			Assert.Equal(InvalidCommandType.CanNotEquip, actual.CommandType);
+			Assert.Equal(item, actual.Specifier);
 		}
 
 

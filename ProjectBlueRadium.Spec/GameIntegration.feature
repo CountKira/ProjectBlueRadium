@@ -201,3 +201,13 @@ Scenario Outline: Case is irrelevant for equipping
 		| item  |
 		| sword |
 		| Sword |
+
+Scenario Outline: Can not equip non weapon item
+	When I enter get <item>
+	And I enter equip <item>
+	Then I get notified that the <item> can not be equipped
+
+	Examples:
+		| item   |
+		| bottle |
+		| book   |

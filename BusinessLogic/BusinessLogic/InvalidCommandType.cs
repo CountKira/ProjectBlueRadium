@@ -6,6 +6,7 @@
 		EnemyNotFound,
 		EntityNotFound,
 		UnknownCommand,
-		PassageNotFound
+		PassageNotFound,
+		CanNotEquip
 	}
 }
