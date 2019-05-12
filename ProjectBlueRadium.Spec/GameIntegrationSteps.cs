@@ -5,6 +5,10 @@ using SharedTestingResources;
 using TechTalk.SpecFlow;
 using Xunit;
 
+// ReSharper disable MemberCanBePrivate.Global
+// ReSharper disable UnusedMember.Global
+// ReSharper disable ParameterOnlyUsedForPreconditionCheck.Global
+
 namespace ProjectBlueRadium.Spec
 {
 	[Binding]
@@ -57,7 +61,7 @@ namespace ProjectBlueRadium.Spec
 		}
 
 		[Then(@"I got (.*)")]
-		public void IGot(string itemName)
+		public void GotItem(string itemName)
 		{
 			var result = writer.Action;
 			Assert.Equal(Verb.Get, result.Verb);
@@ -139,7 +143,6 @@ namespace ProjectBlueRadium.Spec
 		[Then(@"I see the item ""(.*)""")]
 		public void ThenISeeTheItems(string[] items)
 		{
-			var s = new string[0];
 			var result = writer.SeenThings;
 			Assert.Equal(items, result.Items.Select(i => i.Name).ToArray());
 		}
