@@ -126,7 +126,7 @@ namespace BusinessLogic
 			if (inputText.StartsWith("equip "))
 			{
 				var itemName = inputText.Substring(6);
-				var itemObj = Inventory.FirstOrDefault(i => i.Name == itemName);
+				var itemObj = Inventory.FirstOrDefault(i => i.Name.Equals(itemName, StringComparison.OrdinalIgnoreCase));
 				if (itemObj is null)
 				{
 					writer.SetInvalidCommand(new InvalidCommand(InvalidCommandType.EntityNotFound) { Specifier = itemName });

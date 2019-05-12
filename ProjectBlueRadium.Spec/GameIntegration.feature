@@ -190,3 +190,14 @@ Scenario: Succesfully equipping an item gets confirmed
 	And I enter get sword
 	And I enter equip sword
 	Then I equipped sword
+
+Scenario Outline: Case is irrelevant for equipping
+	When I enter go west
+	And I enter get sword
+	And I enter equip <item>
+	Then I equipped sword
+
+	Examples:
+		| item  |
+		| sword |
+		| Sword |
