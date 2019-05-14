@@ -19,9 +19,15 @@ namespace BusinessLogic
 			room = roomRepository.GetStartRoom();
 		}
 
+		public Player Player { get; } = new Player();
+
 		public bool IsRunning { get; private set; } = true;
-		private readonly ItemCollection equipment = new ItemCollection();
-		public ItemCollection Inventory { get; } = new ItemCollection();
+
+		/// <inheritdoc />
+		public void AddToPlayerInventory(Item item)
+		{
+			Player.Inventory.Add(item);
+		}
 
 		public void YouDiedByPoison() => writer.YouDiedByPoison();
 
@@ -82,10 +88,10 @@ namespace BusinessLogic
 					writer.DescribeSelf("It is you.");
 					break;
 				case "inventory":
-					writer.ShowInventory(Inventory);
+					writer.ShowInventory(Player.Inventory);
 					break;
 				case "equipment":
-					writer.ShowEquipment(equipment);
+					writer.ShowEquipment(Player.Equipment);
 					break;
 				case "attack evil guy":
 					HandleAttackingTheEvilGuy();
@@ -102,7 +108,7 @@ namespace BusinessLogic
 			if (room.GetCreature("evil guy") is null)
 				writer.SetInvalidCommand(new InvalidCommand(InvalidCommandType.EntityNotFound)
 					{Specifier = "evil guy"});
-			writer.WriteTextOutput(equipment.HasItem("sword")
+			writer.WriteTextOutput(Player.Equipment.HasItem("sword")
 				? "You have slain the enemy. A winner is you."
 				: "Since you do not wield any weapons, the evil guy can easily kill you.");
 			IsRunning = false;
@@ -112,7 +118,7 @@ namespace BusinessLogic
 		{
 			var item = GetItemObjectInRoom(entityName);
 			if (item != null) return item;
-			if (Inventory.HasItem(entityName)) return Inventory.First(i => i.Name == entityName);
+			if (Player.Inventory.HasItem(entityName)) return Player.Inventory.First(i => i.Name == entityName);
 
 			var creature = room.GetCreature(entityName);
 			return creature;
@@ -132,7 +138,7 @@ namespace BusinessLogic
 			{
 				var itemName = inputText.Substring(6);
 				var itemObj =
-					Inventory.FirstOrDefault(i => i.Name.Equals(itemName, StringComparison.OrdinalIgnoreCase));
+					Player.Inventory.FirstOrDefault(i => i.Name.Equals(itemName, StringComparison.OrdinalIgnoreCase));
 				if (itemObj is null)
 				{
 					writer.SetInvalidCommand(new InvalidCommand(InvalidCommandType.EntityNotFound)
@@ -142,7 +148,7 @@ namespace BusinessLogic
 				{
 					if (itemObj.HasTag("weapon"))
 					{
-						if (equipment.HasItem(itemObj.Name))
+						if (Player.Equipment.HasItem(itemObj.Name))
 						{
 							writer.SetInvalidCommand(new InvalidCommand(InvalidCommandType.AlreadyEquipped)
 								{Specifier = itemObj.Name});
@@ -150,7 +156,7 @@ namespace BusinessLogic
 						else
 						{
 							writer.WriteAction(new ActionDTO(Verb.Equip) {Specifier = itemObj.Name});
-							equipment.Add(itemObj);
+							Player.Equipment.Add(itemObj);
 						}
 					}
 					else

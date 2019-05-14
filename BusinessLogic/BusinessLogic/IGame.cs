@@ -2,7 +2,7 @@
 {
 	public interface IGame
 	{
-		ItemCollection Inventory { get; }
+		void AddToPlayerInventory(Item item);
 		void YouDiedByPoison();
 		void Stop();
 		void WriteAction(ActionDTO actionDTO);
