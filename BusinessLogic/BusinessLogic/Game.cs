@@ -96,6 +96,9 @@ namespace BusinessLogic
 				case "attack evil guy":
 					HandleAttackingTheEvilGuy();
 					break;
+				case "hp":
+					writer.ShowHealthPoints(4);
+					break;
 				default:
 					if (!TryParseCommand(text))
 						writer.SetInvalidCommand(new InvalidCommand(InvalidCommandType.UnknownCommand));

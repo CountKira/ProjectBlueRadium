@@ -213,6 +213,12 @@ namespace ProjectBlueRadium.Spec
 			Assert.Equal("sword", actual.Specifier);
 		}
 
+		[Then(@"I have (.*) hp")]
+		public void ThenIHaveHp(int healthPoints)
+		{
+			Assert.Equal(healthPoints,writer.HealthPoints);
+		}
+
 
 		[StepArgumentTransformation]
 		public string[] TransformToStringArray(string str) => str.Split(',');

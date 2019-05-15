@@ -228,3 +228,7 @@ Scenario: Attacking the evil guy wins the game
 	And I enter attack evil guy
 	Then The output text shows You have slain the enemy. A winner is you.
 	And The game is over
+
+	Scenario: Character starts the game with 4 hp
+	When I enter hp
+	Then I have 4 hp

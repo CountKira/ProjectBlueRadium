@@ -121,6 +121,12 @@ namespace Views.ConsoleGui
 			}
 		}
 
+		/// <inheritdoc />
+		public void ShowHealthPoints(int healthPoints)
+		{
+			WriteLine(healthPoints.ToString());
+		}
+
 		private static void WriteLine(string text) =>
 			Console.WriteLine(StringSplitter.BreakText(text, Console.WindowWidth));
 	}
