@@ -71,7 +71,7 @@ namespace ProjectBlueRadium.Spec
 		[Then(@"The output text shows (.*)")]
 		public void TheOutputTextShows(string expectedDescription)
 		{
-			var actualDescription = writer.TextOutput;
+			var actualDescription = writer.TextOutput.Dequeue();
 			Assert.Equal(expectedDescription, actualDescription);
 		}
 
@@ -216,7 +216,7 @@ namespace ProjectBlueRadium.Spec
 		[Then(@"I have (.*) hp")]
 		public void ThenIHaveHp(int healthPoints)
 		{
-			Assert.Equal(healthPoints,writer.HealthPoints);
+			Assert.Equal(healthPoints, writer.HealthPoints);
 		}
 
 

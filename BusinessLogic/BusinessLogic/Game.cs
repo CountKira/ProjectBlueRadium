@@ -11,6 +11,7 @@ namespace BusinessLogic
 		private readonly IWriter writer;
 		private Room room;
 		private bool spellKnown;
+		private int hp = 4;
 
 		public Game(IWriter writer, IRoomRepository roomRepository)
 		{
@@ -76,7 +77,7 @@ namespace BusinessLogic
 					else
 					{
 						writer.SetInvalidCommand(new InvalidCommand(InvalidCommandType.ItemNotFound)
-							{Specifier = "fireball spell book"});
+						{ Specifier = "fireball spell book" });
 					}
 
 					break;
@@ -97,7 +98,7 @@ namespace BusinessLogic
 					HandleAttackingTheEvilGuy();
 					break;
 				case "hp":
-					writer.ShowHealthPoints(4);
+					writer.ShowHealthPoints(hp);
 					break;
 				default:
 					if (!TryParseCommand(text))
@@ -108,13 +109,48 @@ namespace BusinessLogic
 
 		private void HandleAttackingTheEvilGuy()
 		{
-			if (room.GetCreature("evil guy") is null)
+			var creature = room.GetCreature("evil guy");
+			if (creature is null)
+			{
 				writer.SetInvalidCommand(new InvalidCommand(InvalidCommandType.EntityNotFound)
-					{Specifier = "evil guy"});
-			writer.WriteTextOutput(Player.Equipment.HasItem("sword")
-				? "You have slain the enemy. A winner is you."
-				: "Since you do not wield any weapons, the evil guy can easily kill you.");
-			IsRunning = false;
+				{ Specifier = "evil guy" });
+				return;
+			}
+
+			AttackCreature(creature);
+			if (!IsRunning)
+			{
+				return;
+			}
+			GetAttackedByCreature(creature);
+		}
+
+		private void GetAttackedByCreature(Creature creature)
+		{
+			writer.WriteTextOutput($"The {creature.Name} attacks you and deals 2 damage.");
+			hp -= 2;
+
+			if (hp <= 0)
+			{
+				writer.WriteTextOutput($"The {creature.Name} killed you.");
+				IsRunning = false;
+			}
+		}
+
+		private void AttackCreature(Creature creature)
+		{
+			DealDamageToCreature(Player.Equipment.HasItem("sword") ? 2 : 1, creature);
+			if (creature.HealthPoints <= 0)
+			{
+				writer.WriteTextOutput("You have slain the enemy. A winner is you.");
+				IsRunning = false;
+			}
+		}
+
+		private void DealDamageToCreature(int damage, Creature creature)
+		{
+			creature.HealthPoints -= damage;
+			writer.WriteTextOutput($"You attack the {creature.Name} and deal {damage} damage.");
 		}
 
 		private object GetLocalAvailableEntity(string entityName)
@@ -145,7 +181,7 @@ namespace BusinessLogic
 				if (itemObj is null)
 				{
 					writer.SetInvalidCommand(new InvalidCommand(InvalidCommandType.EntityNotFound)
-						{Specifier = itemName});
+					{ Specifier = itemName });
 				}
 				else
 				{
@@ -154,18 +190,18 @@ namespace BusinessLogic
 						if (Player.Equipment.HasItem(itemObj.Name))
 						{
 							writer.SetInvalidCommand(new InvalidCommand(InvalidCommandType.AlreadyEquipped)
-								{Specifier = itemObj.Name});
+							{ Specifier = itemObj.Name });
 						}
 						else
 						{
-							writer.WriteAction(new ActionDTO(Verb.Equip) {Specifier = itemObj.Name});
+							writer.WriteAction(new ActionDTO(Verb.Equip) { Specifier = itemObj.Name });
 							Player.Equipment.Add(itemObj);
 						}
 					}
 					else
 					{
 						writer.SetInvalidCommand(new InvalidCommand(InvalidCommandType.CanNotEquip)
-							{Specifier = itemObj.Name});
+						{ Specifier = itemObj.Name });
 					}
 				}
 
@@ -182,7 +218,7 @@ namespace BusinessLogic
 				var item = inputText.Substring(4);
 				var itemObj = GetItemObjectInRoom(item);
 				if (itemObj is null)
-					writer.SetInvalidCommand(new InvalidCommand(InvalidCommandType.ItemNotFound) {Specifier = item});
+					writer.SetInvalidCommand(new InvalidCommand(InvalidCommandType.ItemNotFound) { Specifier = item });
 				else
 					PickUpItem(itemObj);
 
@@ -205,7 +241,7 @@ namespace BusinessLogic
 				else
 				{
 					writer.SetInvalidCommand(new InvalidCommand(InvalidCommandType.PassageNotFound)
-						{Specifier = passageName});
+					{ Specifier = passageName });
 				}
 
 				return true;
@@ -234,7 +270,7 @@ namespace BusinessLogic
 			{
 				case null:
 					writer.SetInvalidCommand(new InvalidCommand(InvalidCommandType.EntityNotFound)
-						{Specifier = entity});
+					{ Specifier = entity });
 					break;
 				case Item item:
 					WriteDescription(item.Description);

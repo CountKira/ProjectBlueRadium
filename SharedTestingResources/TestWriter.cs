@@ -1,10 +1,11 @@
-﻿using BusinessLogic;
+﻿using System.Collections.Generic;
+using BusinessLogic;
 
 namespace SharedTestingResources
 {
 	public class TestWriter : IWriter
 	{
-		public string TextOutput { get; private set; }
+		public Queue<string> TextOutput { get; } = new Queue<string>();
 		public bool DiedPyPoison { get; private set; }
 		public bool SpellKnown { get; private set; }
 		public bool FireballLearned { get; private set; }
@@ -20,7 +21,7 @@ namespace SharedTestingResources
 		/// <inheritdoc />
 		public void WriteTextOutput(string text)
 		{
-			TextOutput = text;
+			TextOutput.Enqueue(text);
 		}
 
 		/// <inheritdoc />

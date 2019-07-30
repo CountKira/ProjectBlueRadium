@@ -80,12 +80,6 @@ Scenario: Entering an unknown command
 	When I enter an unknown command
 	Then The command is unknown
 
-Scenario: Attacking the end boss without anything ends the game
-	When I enter go north
-	And I enter attack evil guy
-	Then The output text shows Since you do not wield any weapons, the evil guy can easily kill you.
-	And The game is over
-
 Scenario: A Book that is not in the same room can not be read
 	When I enter go north
 	And I enter read fireball spell book
@@ -219,16 +213,48 @@ Scenario: Same item can not be equipped multiple times
 	And I enter equip sword
 	Then I get notified that the item (sword) is already equipped
 
-Scenario: Attacking the evil guy wins the game
+Scenario: Attacking the evil guy with a sword deals 2 damage to him
 	When I enter go west
 	And I enter get sword
 	And I enter equip sword
 	And I enter go east
 	And I enter go north
 	And I enter attack evil guy
-	Then The output text shows You have slain the enemy. A winner is you.
+	Then The output text shows You attack the Evil guy and deal 2 damage.
+
+Scenario: Dealing enough damage with the sword to the evil guy kills him and ends the game
+	When I enter go west
+	And I enter get sword
+	And I enter equip sword
+	And I enter go east
+	And I enter go north
+	And I enter attack evil guy
+	And I enter attack evil guy
+	Then The output text shows You attack the Evil guy and deal 2 damage.
+	And The output text shows The Evil guy attacks you and deals 2 damage.
+	And The output text shows You attack the Evil guy and deal 2 damage.
+	And The output text shows You have slain the enemy. A winner is you.
 	And The game is over
 
 	Scenario: Character starts the game with 4 hp
 	When I enter hp
 	Then I have 4 hp
+
+Scenario: Attacking the end boss twice without anything ends the game
+	When I enter go north
+	And I enter attack evil guy
+	And I enter attack evil guy
+	Then The output text shows You attack the Evil guy and deal 1 damage.
+	And The output text shows The Evil guy attacks you and deals 2 damage.
+	And The output text shows You attack the Evil guy and deal 1 damage.
+	And The output text shows The Evil guy attacks you and deals 2 damage.
+	And The output text shows The Evil guy killed you.
+	And The game is over
+
+Scenario: Attacking the end boss without the sword deals him 1 damage reduces my hp to 2
+	When I enter go north
+	And I enter attack evil guy
+	Then The output text shows You attack the Evil guy and deal 1 damage.
+	And The output text shows The Evil guy attacks you and deals 2 damage.
+	When I enter hp
+	Then I have 2 hp
