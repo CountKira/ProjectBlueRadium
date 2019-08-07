@@ -8,9 +8,7 @@ namespace BusinessLogic.Tests
 		private class DummyItem : Item
 		{
 			/// <inheritdoc />
-			public DummyItem(string name, string description) : base(name, description)
-			{
-			}
+			public DummyItem(string name, string description) : base(name, description) { }
 
 			/// <inheritdoc />
 			public override void Act(VerbEnum verb, IGame game)

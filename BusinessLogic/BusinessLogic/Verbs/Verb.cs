@@ -4,11 +4,13 @@
 	{
 		protected readonly IWriter writer;
 		protected IGame game;
-		public abstract void Execute(string s);
+
 		protected Verb(IWriter writer)
 		{
 			this.writer = writer;
 		}
+
+		public abstract void Execute(string s);
 
 		public void Initialize(IGame game) => this.game = game;
 	}

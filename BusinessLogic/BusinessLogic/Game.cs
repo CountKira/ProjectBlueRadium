@@ -9,6 +9,8 @@ namespace BusinessLogic
 	public class Game : IGame
 	{
 		private readonly IRoomRepository roomRepository;
+
+		private readonly Dictionary<string, Verb> verbList;
 		private readonly IWriter writer;
 		private Room room;
 		private bool spellKnown;
@@ -29,9 +31,7 @@ namespace BusinessLogic
 				{"attack ", new AttackVerb(writer)},
 			};
 			foreach (var verb in verbList)
-			{
 				verb.Value.Initialize(this);
-			}
 		}
 
 		public Player Player { get; } = new Player();
@@ -62,39 +62,6 @@ namespace BusinessLogic
 			writer.WriteSeenObjects(room.GetDescription());
 		}
 
-		public void EnterCommand(string text)
-		{
-			var inputText = text.ToLower();
-			switch (inputText)
-			{
-				case "exit":
-					IsRunning = false;
-					break;
-				case "look":
-					writer.WriteSeenObjects(room.GetDescription());
-					break;
-				case "spells":
-					writer.DisplaySpells(spellKnown);
-					break;
-				case "me":
-					writer.DescribeSelf("It is you.");
-					break;
-				case "inventory":
-					writer.ShowInventory(Player.Inventory);
-					break;
-				case "equipment":
-					writer.ShowEquipment(Player.Equipment);
-					break;
-				case "hp":
-					writer.ShowHealthPoints(Player.HitPoints);
-					break;
-				default:
-					if (!TryParseCommand(text))
-						writer.SetInvalidCommand(new InvalidCommand(InvalidCommandType.UnknownCommand));
-					break;
-			}
-		}
-
 		public void HandleAttackingTheEvilGuy(string enemy)
 		{
 			var creature = room.GetCreature(enemy);
@@ -107,40 +74,9 @@ namespace BusinessLogic
 
 			AttackCreature(creature);
 			if (!IsRunning)
-			{
 				return;
-			}
 
 			GetAttackedByCreature(creature);
-		}
-
-		private void GetAttackedByCreature(Creature creature)
-		{
-			var damage = creature.Damage;
-			writer.WriteTextOutput($"The {creature.Name} attacks you and deals {damage} damage.");
-			Player.HitPoints -= damage;
-
-			if (Player.IsDead())
-			{
-				writer.WriteTextOutput($"The {creature.Name} killed you.");
-				IsRunning = false;
-			}
-		}
-
-		private void AttackCreature(Creature creature)
-		{
-			DealDamageToCreature(Player.Equipment.HasItem("sword") ? 2 : 1, creature);
-			if (creature.HealthPoints <= 0)
-			{
-				writer.WriteTextOutput("You have slain the enemy. A winner is you.");
-				IsRunning = false;
-			}
-		}
-
-		private void DealDamageToCreature(int damage, Creature creature)
-		{
-			creature.HealthPoints -= damage;
-			writer.WriteTextOutput($"You attack the {creature.Name} and deal {damage} damage.");
 		}
 
 		public object GetLocalAvailableEntity(string entityName)
@@ -180,15 +116,73 @@ namespace BusinessLogic
 
 		public Item GetItemObjectInRoom(string itemName) => room.HasItem(itemName) ? room.GetItem(itemName) : null;
 
+		public void EnterCommand(string text)
+		{
+			var inputText = text.ToLower();
+			switch (inputText)
+			{
+				case "exit":
+					IsRunning = false;
+					break;
+				case "look":
+					writer.WriteSeenObjects(room.GetDescription());
+					break;
+				case "spells":
+					writer.DisplaySpells(spellKnown);
+					break;
+				case "me":
+					writer.DescribeSelf("It is you.");
+					break;
+				case "inventory":
+					writer.ShowInventory(Player.Inventory);
+					break;
+				case "equipment":
+					writer.ShowEquipment(Player.Equipment);
+					break;
+				case "hp":
+					writer.ShowHealthPoints(Player.HitPoints);
+					break;
+				default:
+					if (!TryParseCommand(text))
+						writer.SetInvalidCommand(new InvalidCommand(InvalidCommandType.UnknownCommand));
+					break;
+			}
+		}
+
+		private void GetAttackedByCreature(Creature creature)
+		{
+			var damage = creature.Damage;
+			writer.WriteTextOutput($"The {creature.Name} attacks you and deals {damage} damage.");
+			Player.HitPoints -= damage;
+
+			if (Player.IsDead())
+			{
+				writer.WriteTextOutput($"The {creature.Name} killed you.");
+				IsRunning = false;
+			}
+		}
+
+		private void AttackCreature(Creature creature)
+		{
+			DealDamageToCreature(Player.Equipment.HasItem("sword") ? 2 : 1, creature);
+			if (creature.HealthPoints <= 0)
+			{
+				writer.WriteTextOutput("You have slain the enemy. A winner is you.");
+				IsRunning = false;
+			}
+		}
+
+		private void DealDamageToCreature(int damage, Creature creature)
+		{
+			creature.HealthPoints -= damage;
+			writer.WriteTextOutput($"You attack the {creature.Name} and deal {damage} damage.");
+		}
+
 		private bool TryParseCommand(string inputText)
 		{
 			foreach (var verb in verbList)
-			{
 				if (ParseCommand(inputText, verb.Key, verb.Value.Execute))
-				{
 					return true;
-				}
-			}
 
 			return false;
 		}
@@ -204,7 +198,5 @@ namespace BusinessLogic
 
 			return false;
 		}
-
-		private readonly Dictionary<string, Verb> verbList;
 	}
 }

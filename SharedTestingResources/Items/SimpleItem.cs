@@ -9,9 +9,7 @@ namespace SharedTestingResources.Items
 	{
 		/// <inheritdoc />
 		public SimpleItem(string name, string description, IEnumerable<string> tags = null) : base(name, description,
-			tags)
-		{
-		}
+			tags) { }
 
 		/// <inheritdoc />
 		public override void Act(VerbEnum verb, IGame game)

@@ -11,7 +11,7 @@
 			{
 				case null:
 					writer.SetInvalidCommand(new InvalidCommand(InvalidCommandType.EntityNotFound)
-						{ Specifier = entity });
+						{Specifier = entity});
 					break;
 				case Item item:
 					writer.WriteTextOutput(item.Description);

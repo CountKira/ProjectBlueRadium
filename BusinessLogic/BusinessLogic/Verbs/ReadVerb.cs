@@ -17,7 +17,7 @@
 			else
 			{
 				writer.SetInvalidCommand(new InvalidCommand(InvalidCommandType.ItemNotFound)
-					{ Specifier = item });
+					{Specifier = item});
 			}
 		}
 	}

@@ -8,7 +8,7 @@
 		{
 			var itemObj = game.GetItemObjectInRoom(item);
 			if (itemObj is null)
-				writer.SetInvalidCommand(new InvalidCommand(InvalidCommandType.ItemNotFound) { Specifier = item });
+				writer.SetInvalidCommand(new InvalidCommand(InvalidCommandType.ItemNotFound) {Specifier = item});
 			else
 				game.PickUpItem(itemObj);
 		}
