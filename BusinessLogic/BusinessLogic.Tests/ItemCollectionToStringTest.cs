@@ -13,7 +13,7 @@ namespace BusinessLogic.Tests
 			}
 
 			/// <inheritdoc />
-			public override void Act(Verb verb, IGame game)
+			public override void Act(VerbEnum verb, IGame game)
 			{
 				throw new NotImplementedException();
 			}

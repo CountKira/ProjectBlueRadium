@@ -1,6 +1,6 @@
 ﻿namespace BusinessLogic
 {
-	public enum Verb
+	public enum VerbEnum
 	{
 		Drink,
 		Look,

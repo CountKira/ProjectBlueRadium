@@ -64,7 +64,7 @@ namespace ProjectBlueRadium.Spec
 		public void GotItem(string itemName)
 		{
 			var result = writer.Action;
-			Assert.Equal(Verb.Get, result.Verb);
+			Assert.Equal(VerbEnum.Get, result.Verb);
 			Assert.Equal(itemName, result.Specifier);
 		}
 
@@ -193,7 +193,7 @@ namespace ProjectBlueRadium.Spec
 		public void ThenIEquippedSword()
 		{
 			var actual = writer.Action;
-			Assert.Equal(Verb.Equip, actual.Verb);
+			Assert.Equal(VerbEnum.Equip, actual.Verb);
 			Assert.Equal("sword", actual.Specifier);
 		}
 

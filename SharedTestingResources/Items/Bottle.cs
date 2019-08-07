@@ -13,11 +13,11 @@ namespace SharedTestingResources.Items
 		}
 
 		/// <inheritdoc />
-		public override void Act(Verb verb, IGame game)
+		public override void Act(VerbEnum verb, IGame game)
 		{
 			switch (verb)
 			{
-				case Verb.Drink:
+				case VerbEnum.Drink:
 					game.YouDiedByPoison();
 					game.Stop();
 					break;

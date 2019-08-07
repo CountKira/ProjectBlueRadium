@@ -29,7 +29,7 @@ namespace SharedTestingResources
 				},
 				new[]
 				{
-					new Creature("Evil guy", "The evil threat of the campaign.", 4)
+					new Creature("Evil guy", "The evil threat of the campaign.", 4, 2)
 				}),
 			new Room("You are in a bright room.",
 				new ItemCollection

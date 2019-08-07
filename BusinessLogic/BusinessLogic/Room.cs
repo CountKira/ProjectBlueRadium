@@ -38,7 +38,7 @@ namespace BusinessLogic
 
 		public void PickUpItem(Item item, IGame game)
 		{
-			game.WriteAction(new ActionDTO(Verb.Get) {Specifier = item.Name});
+			game.WriteAction(new ActionDTO(VerbEnum.Get) {Specifier = item.Name});
 			itemsOnFloor.Remove(item);
 			game.AddToPlayerInventory(item);
 		}

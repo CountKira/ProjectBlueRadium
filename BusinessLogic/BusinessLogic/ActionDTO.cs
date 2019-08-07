@@ -2,12 +2,12 @@
 {
 	public class ActionDTO
 	{
-		public ActionDTO(Verb verb)
+		public ActionDTO(VerbEnum verb)
 		{
 			Verb = verb;
 		}
 
-		public Verb Verb { get; }
+		public VerbEnum Verb { get; }
 		public string Specifier { get; set; }
 	}
 }

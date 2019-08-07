@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using BusinessLogic.Verbs;
 
 namespace BusinessLogic
 {
@@ -11,13 +12,26 @@ namespace BusinessLogic
 		private readonly IWriter writer;
 		private Room room;
 		private bool spellKnown;
-		private int hp = 4;
 
 		public Game(IWriter writer, IRoomRepository roomRepository)
 		{
 			this.writer = writer;
 			this.roomRepository = roomRepository;
 			room = roomRepository.GetStartRoom();
+			verbList = new Dictionary<string, Verb>
+			{
+				{"get ", new GetVerb(writer)},
+				{"go ", new GoVerb(writer)},
+				{"look ", new LookVerb(writer)},
+				{"equip ", new EquipVerb(writer)},
+				{"read ", new ReadVerb(writer)},
+				{"drink ", new DrinkVerb(writer)},
+				{"attack ", new AttackVerb(writer)},
+			};
+			foreach (var verb in verbList)
+			{
+				verb.Value.Initialize(this);
+			}
 		}
 
 		public Player Player { get; } = new Player();
@@ -37,10 +51,16 @@ namespace BusinessLogic
 
 		public void WriteAction(ActionDTO actionDto) => writer.WriteAction(actionDto);
 
-		private void PickUpItem(Item item) => room.PickUpItem(item, this);
+		public void PickUpItem(Item item) => room.PickUpItem(item, this);
 
+		public bool TryGetConnectedRoom(string passageName, out int roomId)
+			=> room.TryGetRoom(passageName, out roomId);
 
-		private void WriteDescription(string text) => writer.WriteTextOutput(text);
+		public void GoToRoomById(int roomId)
+		{
+			room = roomRepository.GetRoomById(roomId);
+			writer.WriteSeenObjects(room.GetDescription());
+		}
 
 		public void EnterCommand(string text)
 		{
@@ -53,36 +73,7 @@ namespace BusinessLogic
 				case "look":
 					writer.WriteSeenObjects(room.GetDescription());
 					break;
-				case "drink bottle":
-					if (GetLocalAvailableEntity("bottle") is Item entityObj)
-					{
-						entityObj.Act(Verb.Drink, this);
-					}
-					else
-					{
-						var invalidCommand = new InvalidCommand(InvalidCommandType.ItemNotFound)
-						{
-							Specifier = "bottle"
-						};
-						writer.SetInvalidCommand(invalidCommand);
-					}
-
-					break;
-				case "read fireball spell book":
-					if (room.HasItem("fireball spell book"))
-					{
-						writer.LearnedFireball();
-						spellKnown = true;
-					}
-					else
-					{
-						writer.SetInvalidCommand(new InvalidCommand(InvalidCommandType.ItemNotFound)
-						{ Specifier = "fireball spell book" });
-					}
-
-					break;
 				case "spells":
-
 					writer.DisplaySpells(spellKnown);
 					break;
 				case "me":
@@ -94,11 +85,8 @@ namespace BusinessLogic
 				case "equipment":
 					writer.ShowEquipment(Player.Equipment);
 					break;
-				case "attack evil guy":
-					HandleAttackingTheEvilGuy();
-					break;
 				case "hp":
-					writer.ShowHealthPoints(hp);
+					writer.ShowHealthPoints(Player.HitPoints);
 					break;
 				default:
 					if (!TryParseCommand(text))
@@ -107,13 +95,13 @@ namespace BusinessLogic
 			}
 		}
 
-		private void HandleAttackingTheEvilGuy()
+		public void HandleAttackingTheEvilGuy(string enemy)
 		{
-			var creature = room.GetCreature("evil guy");
+			var creature = room.GetCreature(enemy);
 			if (creature is null)
 			{
 				writer.SetInvalidCommand(new InvalidCommand(InvalidCommandType.EntityNotFound)
-				{ Specifier = "evil guy" });
+					{Specifier = enemy});
 				return;
 			}
 
@@ -122,15 +110,17 @@ namespace BusinessLogic
 			{
 				return;
 			}
+
 			GetAttackedByCreature(creature);
 		}
 
 		private void GetAttackedByCreature(Creature creature)
 		{
-			writer.WriteTextOutput($"The {creature.Name} attacks you and deals 2 damage.");
-			hp -= 2;
+			var damage = creature.Damage;
+			writer.WriteTextOutput($"The {creature.Name} attacks you and deals {damage} damage.");
+			Player.HitPoints -= damage;
 
-			if (hp <= 0)
+			if (Player.IsDead())
 			{
 				writer.WriteTextOutput($"The {creature.Name} killed you.");
 				IsRunning = false;
@@ -153,7 +143,7 @@ namespace BusinessLogic
 			writer.WriteTextOutput($"You attack the {creature.Name} and deal {damage} damage.");
 		}
 
-		private object GetLocalAvailableEntity(string entityName)
+		public object GetLocalAvailableEntity(string entityName)
 		{
 			var item = GetItemObjectInRoom(entityName);
 			if (item != null) return item;
@@ -163,122 +153,58 @@ namespace BusinessLogic
 			return creature;
 		}
 
-		private Item GetItemObjectInRoom(string itemName) => room.HasItem(itemName) ? room.GetItem(itemName) : null;
+		/// <inheritdoc />
+		public Item GetItemFromPlayerInventory(string itemName)
+			=> Player.Inventory.FirstOrDefault(i => i.Name.Equals(itemName, StringComparison.OrdinalIgnoreCase));
 
-		private bool TryParseCommand(string inputText) =>
-			ParseGetCommand(inputText) ||
-			ParseGoCommand(inputText) ||
-			TryParseLookCommand(inputText) ||
-			TryParseEquipCommand(inputText);
-
-		private bool TryParseEquipCommand(string inputText)
+		/// <inheritdoc />
+		public void EquipWeapon(Item item)
 		{
-			if (inputText.StartsWith("equip "))
+			if (Player.Equipment.HasItem(item.Name))
 			{
-				var itemName = inputText.Substring(6);
-				var itemObj =
-					Player.Inventory.FirstOrDefault(i => i.Name.Equals(itemName, StringComparison.OrdinalIgnoreCase));
-				if (itemObj is null)
-				{
-					writer.SetInvalidCommand(new InvalidCommand(InvalidCommandType.EntityNotFound)
-					{ Specifier = itemName });
-				}
-				else
-				{
-					if (itemObj.HasTag("weapon"))
-					{
-						if (Player.Equipment.HasItem(itemObj.Name))
-						{
-							writer.SetInvalidCommand(new InvalidCommand(InvalidCommandType.AlreadyEquipped)
-							{ Specifier = itemObj.Name });
-						}
-						else
-						{
-							writer.WriteAction(new ActionDTO(Verb.Equip) { Specifier = itemObj.Name });
-							Player.Equipment.Add(itemObj);
-						}
-					}
-					else
-					{
-						writer.SetInvalidCommand(new InvalidCommand(InvalidCommandType.CanNotEquip)
-						{ Specifier = itemObj.Name });
-					}
-				}
+				writer.SetInvalidCommand(new InvalidCommand(InvalidCommandType.AlreadyEquipped)
+					{Specifier = item.Name});
+			}
+			else
+			{
+				writer.WriteAction(new ActionDTO(VerbEnum.Equip) {Specifier = item.Name});
+				Player.Equipment.Add(item);
+			}
+		}
 
+		/// <inheritdoc />
+		public void LearnSpell()
+		{
+			spellKnown = true;
+		}
+
+		public Item GetItemObjectInRoom(string itemName) => room.HasItem(itemName) ? room.GetItem(itemName) : null;
+
+		private bool TryParseCommand(string inputText)
+		{
+			foreach (var verb in verbList)
+			{
+				if (ParseCommand(inputText, verb.Key, verb.Value.Execute))
+				{
+					return true;
+				}
+			}
+
+			return false;
+		}
+
+		private static bool ParseCommand(string inputText, string verb, Action<string> commandMethod)
+		{
+			if (inputText.StartsWith(verb))
+			{
+				var itemName = inputText.Substring(verb.Length);
+				commandMethod(itemName);
 				return true;
 			}
 
 			return false;
 		}
 
-		private bool ParseGetCommand(string inputText)
-		{
-			if (inputText.StartsWith("get "))
-			{
-				var item = inputText.Substring(4);
-				var itemObj = GetItemObjectInRoom(item);
-				if (itemObj is null)
-					writer.SetInvalidCommand(new InvalidCommand(InvalidCommandType.ItemNotFound) { Specifier = item });
-				else
-					PickUpItem(itemObj);
-
-				return true;
-			}
-
-			return false;
-		}
-
-		private bool ParseGoCommand(string inputText)
-		{
-			if (inputText.StartsWith("go "))
-			{
-				var passageName = inputText.Substring(3);
-				if (room.TryGetRoom(passageName, out var roomId))
-				{
-					room = roomRepository.GetRoomById(roomId);
-					writer.WriteSeenObjects(room.GetDescription());
-				}
-				else
-				{
-					writer.SetInvalidCommand(new InvalidCommand(InvalidCommandType.PassageNotFound)
-					{ Specifier = passageName });
-				}
-
-				return true;
-			}
-
-			return false;
-		}
-
-		private bool TryParseLookCommand(string inputText)
-		{
-			if (inputText.StartsWith("look "))
-			{
-				var entity = inputText.Substring(5);
-				ExecuteLookCommand(entity);
-
-				return true;
-			}
-
-			return false;
-		}
-
-		private void ExecuteLookCommand(string entity)
-		{
-			var entityObj = GetLocalAvailableEntity(entity);
-			switch (entityObj)
-			{
-				case null:
-					writer.SetInvalidCommand(new InvalidCommand(InvalidCommandType.EntityNotFound)
-					{ Specifier = entity });
-					break;
-				case Item item:
-					WriteDescription(item.Description);
-					break;
-				case Creature creature:
-					WriteDescription(creature.Description);
-					break;
-			}
-		}
+		private readonly Dictionary<string, Verb> verbList;
 	}
 }

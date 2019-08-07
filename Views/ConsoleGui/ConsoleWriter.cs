@@ -59,14 +59,14 @@ namespace Views.ConsoleGui
 		{
 			switch (actionDto.Verb)
 			{
-				case Verb.Drink:
+				case VerbEnum.Drink:
 					break;
-				case Verb.Look:
+				case VerbEnum.Look:
 					break;
-				case Verb.Get:
+				case VerbEnum.Get:
 					WriteLine($"You pick up the {actionDto.Specifier}.");
 					break;
-				case Verb.Equip:
+				case VerbEnum.Equip:
 					WriteLine($"You equipped a {actionDto.Specifier}.");
 					break;
 			}
