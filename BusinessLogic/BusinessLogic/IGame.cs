@@ -1,4 +1,6 @@
-﻿namespace BusinessLogic
+﻿using System;
+
+namespace BusinessLogic
 {
 	public interface IGame
 	{
@@ -6,7 +8,7 @@
 		void YouDiedByPoison();
 		void Stop();
 		void WriteAction(ActionDTO actionDTO);
-		Item GetItemObjectInRoom(string item);
+		Item? GetItemObjectInRoom(string item);
 		void PickUpItem(Item item);
 		bool TryGetConnectedRoom(string passageName, out int roomId);
 		void GoToRoomById(int roomId);

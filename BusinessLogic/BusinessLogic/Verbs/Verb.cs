@@ -1,9 +1,11 @@
-﻿namespace BusinessLogic.Verbs
+﻿using System;
+
+namespace BusinessLogic.Verbs
 {
 	abstract class Verb
 	{
 		protected readonly IWriter writer;
-		protected IGame game;
+		private IGame? game;
 
 		protected Verb(IWriter writer)
 		{
@@ -13,5 +15,6 @@
 		public abstract void Execute(string s);
 
 		public void Initialize(IGame game) => this.game = game;
+		protected IGame Game => game ?? throw new InvalidOperationException("Verb was not initialized");
 	}
 }

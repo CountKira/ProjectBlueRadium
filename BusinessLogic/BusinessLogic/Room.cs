@@ -12,8 +12,8 @@ namespace BusinessLogic
 		private readonly Passage[] passages;
 
 
-		public Room(string description, ItemCollection itemsOnFloor, Passage[] passages = null,
-			Creature[] creatures = null)
+		public Room(string description, ItemCollection itemsOnFloor, Passage[]? passages = null,
+			Creature[]? creatures = null)
 		{
 			this.description = description;
 			this.itemsOnFloor = itemsOnFloor;

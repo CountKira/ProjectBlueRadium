@@ -8,9 +8,9 @@
 		/// <inheritdoc />
 		public override void Execute(string itemName)
 		{
-			if (game.GetLocalAvailableEntity(itemName) is Item item)
+			if (Game!.GetLocalAvailableEntity(itemName) is Item item)
 			{
-				item.Act(VerbEnum.Drink, game);
+				item.Act(VerbEnum.Drink, Game);
 			}
 			else
 			{

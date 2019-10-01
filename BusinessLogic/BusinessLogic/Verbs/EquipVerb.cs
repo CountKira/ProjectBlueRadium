@@ -6,7 +6,7 @@
 
 		public override void Execute(string itemName)
 		{
-			var itemObj = game.GetItemFromPlayerInventory(itemName);
+			var itemObj = Game!.GetItemFromPlayerInventory(itemName);
 			if (itemObj is null)
 			{
 				writer.SetInvalidCommand(new InvalidCommand(InvalidCommandType.EntityNotFound)
@@ -15,7 +15,7 @@
 			else
 			{
 				if (itemObj.HasTag("weapon"))
-					game.EquipWeapon(itemObj);
+					Game.EquipWeapon(itemObj);
 				else
 					writer.SetInvalidCommand(new InvalidCommand(InvalidCommandType.CanNotEquip)
 						{Specifier = itemObj.Name});

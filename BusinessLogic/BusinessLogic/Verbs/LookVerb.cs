@@ -6,7 +6,7 @@
 
 		public override void Execute(string entity)
 		{
-			var entityObj = game.GetLocalAvailableEntity(entity);
+			var entityObj = Game!.GetLocalAvailableEntity(entity);
 			switch (entityObj)
 			{
 				case null:

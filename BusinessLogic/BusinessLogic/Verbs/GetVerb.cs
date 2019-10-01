@@ -6,11 +6,11 @@
 
 		public override void Execute(string item)
 		{
-			var itemObj = game.GetItemObjectInRoom(item);
+			var itemObj = Game!.GetItemObjectInRoom(item);
 			if (itemObj is null)
 				writer.SetInvalidCommand(new InvalidCommand(InvalidCommandType.ItemNotFound) {Specifier = item});
 			else
-				game.PickUpItem(itemObj);
+				Game.PickUpItem(itemObj);
 		}
 	}
 }

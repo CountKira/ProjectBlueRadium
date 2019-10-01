@@ -8,6 +8,6 @@
 		}
 
 		public VerbEnum Verb { get; }
-		public string Specifier { get; set; }
+		public string? Specifier { get; set; }
 	}
 }

@@ -8,7 +8,7 @@
 		/// <inheritdoc />
 		public override void Execute(string enemy)
 		{
-			game.HandleAttackingTheEvilGuy(enemy);
+			Game!.HandleAttackingTheEvilGuy(enemy);
 		}
 	}
 }

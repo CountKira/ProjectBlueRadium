@@ -114,7 +114,7 @@ namespace BusinessLogic
 			spellKnown = true;
 		}
 
-		public Item GetItemObjectInRoom(string itemName) => room.HasItem(itemName) ? room.GetItem(itemName) : null;
+		public Item? GetItemObjectInRoom(string itemName) => room.HasItem(itemName) ? room.GetItem(itemName) : null;
 
 		public void EnterCommand(string text)
 		{

@@ -8,11 +8,11 @@
 		/// <inheritdoc />
 		public override void Execute(string item)
 		{
-			var obj = game.GetItemObjectInRoom(item);
+			var obj = Game!.GetItemObjectInRoom(item);
 			if (obj != null)
 			{
 				writer.LearnedFireball();
-				game.LearnSpell();
+				Game.LearnSpell();
 			}
 			else
 			{

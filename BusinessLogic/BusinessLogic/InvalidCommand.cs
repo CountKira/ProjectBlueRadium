@@ -9,6 +9,6 @@
 
 		public InvalidCommandType CommandType { get; }
 
-		public string Specifier { get; set; }
+		public string? Specifier { get; set; }
 	}
 }

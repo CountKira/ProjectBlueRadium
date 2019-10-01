@@ -10,7 +10,7 @@ namespace BusinessLogic
 	{
 		private readonly IEnumerable<string> tags;
 
-		protected Item(string name, string description, IEnumerable<string> tags = null)
+		protected Item(string name, string description, IEnumerable<string>? tags = null)
 		{
 			Name = name;
 			Description = description;

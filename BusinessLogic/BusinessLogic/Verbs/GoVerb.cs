@@ -6,11 +6,11 @@
 
 		public override void Execute(string passageName)
 		{
-			if (game.TryGetConnectedRoom(passageName, out var roomId))
-				game.GoToRoomById(roomId);
+			if (Game!.TryGetConnectedRoom(passageName, out var roomId))
+				Game.GoToRoomById(roomId);
 			else
 				writer.SetInvalidCommand(new InvalidCommand(InvalidCommandType.PassageNotFound)
-					{Specifier = passageName});
+				{ Specifier = passageName });
 		}
 	}
 }
