@@ -51,7 +51,12 @@ namespace BusinessLogic
 
 		public void WriteAction(ActionDTO actionDto) => writer.WriteAction(actionDto);
 
-		public void PickUpItem(Item item) => room.PickUpItem(item, this);
+		public void PickUpItem(Item item)
+		{
+			WriteAction(new ActionDTO(VerbEnum.Get) {Specifier = item.Name});
+			room.RemoveItem(item);
+			AddToPlayerInventory(item);
+		}
 
 		public bool TryGetConnectedRoom(string passageName, out int roomId)
 			=> room.TryGetRoom(passageName, out roomId);
