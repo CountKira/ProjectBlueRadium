@@ -4,8 +4,8 @@
 Background:
 	Given I start a new game in the test dungeon
 
-Scenario: Drink from poisonous bottle
-	When I enter drink bottle
+Scenario: Drink from poison
+	When I enter drink poison
 	Then I die by poison
 	And The game is over
 
@@ -13,14 +13,14 @@ Scenario: Character knows no spells at the beginning
 	When I enter spells
 	Then I do not know any spells
 
-Scenario Outline: Pick up bottle where case is unimportant
+Scenario Outline: Pick up poison where case is unimportant
 	When I enter <command>
 	Then I got <item>
 
 	Examples:
 		| command    | item   |
-		| get bottle | bottle |
-		| get Bottle | bottle |
+		| get poison | poison |
+		| get Poison | poison |
 
 Scenario Outline: Looking at different items
 	When I enter multiple <commands>
@@ -28,7 +28,7 @@ Scenario Outline: Looking at different items
 
 	Examples:
 		| commands           | itemName                                                  |
-		| look bottle        | This is a glass bottle, with a green substance inside it. |
+		| look poison        | This is a glass bottle, with a green substance inside it. |
 		| look book          | The book contains the story of boatmurdered.              |
 		| go west,look sword | A sharp sword.                                            |
 
@@ -38,7 +38,7 @@ Scenario Outline: Getting different item
 
 	Examples:
 		| commands          | itemName |
-		| get bottle        | bottle   |
+		| get poison        | poison   |
 		| get book          | book     |
 		| go west,get sword | sword    |
 
@@ -54,7 +54,7 @@ Scenario Outline: When I try to get the same item twice I entered an invalid com
 	Examples:
 		| itemName |
 		| book     |
-		| bottle   |
+		| poison   |
 
 Scenario: The endboss has a description
 	When I enter go north
@@ -97,16 +97,16 @@ Scenario: The bad evil guy can only be attacked when the player is in the same r
 	When I enter attack evil guy
 	Then The entity evil guy can not be found
 
-Scenario: Try drinking from not available bottle
+Scenario: Try drinking from not available poison bottle
 	When I enter go north
-	And I enter drink bottle
-	Then The item bottle can not be found
+	And I enter drink poison
+	Then The item poison can not be found
 	And The game is running
 
 Scenario: Looking into the main room
 	When I enter look
 	Then The room is described as "You are in an empty room. The walls are smooth."
-	And I see the items "bottle,book,fireball spell book"
+	And I see the items "poison,book,fireball spell book"
 	And I see the passages "north,west"
 
 Scenario: Looking into the room north
@@ -129,14 +129,14 @@ Scenario: Leaving the main room and then going back gives the description of the
 	And I enter go east
 	And I enter look
 	Then The room is described as "You are in an empty room. The walls are smooth."
-	And I see the items "bottle,book,fireball spell book"
+	And I see the items "poison,book,fireball spell book"
 	And I see the passages "north,west"
 
 Scenario: When i pick up some items they are in my inventory
-	When I enter get bottle
+	When I enter get poison
 	And I enter get book
 	And I enter inventory
-	Then I have "bottle,book" in my inventory
+	Then I have "poison,book" in my inventory
 
 Scenario: The character does not have any items at the beginning of the game
 	When I enter inventory
@@ -149,12 +149,12 @@ Scenario Outline: When a character takes an item out of the room it can not be s
 
 	Examples:
 		| item   | remaining items            |
-		| book   | bottle,fireball spell book |
-		| bottle | book,fireball spell book   |
+		| book   | poison,fireball spell book |
+		| poison | book,fireball spell book   |
 
 Scenario: When the player gets all the items he can see no items in the room
 	When I enter get book
-	And I enter get bottle
+	And I enter get poison
 	And I enter get fireball spell book
 	And I enter look
 	Then I see no items
@@ -203,7 +203,7 @@ Scenario Outline: Can not equip non weapon item
 
 	Examples:
 		| item   |
-		| bottle |
+		| poison |
 		| book   |
 
 Scenario: Same item can not be equipped multiple times

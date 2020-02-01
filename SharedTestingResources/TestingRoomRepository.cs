@@ -10,7 +10,7 @@ namespace SharedTestingResources
 			new Room("You are in an empty room. The walls are smooth.",
 				new ItemCollection
 				{
-					new Item("bottle", "This is a glass bottle, with a green substance inside it.",
+					new Item("poison", "This is a glass bottle, with a green substance inside it.",
 						new[] { Tag.Consumable }),
 					new Item("book", "The book contains the story of boatmurdered."),
 					new Item("fireball spell book",
