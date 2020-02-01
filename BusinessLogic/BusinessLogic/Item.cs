@@ -8,13 +8,13 @@ namespace BusinessLogic
 	[DebuggerDisplay("{" + nameof(Name) + "}")]
 	public abstract class Item
 	{
-		private readonly IEnumerable<string> tags;
+		private readonly IEnumerable<Tag> tags;
 
-		protected Item(string name, string description, IEnumerable<string>? tags = null)
+		protected Item(string name, string description, IEnumerable<Tag>? tags = null)
 		{
 			Name = name;
 			Description = description;
-			this.tags = tags ?? Enumerable.Empty<string>();
+			this.tags = tags ?? Enumerable.Empty<Tag>();
 		}
 
 		public string Name { get; }
@@ -22,6 +22,6 @@ namespace BusinessLogic
 
 		public abstract void Act(VerbEnum verb, IGame game);
 
-		public bool HasTag(string tag) => tags.Contains(tag);
+		public bool HasTag(Tag tag) => tags.Contains(tag);
 	}
 }

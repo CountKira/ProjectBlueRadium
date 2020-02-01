@@ -14,7 +14,7 @@
 			}
 			else
 			{
-				if (itemObj.HasTag("weapon"))
+				if (itemObj.HasTag(Tag.Weapon))
 					Game.EquipWeapon(itemObj);
 				else
 					writer.SetInvalidCommand(new InvalidCommand(InvalidCommandType.CanNotEquip)

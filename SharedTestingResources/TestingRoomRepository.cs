@@ -34,8 +34,8 @@ namespace SharedTestingResources
 			new Room("You are in a bright room.",
 				new ItemCollection
 				{
-					new SimpleItem("sword", "A sharp sword.", new[] {"weapon"}),
-					new SimpleItem("shield", "A shield", new[] {"weapon"})
+					new SimpleItem("sword", "A sharp sword.", new[] {Tag.Weapon}),
+					new SimpleItem("shield", "A shield", new[] {Tag.Weapon})
 				},
 				new[]
 				{

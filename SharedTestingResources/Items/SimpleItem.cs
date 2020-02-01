@@ -8,7 +8,7 @@ namespace SharedTestingResources.Items
 	class SimpleItem : Item
 	{
 		/// <inheritdoc />
-		public SimpleItem(string name, string description, IEnumerable<string> tags = null) : base(name, description,
+		public SimpleItem(string name, string description, IEnumerable<Tag> tags = null) : base(name, description,
 			tags) { }
 
 		/// <inheritdoc />
