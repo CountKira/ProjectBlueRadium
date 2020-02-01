@@ -130,7 +130,7 @@ namespace Views.ConsoleGui
 			WriteLine(healthPoints.ToString());
 		}
 
-		private static void WriteLine(string text) =>
+		static void WriteLine(string text) =>
 			Console.WriteLine(StringSplitter.BreakText(text, Console.WindowWidth));
 	}
 }

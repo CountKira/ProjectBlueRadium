@@ -7,7 +7,7 @@ namespace Views.ConsoleGui
 {
 	static class Program
 	{
-		private static void Main()
+		static void Main()
 		{
 			var writer = new ConsoleWriter();
 			var game = new Game(writer, new TestingRoomRepository());

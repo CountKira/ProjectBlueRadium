@@ -22,14 +22,14 @@ namespace Views.ConsoleGui
 			return sb.ToString();
 		}
 
-		private static (string first, string second) SplitString(string text, int index)
+		static (string first, string second) SplitString(string text, int index)
 		{
 			var f = text.Substring(0, index);
 			var s = text.Substring(index + 1, text.Length - index - 1);
 			return (f, s);
 		}
 
-		private static int FindLastSpace(string text, int startPosition)
+		static int FindLastSpace(string text, int startPosition)
 		{
 			for (var i = startPosition; i >= 0; i--)
 				if (text[i] == ' ')

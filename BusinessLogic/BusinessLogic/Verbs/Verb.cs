@@ -5,7 +5,7 @@ namespace BusinessLogic.Verbs
 	abstract class Verb
 	{
 		protected readonly IWriter writer;
-		private IGame? game;
+		IGame? game;
 
 		protected Verb(IWriter writer)
 		{

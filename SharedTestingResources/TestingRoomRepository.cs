@@ -5,7 +5,7 @@ namespace SharedTestingResources
 {
 	public class TestingRoomRepository : IRoomRepository
 	{
-		private readonly Room[] rooms =
+		readonly Room[] rooms =
 		{
 			new Room("You are in an empty room. The walls are smooth.",
 				new ItemCollection

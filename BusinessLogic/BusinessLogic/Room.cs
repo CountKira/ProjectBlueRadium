@@ -6,10 +6,10 @@ namespace BusinessLogic
 {
 	public class Room
 	{
-		private readonly Creature[] creatures;
-		private readonly string description;
-		private readonly ItemCollection itemsOnFloor;
-		private readonly Passage[] passages;
+		readonly Creature[] creatures;
+		readonly string description;
+		readonly ItemCollection itemsOnFloor;
+		readonly Passage[] passages;
 
 
 		public Room(string description, ItemCollection itemsOnFloor, Passage[]? passages = null,

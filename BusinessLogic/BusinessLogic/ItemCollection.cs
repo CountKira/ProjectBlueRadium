@@ -7,7 +7,7 @@ namespace BusinessLogic
 {
 	public class ItemCollection : IEnumerable<Item>
 	{
-		private readonly List<Item> items = new List<Item>();
+		readonly List<Item> items = new List<Item>();
 
 		/// <inheritdoc />
 		public IEnumerator<Item> GetEnumerator() => items.GetEnumerator();

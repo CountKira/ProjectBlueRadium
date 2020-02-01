@@ -15,8 +15,8 @@ namespace ProjectBlueRadium.Spec
 	[Binding]
 	public class GameIntegrationSteps
 	{
-		private readonly TestWriter writer = new TestWriter();
-		private Game game;
+		readonly TestWriter writer = new TestWriter();
+		Game game;
 
 		[Given(@"I start a new game in the test dungeon")]
 		public void GivenIStartANewGameInTheTestDungeon()

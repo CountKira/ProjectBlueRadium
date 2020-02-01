@@ -8,12 +8,12 @@ namespace BusinessLogic
 {
 	public class Game : IGame
 	{
-		private readonly IRoomRepository roomRepository;
+		readonly IRoomRepository roomRepository;
 
-		private readonly Dictionary<string, Verb> verbList;
-		private readonly IWriter writer;
-		private Room room;
-		private bool spellKnown;
+		readonly Dictionary<string, Verb> verbList;
+		readonly IWriter writer;
+		Room room;
+		bool spellKnown;
 
 		public Game(IWriter writer, IRoomRepository roomRepository)
 		{
@@ -34,7 +34,7 @@ namespace BusinessLogic
 				verb.Value.Initialize(this);
 		}
 
-		public Player Player { get; } = new Player();
+		Player Player { get; } = new Player();
 
 		public bool IsRunning { get; private set; } = true;
 
@@ -154,7 +154,7 @@ namespace BusinessLogic
 			}
 		}
 
-		private void GetAttackedByCreature(Creature creature)
+		void GetAttackedByCreature(Creature creature)
 		{
 			var damage = creature.Damage;
 			writer.WriteTextOutput($"The {creature.Name} attacks you and deals {damage} damage.");
@@ -167,7 +167,7 @@ namespace BusinessLogic
 			}
 		}
 
-		private void AttackCreature(Creature creature)
+		void AttackCreature(Creature creature)
 		{
 			DealDamageToCreature(Player.Equipment.HasItem("sword") ? 2 : 1, creature);
 			if (creature.HealthPoints <= 0)
@@ -177,13 +177,13 @@ namespace BusinessLogic
 			}
 		}
 
-		private void DealDamageToCreature(int damage, Creature creature)
+		void DealDamageToCreature(int damage, Creature creature)
 		{
 			creature.HealthPoints -= damage;
 			writer.WriteTextOutput($"You attack the {creature.Name} and deal {damage} damage.");
 		}
 
-		private bool TryParseCommand(string inputText)
+		bool TryParseCommand(string inputText)
 		{
 			foreach (var verb in verbList)
 				if (ParseCommand(inputText, verb.Key, verb.Value.Execute))
@@ -192,7 +192,7 @@ namespace BusinessLogic
 			return false;
 		}
 
-		private static bool ParseCommand(string inputText, string verb, Action<string> commandMethod)
+		static bool ParseCommand(string inputText, string verb, Action<string> commandMethod)
 		{
 			if (inputText.StartsWith(verb))
 			{

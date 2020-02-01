@@ -5,7 +5,7 @@ namespace BusinessLogic.Tests
 {
 	public class ItemCollectionToStringTest
 	{
-		private class DummyItem : Item
+		class DummyItem : Item
 		{
 			/// <inheritdoc />
 			public DummyItem(string name, string description) : base(name, description) { }
