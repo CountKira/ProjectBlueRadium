@@ -14,6 +14,7 @@ namespace BusinessLogic
 		readonly IWriter writer;
 		Room room;
 		bool spellKnown;
+		bool hasActed;
 
 		public Game(IWriter writer, IRoomRepository roomRepository)
 		{
@@ -53,7 +54,7 @@ namespace BusinessLogic
 
 		public void PickUpItem(Item item)
 		{
-			WriteAction(new ActionDTO(VerbEnum.Get) {Specifier = item.Name});
+			WriteAction(new ActionDTO(VerbEnum.Get) { Specifier = item.Name });
 			room.RemoveItem(item);
 			AddToPlayerInventory(item);
 		}
@@ -67,22 +68,28 @@ namespace BusinessLogic
 			writer.WriteSeenObjects(room.GetDescription());
 		}
 
+		void ExecuteOtherActors()
+		{
+			var creatures = room.GetCreatures();
+			foreach (var creature in creatures.Where(c => c.HealthPoints > 0))
+				GetAttackedByCreature(creature);
+		}
+
 		public void HandleAttackingTheEvilGuy(string enemy)
 		{
 			var creature = room.GetCreature(enemy);
 			if (creature is null)
 			{
 				writer.SetInvalidCommand(new InvalidCommand(InvalidCommandType.EntityNotFound)
-					{Specifier = enemy});
+				{ Specifier = enemy });
 				return;
 			}
 
 			AttackCreature(creature);
-			if (!IsRunning)
-				return;
-
-			GetAttackedByCreature(creature);
 		}
+
+		/// <inheritdoc />
+		public bool HasActed() => hasActed = true;
 
 		public object GetLocalAvailableEntity(string entityName)
 		{
@@ -104,11 +111,11 @@ namespace BusinessLogic
 			if (Player.Equipment.HasItem(item.Name))
 			{
 				writer.SetInvalidCommand(new InvalidCommand(InvalidCommandType.AlreadyEquipped)
-					{Specifier = item.Name});
+				{ Specifier = item.Name });
 			}
 			else
 			{
-				writer.WriteAction(new ActionDTO(VerbEnum.Equip) {Specifier = item.Name});
+				writer.WriteAction(new ActionDTO(VerbEnum.Equip) { Specifier = item.Name });
 				Player.Equipment.Add(item);
 			}
 		}
@@ -151,6 +158,12 @@ namespace BusinessLogic
 					if (!TryParseCommand(text))
 						writer.SetInvalidCommand(new InvalidCommand(InvalidCommandType.UnknownCommand));
 					break;
+			}
+
+			if (hasActed)
+			{
+				hasActed = false;
+				ExecuteOtherActors();
 			}
 		}
 

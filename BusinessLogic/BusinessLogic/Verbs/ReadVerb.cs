@@ -13,6 +13,7 @@
 			{
 				writer.LearnedFireball();
 				Game.LearnSpell();
+				Game.HasActed();
 			}
 			else
 			{

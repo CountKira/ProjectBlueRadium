@@ -48,5 +48,6 @@ namespace BusinessLogic
 
 		public Creature GetCreature(string creatureName) =>
 			creatures.FirstOrDefault(a => a.Name.Equals(creatureName, StringComparison.OrdinalIgnoreCase));
+		public IEnumerable<Creature> GetCreatures() => creatures;
 	}
 }

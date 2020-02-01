@@ -17,5 +17,6 @@ namespace BusinessLogic
 		void EquipWeapon(Item item);
 		void LearnSpell();
 		void HandleAttackingTheEvilGuy(string enemy);
+		bool HasActed();
 	}
 }

@@ -10,7 +10,10 @@
 			if (itemObj is null)
 				writer.SetInvalidCommand(new InvalidCommand(InvalidCommandType.ItemNotFound) {Specifier = item});
 			else
+			{
 				Game.PickUpItem(itemObj);
+				Game.HasActed();
+			}
 		}
 	}
 }

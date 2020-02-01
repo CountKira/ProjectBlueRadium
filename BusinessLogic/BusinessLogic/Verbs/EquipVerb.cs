@@ -15,7 +15,10 @@
 			else
 			{
 				if (itemObj.HasTag(Tag.Weapon))
+				{
 					Game.EquipWeapon(itemObj);
+					Game.HasActed();
+				}
 				else
 					writer.SetInvalidCommand(new InvalidCommand(InvalidCommandType.CanNotEquip)
 						{Specifier = itemObj.Name});

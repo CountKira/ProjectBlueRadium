@@ -14,6 +14,7 @@
 				{
 					Game.YouDiedByPoison();
 					Game.Stop();
+					Game.HasActed();
 				}
 				else
 				{
