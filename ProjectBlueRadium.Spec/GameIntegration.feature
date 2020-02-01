@@ -6,7 +6,8 @@ Background:
 
 Scenario: Drink from poison
 	When I enter drink poison
-	Then I die by poison
+	And I enter hp
+	Then I have -46 hp
 	And The game is over
 
 Scenario: Character knows no spells at the beginning

@@ -4,7 +4,6 @@
 	{
 		void WriteTextOutput(string text);
 		void SetInvalidCommand(InvalidCommand invalidCommand);
-		void YouDiedByPoison();
 		void DisplaySpells(bool spellKnown);
 		void LearnedFireball();
 		void WriteAction(ActionDTO actionDto);

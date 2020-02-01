@@ -40,12 +40,6 @@ namespace Views.ConsoleGui
 		}
 
 		/// <inheritdoc />
-		public void YouDiedByPoison()
-		{
-			WriteLine("This was not a good idea. The bottle contained poison. You're dead.");
-		}
-
-		/// <inheritdoc />
 		public void DisplaySpells(bool spellKnown)
 		{
 			WriteLine(spellKnown ? "Fireball" : "You have no spells.");

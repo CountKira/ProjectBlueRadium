@@ -13,10 +13,10 @@
 				if (item.HasTag(Tag.Consumable))
 				{
 					var effect = item.GetEffect(Tag.Consumable);
-					effect.ActOn(Game.Player);
+					var result = effect.ActOn(Game.Player);
+					writer.WriteTextOutput(result);
 					if (Game.Player.IsDead())
 					{
-						Game.YouDiedByPoison();
 						Game.Stop();
 					}
 					Game.HasActed();

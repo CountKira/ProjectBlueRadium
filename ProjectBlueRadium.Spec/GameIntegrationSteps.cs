@@ -37,12 +37,6 @@ namespace ProjectBlueRadium.Spec
 			foreach (var command in commands) game.EnterCommand(command);
 		}
 
-		[Then(@"I die by poison")]
-		public void ThenIDieByPoison()
-		{
-			Assert.True(writer.DiedPyPoison);
-		}
-
 		[Then(@"The game is over")]
 		public void ThenTheGameIsOver()
 		{

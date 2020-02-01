@@ -12,24 +12,10 @@ namespace BusinessLogic.Effects
 			this.damage = damage;
 		}
 		/// <inheritdoc />
-		public void ActOn(Player subject)
+		public string ActOn(Player subject)
 		{
 			subject.HitPoints -= damage;
-		}
-	}
-	public class HealEffect : IEffect
-	{
-		readonly int heal;
-
-		public HealEffect(int heal)
-		{
-			this.heal = heal;
-		}
-		/// <inheritdoc />
-		public void ActOn(Player subject)
-		{
-			var newHp = subject.HitPoints + heal;
-			subject.HitPoints = Math.Min(newHp, subject.MaxHitpoints);
+			return $"Player was dealt {damage} damage";
 		}
 	}
 }

@@ -45,8 +45,6 @@ namespace BusinessLogic
 			Player.Inventory.Add(item);
 		}
 
-		public void YouDiedByPoison() => writer.YouDiedByPoison();
-
 		/// <inheritdoc />
 		public void Stop() => IsRunning = false;
 

@@ -6,7 +6,6 @@ namespace SharedTestingResources
 	public class TestWriter : IWriter
 	{
 		public Queue<string> TextOutput { get; } = new Queue<string>();
-		public bool DiedPyPoison { get; private set; }
 		public bool SpellKnown { get; private set; }
 		public bool FireballLearned { get; private set; }
 		public InvalidCommand InvalidCommand { get; private set; }
@@ -28,12 +27,6 @@ namespace SharedTestingResources
 		public void SetInvalidCommand(InvalidCommand invalidCommand)
 		{
 			InvalidCommand = invalidCommand;
-		}
-
-		/// <inheritdoc />
-		public void YouDiedByPoison()
-		{
-			DiedPyPoison = true;
 		}
 
 		/// <inheritdoc />
