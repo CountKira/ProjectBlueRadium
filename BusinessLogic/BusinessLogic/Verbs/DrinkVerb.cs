@@ -8,10 +8,12 @@
 		/// <inheritdoc />
 		public override void Execute(string itemName)
 		{
-			if (Game!.GetLocalAvailableEntity(itemName) is Item item)
+			var player = Game!.Player;
+			if (player.Inventory.HasItem(itemName) && player.Inventory.GetItem(itemName) is { } item)
 			{
 				if (item.HasTag(Tag.Consumable))
 				{
+					Game.Player.Inventory.Remove(item);
 					var effect = item.GetEffect(Tag.Consumable);
 					var result = effect.ActOn(Game.Player);
 					writer.WriteTextOutput(result);

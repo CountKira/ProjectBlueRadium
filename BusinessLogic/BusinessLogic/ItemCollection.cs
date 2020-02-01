@@ -22,5 +22,10 @@ namespace BusinessLogic
 
 		public void Remove(Item item) => items.Remove(item);
 		public bool HasItem(string item) => items.Select(i => i.Name).Contains(item, StringComparer.OrdinalIgnoreCase);
+
+		public Item? GetItem(string itemName)
+		{
+			return items.FirstOrDefault(i => i.Name == itemName);
+		}
 	}
 }

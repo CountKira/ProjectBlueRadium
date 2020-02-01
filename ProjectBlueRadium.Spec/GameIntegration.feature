@@ -5,7 +5,8 @@ Background:
 	Given I start a new game in the test dungeon
 
 Scenario: Drink from poison
-	When I enter drink poison
+	When I enter get poison
+	And I enter drink poison
 	And I enter hp
 	Then I have -46 hp
 	And The game is over
