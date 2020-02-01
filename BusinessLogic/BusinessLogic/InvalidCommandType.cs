@@ -8,6 +8,7 @@
 		UnknownCommand,
 		PassageNotFound,
 		CanNotEquip,
-		AlreadyEquipped
+		AlreadyEquipped,
+		NotExecutable
 	}
 }

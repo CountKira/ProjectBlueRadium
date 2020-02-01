@@ -31,6 +31,9 @@ namespace Views.ConsoleGui
 				case InvalidCommandType.AlreadyEquipped:
 					WriteLine($"{invalidCommand.Specifier} is already equipped.");
 					break;
+				case InvalidCommandType.NotExecutable:
+					WriteLine($"This action can not be performed with \"{invalidCommand.Specifier}\".");
+					break;
 				default:
 					throw new ArgumentOutOfRangeException();
 			}

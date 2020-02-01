@@ -10,7 +10,16 @@
 		{
 			if (Game!.GetLocalAvailableEntity(itemName) is Item item)
 			{
-				item.Act(VerbEnum.Drink, Game);
+				if (item.HasTag(Tag.Consumable))
+				{
+					Game.YouDiedByPoison();
+					Game.Stop();
+				}
+				else
+				{
+					var invalidCommand = new InvalidCommand(InvalidCommandType.NotExecutable) { Specifier = itemName };
+					writer.SetInvalidCommand(invalidCommand);
+				}
 			}
 			else
 			{
