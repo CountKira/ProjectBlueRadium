@@ -13,10 +13,16 @@ namespace SharedTestingResources
 				new ItemCollection
 				{
 					new Item("poison", "This is a glass bottle, with a green substance inside it.",
-						new[] { Tag.Consumable }, 
+						new[] { Tag.Consumable },
 						new Dictionary<Tag, IEffect>()
 						{
 							{Tag.Consumable, new DamageEffect(50) }
+						}),
+					new Item("potion", "This is a glass bottle, with a red substance inside it.",
+						new[] { Tag.Consumable },
+						new Dictionary<Tag, IEffect>()
+						{
+							{Tag.Consumable, new HealEffect(10) }
 						}),
 					new Item("book", "The book contains the story of boatmurdered."),
 					new Item("fireball spell book",

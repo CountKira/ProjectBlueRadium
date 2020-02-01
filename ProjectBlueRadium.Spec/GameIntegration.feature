@@ -106,7 +106,7 @@ Scenario: Try drinking from not available poison bottle
 Scenario: Looking into the main room
 	When I enter look
 	Then The room is described as "You are in an empty room. The walls are smooth."
-	And I see the items "poison,book,fireball spell book"
+	And I see the items "poison,potion,book,fireball spell book"
 	And I see the passages "north,west"
 
 Scenario: Looking into the room north
@@ -129,7 +129,7 @@ Scenario: Leaving the main room and then going back gives the description of the
 	And I enter go east
 	And I enter look
 	Then The room is described as "You are in an empty room. The walls are smooth."
-	And I see the items "poison,book,fireball spell book"
+	And I see the items "poison,potion,book,fireball spell book"
 	And I see the passages "north,west"
 
 Scenario: When i pick up some items they are in my inventory
@@ -149,12 +149,13 @@ Scenario Outline: When a character takes an item out of the room it can not be s
 
 	Examples:
 		| item   | remaining items            |
-		| book   | poison,fireball spell book |
-		| poison | book,fireball spell book   |
+		| book   | poison,potion,fireball spell book |
+		| poison | potion,book,fireball spell book   |
 
 Scenario: When the player gets all the items he can see no items in the room
 	When I enter get book
 	And I enter get poison
+	And I enter get potion
 	And I enter get fireball spell book
 	And I enter look
 	Then I see no items

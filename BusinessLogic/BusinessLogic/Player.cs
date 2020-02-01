@@ -6,6 +6,7 @@
 		public ItemCollection Inventory { get; } = new ItemCollection();
 
 		public int HitPoints { get; set; } = 4;
+		public int MaxHitpoints { get; } = 10;
 
 		public bool IsDead() => HitPoints <= 0;
 	}
