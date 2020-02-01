@@ -10,7 +10,7 @@ namespace Views.ConsoleGui
 		static void Main()
 		{
 			var writer = new ConsoleWriter();
-			var game = new Game(writer, new TestingRoomRepository());
+			var game = new Game(writer, new ConsoleTestRoom());
 			var lineReader = new ConsoleLineReader();
 			game.EnterCommand("look");
 			Console.Write(">");

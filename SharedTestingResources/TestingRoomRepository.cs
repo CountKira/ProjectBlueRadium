@@ -10,7 +10,11 @@ namespace SharedTestingResources
 		readonly Room[] rooms =
 		{
 			new Room("You are in an empty room. The walls are smooth.",
-				new ItemCollection
+				new[]
+				{
+					new Passage(1, "north"),
+					new Passage(2, "west")
+				}, new ItemCollection
 				{
 					new Item("poison", "This is a glass bottle, with a green substance inside it.",
 						new[] { Tag.Consumable },
@@ -27,31 +31,24 @@ namespace SharedTestingResources
 					new Item("book", "The book contains the story of boatmurdered."),
 					new Item("fireball spell book",
 						"The book contains the teachings to learn the spell fireball.")
-				},
-				new[]
-				{
-					new Passage(1, "north"),
-					new Passage(2, "west")
 				}),
 			new Room("You are in a dark room.",
-				new ItemCollection(),
 				new[]
 				{
 					new Passage(0, "south")
 				},
-				new[]
+				new ItemCollection(), new[]
 				{
 					new Creature("Evil guy", "The evil threat of the campaign.", 4, 2)
 				}),
 			new Room("You are in a bright room.",
-				new ItemCollection
-				{
-					new Item("sword", "A sharp sword.", new[] {Tag.Weapon}),
-					new Item("shield", "A shield", new[] {Tag.Weapon})
-				},
 				new[]
 				{
 					new Passage(0, "east")
+				}, new ItemCollection
+				{
+					new Item("sword", "A sharp sword.", new[] {Tag.Weapon}),
+					new Item("shield", "A shield", new[] {Tag.Weapon})
 				})
 		};
 
