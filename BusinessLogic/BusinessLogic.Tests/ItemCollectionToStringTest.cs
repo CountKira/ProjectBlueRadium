@@ -9,12 +9,6 @@ namespace BusinessLogic.Tests
 		{
 			/// <inheritdoc />
 			public DummyItem(string name, string description) : base(name, description) { }
-
-			/// <inheritdoc />
-			public override void Act(VerbEnum verb, IGame game)
-			{
-				throw new NotImplementedException();
-			}
 		}
 
 		[Fact]

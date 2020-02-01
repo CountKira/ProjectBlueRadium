@@ -11,13 +11,5 @@ namespace SharedTestingResources.Items
 		public Bottle() : base("bottle", Desc, new[] { Tag.Consumable }) { }
 
 		/// <inheritdoc />
-		public override void Act(VerbEnum verb, IGame game)
-		{
-			switch (verb)
-			{
-				default:
-					throw new ArgumentOutOfRangeException(nameof(verb), verb, null);
-			}
-		}
 	}
 }

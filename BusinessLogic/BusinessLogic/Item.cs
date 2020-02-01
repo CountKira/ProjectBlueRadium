@@ -20,8 +20,6 @@ namespace BusinessLogic
 		public string Name { get; }
 		public string Description { get; }
 
-		public abstract void Act(VerbEnum verb, IGame game);
-
 		public bool HasTag(Tag tag) => tags.Contains(tag);
 	}
 }

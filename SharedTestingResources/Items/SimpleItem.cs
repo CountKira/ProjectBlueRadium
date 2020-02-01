@@ -10,11 +10,5 @@ namespace SharedTestingResources.Items
 		/// <inheritdoc />
 		public SimpleItem(string name, string description, IEnumerable<Tag> tags = null) : base(name, description,
 			tags) { }
-
-		/// <inheritdoc />
-		public override void Act(VerbEnum verb, IGame game)
-		{
-			throw new NotImplementedException();
-		}
 	}
 }
