@@ -6,11 +6,11 @@ using System.Linq;
 namespace BusinessLogic
 {
 	[DebuggerDisplay("{" + nameof(Name) + "}")]
-	public abstract class Item
+	public class Item
 	{
-		private readonly IEnumerable<Tag> tags;
+		readonly IEnumerable<Tag> tags;
 
-		protected Item(string name, string description, IEnumerable<Tag>? tags = null)
+		public Item(string name, string description, IEnumerable<Tag>? tags = null)
 		{
 			Name = name;
 			Description = description;

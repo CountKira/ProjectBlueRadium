@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using BusinessLogic;
-using SharedTestingResources.Items;
 
 namespace SharedTestingResources
 {
@@ -11,9 +10,10 @@ namespace SharedTestingResources
 			new Room("You are in an empty room. The walls are smooth.",
 				new ItemCollection
 				{
-					new Bottle(),
-					new SimpleItem("book", "The book contains the story of boatmurdered."),
-					new SimpleItem("fireball spell book",
+					new Item("bottle", "This is a glass bottle, with a green substance inside it.",
+						new[] { Tag.Consumable }),
+					new Item("book", "The book contains the story of boatmurdered."),
+					new Item("fireball spell book",
 						"The book contains the teachings to learn the spell fireball.")
 				},
 				new[]
@@ -34,8 +34,8 @@ namespace SharedTestingResources
 			new Room("You are in a bright room.",
 				new ItemCollection
 				{
-					new SimpleItem("sword", "A sharp sword.", new[] {Tag.Weapon}),
-					new SimpleItem("shield", "A shield", new[] {Tag.Weapon})
+					new Item("sword", "A sharp sword.", new[] {Tag.Weapon}),
+					new Item("shield", "A shield", new[] {Tag.Weapon})
 				},
 				new[]
 				{
