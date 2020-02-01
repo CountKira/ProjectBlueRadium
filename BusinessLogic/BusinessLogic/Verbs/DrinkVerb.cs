@@ -12,8 +12,13 @@
 			{
 				if (item.HasTag(Tag.Consumable))
 				{
-					Game.YouDiedByPoison();
-					Game.Stop();
+					var effect = item.GetEffect(Tag.Consumable);
+					effect.ActOn(Game.Player);
+					if (Game.Player.IsDead())
+					{
+						Game.YouDiedByPoison();
+						Game.Stop();
+					}
 					Game.HasActed();
 				}
 				else

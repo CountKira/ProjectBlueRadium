@@ -35,7 +35,7 @@ namespace BusinessLogic
 				verb.Value.Initialize(this);
 		}
 
-		Player Player { get; } = new Player();
+		public Player Player { get; } = new Player();
 
 		public bool IsRunning { get; private set; } = true;
 

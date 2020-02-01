@@ -18,5 +18,6 @@ namespace BusinessLogic
 		void LearnSpell();
 		void HandleAttackingTheEvilGuy(string enemy);
 		bool HasActed();
+		Player Player { get; }
 	}
 }

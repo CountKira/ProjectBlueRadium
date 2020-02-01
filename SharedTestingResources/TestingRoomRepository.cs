@@ -1,5 +1,7 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using BusinessLogic;
+using BusinessLogic.Effects;
 
 namespace SharedTestingResources
 {
@@ -11,7 +13,11 @@ namespace SharedTestingResources
 				new ItemCollection
 				{
 					new Item("poison", "This is a glass bottle, with a green substance inside it.",
-						new[] { Tag.Consumable }),
+						new[] { Tag.Consumable }, 
+						new Dictionary<Tag, IEffect>()
+						{
+							{Tag.Consumable, new DamageEffect(50) }
+						}),
 					new Item("book", "The book contains the story of boatmurdered."),
 					new Item("fireball spell book",
 						"The book contains the teachings to learn the spell fireball.")
