@@ -24,17 +24,20 @@ namespace Views.ConsoleGui
 			};
 		}
 
+		static Item HealingPotion() => new Item("healing potion", "A healing potion",
+			new[] {Tag.Consumable},
+			new Dictionary<Tag, IEffect>
+			{
+				{Tag.Consumable, new HealEffect(5)}
+			});
+
 		static Room StartingRoom() =>
 			new Room("Start room with basic equipment",
 				itemsOnFloor: new ItemCollection
 				{
 					new Item("dagger", "A Dagger", new []{Tag.Weapon}),
-					new Item("healing potion", "A healing potion",
-						new []{Tag.Consumable},
-						new Dictionary<Tag, IEffect>
-						{
-							{Tag.Consumable, new HealEffect(5)}
-						}),
+					HealingPotion(),
+					HealingPotion(),
 				});
 
 		/// <inheritdoc />
