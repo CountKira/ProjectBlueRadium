@@ -14,7 +14,10 @@ namespace Views.ConsoleGui
 				var index = FindLastSpace(t, width);
 				var (first, second) = SplitString(t, index);
 				sb.Append(first);
-				sb.Append(Environment.NewLine);
+				if (first.Length < width)
+				{
+					sb.Append(Environment.NewLine);
+				}
 				t = second;
 			}
 

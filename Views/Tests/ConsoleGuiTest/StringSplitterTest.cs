@@ -11,7 +11,7 @@ namespace ConsoleGuiTest
 		{
 			const string text = "ab cd";
 			var split = StringSplitter.BreakText(text, 2);
-			Assert.Equal("ab\r\ncd", split);
+			Assert.Equal("abcd", split);
 		}
 
 		[Fact]
@@ -19,7 +19,7 @@ namespace ConsoleGuiTest
 		{
 			const string text = "ab cd ef";
 			var split = StringSplitter.BreakText(text, 2);
-			Assert.Equal("ab\r\ncd\r\nef", split);
+			Assert.Equal("abcdef", split);
 		}
 	}
 }
