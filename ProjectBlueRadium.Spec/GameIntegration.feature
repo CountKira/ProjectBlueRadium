@@ -2,7 +2,7 @@
 	Run the game as an integration test to find error on the top level
 
 Background:
-	Given I start a new game in the test dungeon
+	Given I start a new game in the test dungeon with 4 health
 
 Scenario: Drink from poison
 	When I enter get poison

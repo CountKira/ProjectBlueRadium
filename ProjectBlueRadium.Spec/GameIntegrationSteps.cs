@@ -18,10 +18,11 @@ namespace ProjectBlueRadium.Spec
 		readonly TestWriter writer = new TestWriter();
 		Game game;
 
-		[Given(@"I start a new game in the test dungeon")]
-		public void GivenIStartANewGameInTheTestDungeon()
+		[Given(@"I start a new game in the test dungeon with (.*) health")]
+		public void GivenIStartANewGameInTheTestDungeon(int health)
 		{
 			game = new Game(writer, new TestingRoomRepository());
+			game.Player.HitPoints = health;
 		}
 
 
