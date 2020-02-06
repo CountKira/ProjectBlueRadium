@@ -14,9 +14,9 @@ namespace Views.ConsoleGui
 		{
 			rooms = new Dictionary<int, Room>()
 			{
-				{0, StartingRoom()},
-				{1, new Room("First challenge")},
-				//{2, new Room("Second challenge")},
+				{0, RoomFactory.StartingRoom()},
+				{1, RoomFactory.FirstChallengeRoom()},
+				{2, RoomFactory.SecondChallengeRoom()},
 				//{3, new Room("Better gear")},
 				//{4, new Room("Third challenge")},
 				//{5, new Room("Healing potions")},
@@ -24,26 +24,65 @@ namespace Views.ConsoleGui
 			};
 		}
 
-		static Item HealingPotion() => new Item("healing potion", "A healing potion",
-			new[] {Tag.Consumable},
-			new Dictionary<Tag, IEffect>
-			{
-				{Tag.Consumable, new HealEffect(5)}
-			});
-
-		static Room StartingRoom() =>
-			new Room("Start room with basic equipment",
-				itemsOnFloor: new ItemCollection
-				{
-					new Item("dagger", "A Dagger", new []{Tag.Weapon}),
-					HealingPotion(),
-					HealingPotion(),
-				});
-
 		/// <inheritdoc />
 		public Room GetStartRoom() => rooms[0];
 
 		/// <inheritdoc />
 		public Room GetRoomById(int id) => rooms[id];
+
+		static class RoomFactory
+		{
+			public static Room StartingRoom() =>
+				new Room("Start room with basic equipment.",
+					new[] { new Passage(1, "north"), },
+					new ItemCollection
+					{
+						ItemFactory.Dagger(),
+						ItemFactory.HealingPotion(),
+						ItemFactory.HealingPotion(),
+					});
+
+			public static Room FirstChallengeRoom()
+			{
+				return new Room(
+					"First challenge.",
+					new[] { new Passage(0, "south"), new Passage(2, "north") },
+					creatures: new[]
+					{
+						CreatureFactory.Goblin(),
+					});
+			}
+
+			public static Room SecondChallengeRoom()
+			{
+				return new Room(
+					"Second challenge.",
+					new[] { new Passage(1, "south") },
+					creatures: new[]
+					{
+						CreatureFactory.Goblin(),
+					});
+			}
+		}
+
+		static class CreatureFactory
+		{
+			public static Creature Goblin() => new Creature("goblin", "a little green man", 4, 2);
+		}
+
+		static class ItemFactory
+		{
+			public static Item HealingPotion() => new Item("healing potion", "A healing potion",
+				new[] { Tag.Consumable },
+				new Dictionary<Tag, IEffect>
+				{
+					{Tag.Consumable, new HealEffect(5)}
+				});
+
+			public static Item Dagger()
+			{
+				return new Item("dagger", "A Dagger", new[] { Tag.Weapon });
+			}
+		}
 	}
 }
