@@ -182,10 +182,15 @@ namespace BusinessLogic
 		{
 			var damage = Player.Equipment.Any(i => i.HasTag(Tag.Weapon)) ? 2 : 1;
 			DealDamageToCreature(damage, creature);
-			if (creature.HealthPoints <= 0 && creature.HasTag(Tag.GameEnd))
+			if (creature.HealthPoints <= 0)
 			{
-				writer.WriteTextOutput("You have slain the final enemy. A winner is you.");
-				IsRunning = false;
+				writer.WriteTextOutput($"You have slain the {creature.Name}.");
+
+				if (creature.HasTag(Tag.GameEnd))
+				{
+					writer.WriteTextOutput("You have slain the final enemy. A winner is you.");
+					IsRunning = false;
+				}
 			}
 		}
 
