@@ -180,7 +180,8 @@ namespace BusinessLogic
 
 		void AttackCreature(Creature creature)
 		{
-			DealDamageToCreature(Player.Equipment.HasItem("sword") ? 2 : 1, creature);
+			var damage = Player.Equipment.Any(i => i.HasTag(Tag.Weapon)) ? 2 : 1;
+			DealDamageToCreature(damage, creature);
 			if (creature.HealthPoints <= 0)
 			{
 				writer.WriteTextOutput("You have slain the enemy. A winner is you.");
