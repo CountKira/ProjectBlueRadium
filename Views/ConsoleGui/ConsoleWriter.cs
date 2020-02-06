@@ -74,8 +74,9 @@ namespace Views.ConsoleGui
 		{
 			var itemConcat = ItemCollectionToString.GetItemNameConcat(seen.Items);
 			var items = seen.Items.Any() ? $" You see {itemConcat} on the floor." : "";
-			var creature = seen.Creatures.FirstOrDefault()?.Name;
-			var creatureS = creature == null ? "" : $" There is a {creature} standing in the room.";
+			var creature = seen.Creatures.FirstOrDefault();
+			var creatureStatus = creature?.HealthPoints > 0 ? "" : "dead ";
+			var creatureS = creature == null ? "" : $" There is a {creatureStatus}{creature.Name} in the room.";
 			var passageMessage =
 				seen.Passages.Length > 0
 					? $" There is a passage {string.Join(" and ", seen.Passages.Select(p => p.DisplayName))}."
