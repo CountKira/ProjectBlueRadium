@@ -8,7 +8,7 @@ namespace Views.ConsoleGui
 {
 	class ConsoleTestRoom : IRoomRepository
 	{
-		Dictionary<int, Room> rooms;
+		readonly Dictionary<int, Room> rooms;
 
 		public ConsoleTestRoom()
 		{
