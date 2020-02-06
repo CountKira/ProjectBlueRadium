@@ -84,6 +84,7 @@ namespace BusinessLogic
 			}
 
 			AttackCreature(creature);
+			HasActed();
 		}
 
 		/// <inheritdoc />

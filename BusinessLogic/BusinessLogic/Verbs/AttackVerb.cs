@@ -9,7 +9,6 @@
 		public override void Execute(string enemy)
 		{
 			Game!.HandleAttacking(enemy);
-			Game.HasActed();
 		}
 	}
 }
