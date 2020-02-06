@@ -83,6 +83,12 @@ namespace BusinessLogic
 				return;
 			}
 
+			if (creature.HealthPoints <= 0)
+			{
+				writer.SetInvalidCommand(new InvalidCommand(InvalidCommandType.EntityNotFound)
+				{ Specifier = enemy });
+				return;
+			}
 			AttackCreature(creature);
 			HasActed();
 		}
