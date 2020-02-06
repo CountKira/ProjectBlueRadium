@@ -39,16 +39,12 @@ namespace BusinessLogic
 
 		public bool IsRunning { get; private set; } = true;
 
-		/// <inheritdoc />
-		public void AddToPlayerInventory(Item item)
-		{
-			Player.Inventory.Add(item);
-		}
+		void AddToPlayerInventory(Item item) => Player.Inventory.Add(item);
 
 		/// <inheritdoc />
 		public void Stop() => IsRunning = false;
 
-		public void WriteAction(ActionDTO actionDto) => writer.WriteAction(actionDto);
+		void WriteAction(ActionDTO actionDto) => writer.WriteAction(actionDto);
 
 		public void PickUpItem(Item item)
 		{
@@ -94,7 +90,7 @@ namespace BusinessLogic
 		}
 
 		/// <inheritdoc />
-		public bool HasActed() => hasActed = true;
+		public void HasActed() => hasActed = true;
 
 		public object GetLocalAvailableEntity(string entityName)
 		{
@@ -209,11 +205,7 @@ namespace BusinessLogic
 
 		bool TryParseCommand(string inputText)
 		{
-			foreach (var verb in verbList)
-				if (ParseCommand(inputText, verb.Key, verb.Value.Execute))
-					return true;
-
-			return false;
+			return verbList.Any(verb => ParseCommand(inputText, verb.Key, verb.Value.Execute));
 		}
 
 		static bool ParseCommand(string inputText, string verb, Action<string> commandMethod)

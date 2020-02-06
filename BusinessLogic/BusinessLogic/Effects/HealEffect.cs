@@ -14,7 +14,7 @@ namespace BusinessLogic.Effects {
 		{
 			var originalHp = subject.HitPoints;
 			var newHp = subject.HitPoints + heal;
-			subject.HitPoints = Math.Min(newHp, subject.MaxHitpoints);
+			subject.HitPoints = Math.Min(newHp, subject.MaxHitPoints);
 			return $"Player was healed by {subject.HitPoints - originalHp}";
 		}
 	}

@@ -1,6 +1,5 @@
 ﻿using System;
 using BusinessLogic;
-using SharedTestingResources;
 using Views.ConsoleGui.ConsoleHelper;
 
 namespace Views.ConsoleGui

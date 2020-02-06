@@ -4,9 +4,7 @@ namespace BusinessLogic
 {
 	public interface IGame
 	{
-		void AddToPlayerInventory(Item item);
 		void Stop();
-		void WriteAction(ActionDTO actionDTO);
 		Item? GetItemObjectInRoom(string item);
 		void PickUpItem(Item item);
 		bool TryGetConnectedRoom(string passageName, out int roomId);
@@ -16,7 +14,7 @@ namespace BusinessLogic
 		void EquipWeapon(Item item);
 		void LearnSpell();
 		void HandleAttacking(string enemy);
-		bool HasActed();
+		void HasActed();
 		Player Player { get; }
 	}
 }

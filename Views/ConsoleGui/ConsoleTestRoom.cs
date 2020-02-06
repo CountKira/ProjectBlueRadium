@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using BusinessLogic;
 using BusinessLogic.Effects;
 
@@ -12,7 +11,7 @@ namespace Views.ConsoleGui
 
 		public ConsoleTestRoom()
 		{
-			rooms = new Dictionary<int, Room>()
+			rooms = new Dictionary<int, Room>
 			{
 				{0, RoomFactory.StartingRoom()},
 				{1, RoomFactory.FirstChallengeRoom()},

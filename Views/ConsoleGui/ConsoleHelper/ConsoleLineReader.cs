@@ -49,7 +49,7 @@ namespace Views.ConsoleGui.ConsoleHelper
 			}
 		}
 
-		bool IsAtStart() => (startX == Console.CursorLeft && startY == Console.CursorTop);
+		bool IsAtStart() => startX == Console.CursorLeft && startY == Console.CursorTop;
 
 		void Init()
 		{

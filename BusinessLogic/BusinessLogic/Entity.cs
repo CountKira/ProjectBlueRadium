@@ -6,12 +6,12 @@ namespace BusinessLogic
 {
 	public abstract class Entity
 	{
-		public Entity(IEnumerable<Tag> tags )
+		protected Entity(IEnumerable<Tag> tags )
 		{
 			this.tags = tags;
 		}
 
-		protected readonly IEnumerable<Tag> tags;
+		readonly IEnumerable<Tag> tags;
 		protected Dictionary<Tag, IEffect>? effects;
 		public bool HasTag(Tag tag) => tags.Contains(tag);
 
