@@ -15,8 +15,9 @@
 				{
 					Game.Player.Inventory.Remove(item);
 					var effect = item.GetEffect(Tag.Consumable);
-					var result = effect.ActOn(Game.Player);
-					writer.WriteTextOutput(result);
+					var result = effect?.ActOn(Game.Player);
+					if (result != null)
+						writer.WriteTextOutput(result);
 					if (Game.Player.IsDead())
 					{
 						Game.Stop();

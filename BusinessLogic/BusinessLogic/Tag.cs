@@ -8,5 +8,6 @@ namespace BusinessLogic
 	{
 		Weapon,
 		Consumable,
+		GameEnd,
 	}
 }

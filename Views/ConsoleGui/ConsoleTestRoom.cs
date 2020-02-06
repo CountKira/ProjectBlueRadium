@@ -60,14 +60,14 @@ namespace Views.ConsoleGui
 					new[] { new Passage(1, "south") },
 					creatures: new[]
 					{
-						CreatureFactory.Goblin(),
+						CreatureFactory.Goblin(new []{Tag.GameEnd}),
 					});
 			}
 		}
 
 		static class CreatureFactory
 		{
-			public static Creature Goblin() => new Creature("goblin", "a little green man", 4, 2);
+			public static Creature Goblin(IEnumerable<Tag>? tags = null) => new Creature("goblin", "a little green man", 4, 2, tags);
 		}
 
 		static class ItemFactory

@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace BusinessLogic
 {
-	public class Creature
+	public class Creature : Entity
 	{
-		public Creature(string name, string description, int healthPoints, int damage)
+		public Creature(string name, string description, int healthPoints, int damage, IEnumerable<Tag>? tags = null):
+			base(tags ?? Enumerable.Empty<Tag>())
 		{
 			Name = name;
 			Description = description;

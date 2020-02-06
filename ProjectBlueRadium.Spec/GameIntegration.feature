@@ -236,7 +236,7 @@ Scenario: Dealing enough damage with the sword to the evil guy kills him and end
 	Then The output text shows You attack the Evil guy and deal 2 damage.
 	And The output text shows The Evil guy attacks you and deals 2 damage.
 	And The output text shows You attack the Evil guy and deal 2 damage.
-	And The output text shows You have slain the enemy. A winner is you.
+	And The output text shows You have slain the final enemy. A winner is you.
 	And The game is over
 	When I enter hp
 	Then I have 2 hp

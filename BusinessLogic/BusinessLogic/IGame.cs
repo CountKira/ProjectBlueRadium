@@ -15,7 +15,7 @@ namespace BusinessLogic
 		Item GetItemFromPlayerInventory(string itemName);
 		void EquipWeapon(Item item);
 		void LearnSpell();
-		void HandleAttackingTheEvilGuy(string enemy);
+		void HandleAttacking(string enemy);
 		bool HasActed();
 		Player Player { get; }
 	}
