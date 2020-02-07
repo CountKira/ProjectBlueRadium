@@ -6,10 +6,17 @@ namespace Views.ConsoleGui
 {
 	static class Program
 	{
+		class SystemRandom : IRandom
+		{
+			readonly Random random = new Random();
+			/// <inheritdoc />
+			public int Next(int i) => random.Next(i);
+		}
+
 		static void Main()
 		{
 			var writer = new ConsoleWriter();
-			var game = new Game(writer, new ConsoleTestRoom());
+			var game = new Game(writer, new ConsoleTestRoom(), new SystemRandom());
 			var lineReader = new ConsoleLineReader();
 			game.EnterCommand("look");
 			Console.Write(">");

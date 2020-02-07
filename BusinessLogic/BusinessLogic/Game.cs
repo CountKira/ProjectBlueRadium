@@ -9,17 +9,18 @@ namespace BusinessLogic
 	public class Game : IGame
 	{
 		readonly IRoomRepository roomRepository;
-
+		readonly IRandom random;
 		readonly Dictionary<string, Verb> verbList;
 		readonly IWriter writer;
 		Room room;
 		bool spellKnown;
 		bool hasActed;
 
-		public Game(IWriter writer, IRoomRepository roomRepository)
+		public Game(IWriter writer, IRoomRepository roomRepository, IRandom random)
 		{
 			this.writer = writer;
 			this.roomRepository = roomRepository;
+			this.random = random;
 			room = roomRepository.GetStartRoom();
 			verbList = new Dictionary<string, Verb>
 			{
@@ -170,6 +171,11 @@ namespace BusinessLogic
 
 		void GetAttackedByCreature(Creature creature)
 		{
+			if (DoesMiss())
+			{
+				writer.WriteTextOutput($"The {creature.Name} missed his attack.");
+				return;
+			}
 			var damage = creature.Damage;
 			writer.WriteTextOutput($"The {creature.Name} attacks you and deals {damage} damage.");
 			Player.HitPoints -= damage;
@@ -183,6 +189,11 @@ namespace BusinessLogic
 
 		void AttackCreature(Creature creature)
 		{
+			if (DoesMiss())
+			{
+				writer.WriteTextOutput("Missed.");
+				return;
+			}
 			var damage = Player.Equipment.Any(i => i.HasTag(Tag.Weapon)) ? 2 : 1;
 			DealDamageToCreature(damage, creature);
 			if (creature.HealthPoints <= 0)
@@ -196,6 +207,8 @@ namespace BusinessLogic
 				}
 			}
 		}
+
+		bool DoesMiss() => random.Next(2) == 0;
 
 		void DealDamageToCreature(int damage, Creature creature)
 		{

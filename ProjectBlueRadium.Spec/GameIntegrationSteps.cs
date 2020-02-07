@@ -15,13 +15,19 @@ namespace ProjectBlueRadium.Spec
 	[Binding]
 	public class GameIntegrationSteps
 	{
+		class MockRandom:IRandom
+		{
+			/// <inheritdoc />
+			public int Next(int i) => 1;
+		}
+
 		readonly TestWriter writer = new TestWriter();
 		Game game;
 
 		[Given(@"I start a new game in the test dungeon with (.*) health")]
 		public void GivenIStartANewGameInTheTestDungeon(int health)
 		{
-			game = new Game(writer, new TestingRoomRepository());
+			game = new Game(writer, new TestingRoomRepository(), new MockRandom());
 			game.Player.HitPoints = health;
 		}
 
