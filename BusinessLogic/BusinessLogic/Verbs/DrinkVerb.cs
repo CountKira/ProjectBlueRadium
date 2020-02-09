@@ -1,4 +1,6 @@
-﻿namespace BusinessLogic.Verbs
+﻿using BusinessLogic.Tags;
+
+namespace BusinessLogic.Verbs
 {
 	class DrinkVerb : Verb
 	{
@@ -14,14 +16,13 @@
 				if (item.HasTag(Tag.Consumable))
 				{
 					Game.Player.Inventory.Remove(item);
-					var effect = item.GetEffect(Tag.Consumable);
+					var tag = item.GetTag<ConsumableTag>(Tag.Consumable);
+					var effect = tag?.GetEffect();
 					var result = effect?.ActOn(Game.Player);
 					if (result != null)
 						writer.WriteTextOutput(result);
 					if (Game.Player.IsDead())
-					{
 						Game.Stop();
-					}
 					Game.HasActed();
 				}
 				else

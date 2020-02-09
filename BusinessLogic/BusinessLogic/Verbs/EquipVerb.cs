@@ -1,4 +1,6 @@
-﻿namespace BusinessLogic.Verbs
+﻿using BusinessLogic.Tags;
+
+namespace BusinessLogic.Verbs
 {
 	class EquipVerb : Verb
 	{

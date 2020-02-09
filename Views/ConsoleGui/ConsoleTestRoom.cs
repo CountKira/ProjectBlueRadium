@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using BusinessLogic;
 using BusinessLogic.Effects;
+using BusinessLogic.Tags;
 
 namespace Views.ConsoleGui
 {
@@ -59,28 +60,24 @@ namespace Views.ConsoleGui
 					new[] { new Passage(1, "south") },
 					creatures: new[]
 					{
-						CreatureFactory.Goblin(new []{Tag.GameEnd}),
+						CreatureFactory.Goblin(new []{new MarkerTag(Tag.GameEnd), }),
 					});
 			}
 		}
 
 		static class CreatureFactory
 		{
-			public static Creature Goblin(IEnumerable<Tag>? tags = null) => new Creature("goblin", "a little green man", 4, 2, tags);
+			public static Creature Goblin(IEnumerable<ITag>? tags = null) => new Creature("goblin", "a little green man", 4, 2, tags);
 		}
 
 		static class ItemFactory
 		{
 			public static Item HealingPotion() => new Item("healing potion", "A healing potion",
-				new[] { Tag.Consumable },
-				new Dictionary<Tag, IEffect>
-				{
-					{Tag.Consumable, new HealEffect(5)}
-				});
+				new[] { new ConsumableTag(new HealEffect(5)), });
 
 			public static Item Dagger()
 			{
-				return new Item("dagger", "A Dagger", new[] { Tag.Weapon });
+				return new Item("dagger", "A Dagger", new[] { new MarkerTag(Tag.Weapon), });
 			}
 		}
 	}

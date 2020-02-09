@@ -2,6 +2,7 @@
 using System.Linq;
 using BusinessLogic;
 using BusinessLogic.Effects;
+using BusinessLogic.Tags;
 
 namespace SharedTestingResources
 {
@@ -17,17 +18,9 @@ namespace SharedTestingResources
 				}, new ItemCollection
 				{
 					new Item("poison", "This is a glass bottle, with a green substance inside it.",
-						new[] { Tag.Consumable },
-						new Dictionary<Tag, IEffect>()
-						{
-							{Tag.Consumable, new DamageEffect(50) }
-						}),
+						new[] { new ConsumableTag(new DamageEffect(50)), }),
 					new Item("potion", "This is a glass bottle, with a red substance inside it.",
-						new[] { Tag.Consumable },
-						new Dictionary<Tag, IEffect>()
-						{
-							{Tag.Consumable, new HealEffect(10) }
-						}),
+						new[] { new ConsumableTag(new HealEffect(10)),  }),
 					new Item("book", "The book contains the story of boatmurdered."),
 					new Item("fireball spell book",
 						"The book contains the teachings to learn the spell fireball.")
@@ -39,7 +32,7 @@ namespace SharedTestingResources
 				},
 				new ItemCollection(), new[]
 				{
-					new Creature("Evil guy", "The evil threat of the campaign.", 4, 2, new []{Tag.GameEnd})
+					new Creature("Evil guy", "The evil threat of the campaign.", 4, 2, new []{new MarkerTag(Tag.GameEnd), })
 				}),
 			new Room("You are in a bright room.",
 				new[]
@@ -47,8 +40,8 @@ namespace SharedTestingResources
 					new Passage(0, "east")
 				}, new ItemCollection
 				{
-					new Item("sword", "A sharp sword.", new[] {Tag.Weapon}),
-					new Item("shield", "A shield", new[] {Tag.Weapon})
+					new Item("sword", "A sharp sword.", new[] {new MarkerTag(Tag.Weapon), }),
+					new Item("shield", "A shield", new[] {new MarkerTag(Tag.Weapon),})
 				})
 		};
 

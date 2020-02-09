@@ -1,23 +1,31 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using BusinessLogic.Effects;
+using BusinessLogic.Tags;
 
 namespace BusinessLogic
 {
 	public abstract class Entity
 	{
-		protected Entity(IEnumerable<Tag> tags )
+		protected Entity(IEnumerable<ITag> tags)
 		{
-			this.tags = tags;
+			foreach (var tag in tags)
+			{
+				this.tags.Add(tag.GetTag(), tag);
+			}
 		}
 
-		readonly IEnumerable<Tag> tags;
-		protected Dictionary<Tag, IEffect>? effects;
-		public bool HasTag(Tag tag) => tags.Contains(tag);
+		protected Dictionary<Tag, ITag> tags = new Dictionary<Tag, ITag>();
+		public bool HasTag(Tag tag) => tags.ContainsKey(tag);
 
-		public IEffect? GetEffect(Tag tag)
+		public T? GetTag<T>(Tag tag) where T : class, ITag
 		{
-			return effects?[tag];
+			if (HasTag(tag))
+			{
+				return (T)tags[tag];
+			}
+
+			return null;
 		}
 	}
 }

@@ -3,19 +3,18 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using BusinessLogic.Effects;
+using BusinessLogic.Tags;
 
 namespace BusinessLogic
 {
 	[DebuggerDisplay("{" + nameof(Name) + "}")]
 	public class Item : Entity
 	{
-		public Item(string name, string description, IEnumerable<Tag>? tags = null, IDictionary<Tag, IEffect>? effects = null)
-		: base(tags ?? Enumerable.Empty<Tag>())
+		public Item(string name, string description, IEnumerable<ITag>? tags = null)
+		: base(tags ?? Enumerable.Empty<ITag>())
 		{
 			Name = name;
 			Description = description;
-
-			this.effects = new Dictionary<Tag, IEffect>(effects ?? new Dictionary<Tag, IEffect>());
 		}
 
 		public string Name { get; }
