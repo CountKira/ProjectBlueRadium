@@ -5,7 +5,6 @@ using SadConsole;
 using SadConsole.Controls;
 using SadConsole.Themes;
 using SharedViewResources;
-using Views.ConsoleGui;
 using Game = BusinessLogic.Game;
 using Console = SadConsole.Console;
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using BusinessLogic;
+using SharedViewResources;
 
 namespace Views.ConsoleGui
 {

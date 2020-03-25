@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using BusinessLogic;
-using Views.ConsoleGui;
+using SharedViewResources;
 using Console = SadConsole.Console;
 
 namespace SadConsoleView
