@@ -10,6 +10,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\BusinessLogic\BusinessLogic\BusinessLogic.csproj" />
     <ProjectReference Include="..\..\SharedTestingResources\SharedTestingResources.csproj" />
+    <ProjectReference Include="..\..\SharedViewResources\SharedViewResources.csproj" />
   </ItemGroup>
 
 </Project>

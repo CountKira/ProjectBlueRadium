@@ -1,5 +1,6 @@
 ﻿using System;
 using BusinessLogic;
+using SharedViewResources;
 using Views.ConsoleGui.ConsoleHelper;
 
 namespace Views.ConsoleGui
@@ -16,7 +17,7 @@ namespace Views.ConsoleGui
 		static void Main()
 		{
 			var writer = new ConsoleWriter();
-			var game = new Game(writer, new ConsoleTestRoom(), new SystemRandom());
+			var game = new Game(new ViewWriter(writer), new ConsoleTestRoom(), new SystemRandom());
 			var lineReader = new ConsoleLineReader();
 			game.EnterCommand("look");
 			Console.Write(">");
