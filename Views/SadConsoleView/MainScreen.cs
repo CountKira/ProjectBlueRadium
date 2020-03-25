@@ -14,7 +14,6 @@ namespace SadConsoleView
 	public class MainScreen : ContainerConsole
 	{
 		readonly Game game;
-		readonly LastCommandManager lastCommandManager = new LastCommandManager();
 		Console MainConsole { get; }
 
 		public MainScreen()
@@ -29,13 +28,33 @@ namespace SadConsoleView
 			};
 			game = new Game(new ViewWriter(new SadConsoleWriter(MainConsole)), new ConsoleTestRoom(), new SystemRandom());
 
-			var textBox = new InputConsole(consoleWidth, 1) { Position = new Point(0, consoleHeight - 1) };
-			textBox.KeyPressed += TextBoxOnKeyPressed;
+			var textBox = new InputConsole(consoleWidth, game.EnterCommand) { Position = new Point(0, consoleHeight - 1) };
 
 			Global.FocusedConsoles.Set(textBox);
 			Children.Add(MainConsole);
 			Children.Add(textBox);
 		}
+
+	}
+
+	class InputConsole : ControlsConsole
+	{
+		readonly LastCommandManager lastCommandManager = new LastCommandManager();
+		readonly Action<string> onTextEntered;
+
+		public InputConsole(int width, Action<string> onTextEntered) : base(width, 1)
+		{
+			this.onTextEntered = onTextEntered;
+			Library.Default.SetControlTheme(typeof(MyTextBox), Library.Default.GetControlTheme(typeof(TextBox)));
+			var textBox = new MyTextBox(width)
+			{
+				Position = new Point(0, 0)
+			};
+			textBox.KeyPressed += TextBoxOnKeyPressed;
+			Add(textBox);
+			FocusedControl = textBox;
+		}
+
 
 		void TextBoxOnKeyPressed(object? sender, TextBox.KeyPressEventArgs e)
 		{
@@ -46,7 +65,7 @@ namespace SadConsoleView
 						{
 							var text = textBox.EditingText;
 							lastCommandManager.Add(text);
-							game.EnterCommand(text);
+							onTextEntered(text);
 							textBox.Clear();
 							e.IsCancelled = true;
 							break;
@@ -74,28 +93,6 @@ namespace SadConsoleView
 							break;
 						}
 				}
-		}
-	}
-
-	class InputConsole : ControlsConsole
-	{
-		readonly MyTextBox textBox;
-		public InputConsole(int width, int height) : base(width, height)
-		{
-			Library.Default.SetControlTheme(typeof(MyTextBox), Library.Default.GetControlTheme(typeof(TextBox)));
-			textBox = new MyTextBox(width)
-			{
-				Position = new Point(0, 0)
-			};
-
-			Add(textBox);
-			FocusedControl = textBox;
-		}
-
-		public event EventHandler<TextBox.KeyPressEventArgs> KeyPressed
-		{
-			add => textBox.KeyPressed += value;
-			remove => textBox.KeyPressed -= value;
 		}
 	}
 
