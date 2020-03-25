@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using SadConsole;
 using SadConsole.Controls;
+using SadConsole.Input;
 using SadConsole.Themes;
 using SharedViewResources;
 using Game = BusinessLogic.Game;
@@ -13,6 +14,7 @@ namespace SadConsoleView
 	public class MainScreen : ContainerConsole
 	{
 		readonly Game game;
+		readonly LastCommandManager lastCommandManager = new LastCommandManager();
 		Console MainConsole { get; }
 
 		public MainScreen()
@@ -37,15 +39,41 @@ namespace SadConsoleView
 
 		void TextBoxOnKeyPressed(object? sender, TextBox.KeyPressEventArgs e)
 		{
-			if (e.Key == Keys.Enter)
-			{
-				if (sender is MyTextBox textBox)
+			if (sender is MyTextBox textBox)
+				switch (e.Key.Key)
 				{
-					game.EnterCommand(textBox.EditingText);
-					textBox.Clear();
-					e.IsCancelled = true;
+					case Keys.Enter:
+						{
+							var text = textBox.EditingText;
+							lastCommandManager.Add(text);
+							game.EnterCommand(text);
+							textBox.Clear();
+							e.IsCancelled = true;
+							break;
+						}
+					case Keys.Up:
+						{
+							var text = lastCommandManager.GetPrevious();
+							if (text != null)
+							{
+								textBox.SetText(text);
+							}
+
+							e.IsCancelled = true;
+							break;
+						}
+					case Keys.Down:
+						{
+							var text = lastCommandManager.GetNext();
+							if (text != null)
+							{
+								textBox.SetText(text);
+							}
+
+							e.IsCancelled = true;
+							break;
+						}
 				}
-			}
 		}
 	}
 
@@ -77,5 +105,11 @@ namespace SadConsoleView
 		public MyTextBox(int width) : base(width) { }
 
 		public void Clear() => EditingText = string.Empty;
+
+		public void SetText(string text)
+		{
+			EditingText = text;
+			CaretPosition = text.Length;
+		}
 	}
 }

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Views.ConsoleGui.ConsoleHelper
+namespace SharedViewResources
 {
-	class LastCommandManager
+	public class LastCommandManager
 	{
 		readonly LinkedList<string> commands = new LinkedList<string>();
 		LinkedListNode<string>? currentCommand;
