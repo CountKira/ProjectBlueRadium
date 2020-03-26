@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Linq;
-using BusinessLogic;
 using SharedViewResources;
 using Console = SadConsole.Console;
 
-namespace SadConsoleView
+namespace SadConsoleView.Writer
 {
 	class SadConsoleWriter : IViewWriter
 	{

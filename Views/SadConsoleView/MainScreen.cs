@@ -1,11 +1,10 @@
 ﻿using System;
-using BusinessLogic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using SadConsole;
 using SadConsole.Controls;
-using SadConsole.Input;
 using SadConsole.Themes;
+using SadConsoleView.Writer;
 using SharedViewResources;
 using Game = BusinessLogic.Game;
 using Console = SadConsole.Console;
@@ -31,7 +30,7 @@ namespace SadConsoleView
 				IsVisible = true,
 				Position = new Point(0, 1)
 			};
-			var statWriter = new StatWriter(statusConsole);
+			var statWriter = new HealthPointWriter(statusConsole);
 			game = new Game(new ViewWriter(new SadConsoleWriter(MainConsole)), new ConsoleTestRoom(), new SystemRandom(), statWriter);
 			var textBox = new InputConsole(consoleWidth, game.EnterCommand) { Position = new Point(0, consoleHeight - 1) };
 
@@ -43,23 +42,6 @@ namespace SadConsoleView
 			game.EnterCommand("look");
 		}
 
-	}
-
-	public class StatWriter : INotificationHandler<Creature, int>
-	{
-		readonly Console statusConsole;
-
-		public StatWriter(Console statusConsole)
-		{
-			this.statusConsole = statusConsole;
-		}
-
-		/// <inheritdoc />
-		public void Notify(Creature sender, int e)
-		{
-			statusConsole.Clear();
-			statusConsole.Print(0, 0, $"Hp: {e}");
-		}
 	}
 
 	class InputConsole : ControlsConsole
