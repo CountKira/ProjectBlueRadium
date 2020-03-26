@@ -41,7 +41,6 @@ namespace SadConsoleView
 
 			game.EnterCommand("look");
 		}
-
 	}
 
 	class InputConsole : ControlsConsole

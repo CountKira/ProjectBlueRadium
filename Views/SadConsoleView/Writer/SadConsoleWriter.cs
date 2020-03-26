@@ -20,13 +20,14 @@ namespace SadConsoleView.Writer
 
 		public void WriteLine(string text)
 		{
-			var rows = text.Length / width;
-			var overflow = Math.Max(0, console.Cursor.Row + rows - height + 1);
+			text = StringSplitter.BreakText(text, width);
+			var rows = (text.Length - 1) / width + 1;
+			var overflow = Math.Max(0, console.Cursor.Row + rows - height);
 			console.ShiftUp(overflow);
 			console.Cursor.Row -= overflow;
-
-			console.Print(0, console.Cursor.Row, text);
-			console.Cursor.Row += 2 + rows;
+			console.Cursor.Column = 0;
+			console.Cursor.Print(text);
+			console.Cursor.Row += 2;
 		}
 	}
 }
