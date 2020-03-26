@@ -9,5 +9,11 @@ namespace Views.ConsoleGui
 	{
 		public void WriteLine(string text) =>
 			Console.WriteLine(StringSplitter.BreakText(text, Console.WindowWidth));
+
+		/// <inheritdoc />
+		public void WriteHealthPoints(int healthPoints)
+		{
+			WriteLine(healthPoints.ToString());
+		}
 	}
 }

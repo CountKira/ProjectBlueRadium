@@ -1,6 +1,7 @@
 ﻿using System;
 
-namespace BusinessLogic.Effects {
+namespace BusinessLogic.Effects
+{
 	public class HealEffect : IEffect
 	{
 		readonly int heal;
@@ -12,10 +13,10 @@ namespace BusinessLogic.Effects {
 		/// <inheritdoc />
 		public string ActOn(Player subject)
 		{
-			var originalHp = subject.HitPoints;
-			var newHp = subject.HitPoints + heal;
-			subject.HitPoints = Math.Min(newHp, subject.MaxHitPoints);
-			return $"Player was healed by {subject.HitPoints - originalHp}";
+			var originalHp = subject.HealthPoints;
+			var newHp = subject.HealthPoints + heal;
+			subject.HealthPoints = Math.Min(newHp, subject.MaxHealthPoints);
+			return $"Player was healed by {subject.HealthPoints - originalHp}";
 		}
 	}
 }

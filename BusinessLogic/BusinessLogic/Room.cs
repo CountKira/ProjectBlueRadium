@@ -47,7 +47,7 @@ namespace BusinessLogic
 		public Item GetItem(string item) =>
 			itemsOnFloor.First(i => i.Name.Equals(item, StringComparison.OrdinalIgnoreCase));
 
-		public Creature GetCreature(string creatureName) =>
+		public Creature? GetCreature(string creatureName) =>
 			creatures.FirstOrDefault(a => a.Name.Equals(creatureName, StringComparison.OrdinalIgnoreCase));
 		public IEnumerable<Creature> GetCreatures() => creatures;
 	}

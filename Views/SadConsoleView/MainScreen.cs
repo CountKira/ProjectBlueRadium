@@ -1,4 +1,5 @@
 ﻿using System;
+using BusinessLogic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using SadConsole;
@@ -18,23 +19,47 @@ namespace SadConsoleView
 
 		public MainScreen()
 		{
-
 			var consoleWidth = (int)(Global.RenderWidth / (Global.FontDefault.Size.X * 1.0));
 			var consoleHeight = (int)(Global.RenderHeight / (Global.FontDefault.Size.Y * 1.0));
+			var statusConsole = new Console(consoleWidth, 1)
+			{
+				DefaultBackground = Color.Chocolate
+			};
 
-			MainConsole = new Console(consoleWidth, consoleHeight - 1)
+			MainConsole = new Console(consoleWidth, consoleHeight - 2)
 			{
 				IsVisible = true,
+				Position = new Point(0, 1)
 			};
-			game = new Game(new ViewWriter(new SadConsoleWriter(MainConsole)), new ConsoleTestRoom(), new SystemRandom());
-
+			var statWriter = new StatWriter(statusConsole);
+			game = new Game(new ViewWriter(new SadConsoleWriter(MainConsole)), new ConsoleTestRoom(), new SystemRandom(), statWriter);
 			var textBox = new InputConsole(consoleWidth, game.EnterCommand) { Position = new Point(0, consoleHeight - 1) };
 
 			Global.FocusedConsoles.Set(textBox);
 			Children.Add(MainConsole);
 			Children.Add(textBox);
+			Children.Add(statusConsole);
+
+			game.EnterCommand("look");
 		}
 
+	}
+
+	public class StatWriter : INotificationHandler<Creature, int>
+	{
+		readonly Console statusConsole;
+
+		public StatWriter(Console statusConsole)
+		{
+			this.statusConsole = statusConsole;
+		}
+
+		/// <inheritdoc />
+		public void Notify(Creature sender, int e)
+		{
+			statusConsole.Clear();
+			statusConsole.Print(0, 0, $"Hp: {e}");
+		}
 	}
 
 	class InputConsole : ControlsConsole

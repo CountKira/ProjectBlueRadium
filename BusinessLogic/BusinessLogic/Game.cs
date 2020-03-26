@@ -17,12 +17,13 @@ namespace BusinessLogic
 		bool spellKnown;
 		bool hasActed;
 
-		public Game(IWriter writer, IRoomRepository roomRepository, IRandom random)
+		public Game(IWriter writer, IRoomRepository roomRepository, IRandom random, INotificationHandler<Creature, int>? healthPointsChanged = null)
 		{
 			this.writer = writer;
 			this.roomRepository = roomRepository;
 			this.random = random;
 			room = roomRepository.GetStartRoom();
+
 			verbList = new Dictionary<string, Verb>
 			{
 				{"get ", new GetVerb(writer)},
@@ -35,9 +36,11 @@ namespace BusinessLogic
 			};
 			foreach (var verb in verbList)
 				verb.Value.Initialize(this);
+			Player = new Player(healthPointsChanged);
+			healthPointsChanged?.Notify(Player, Player.HealthPoints);
 		}
 
-		public Player Player { get; } = new Player();
+		public Player Player { get; }
 
 		public bool IsRunning { get; private set; } = true;
 
@@ -94,7 +97,7 @@ namespace BusinessLogic
 		/// <inheritdoc />
 		public void HasActed() => hasActed = true;
 
-		public object GetLocalAvailableEntity(string entityName)
+		public object? GetLocalAvailableEntity(string entityName)
 		{
 			var item = GetItemObjectInRoom(entityName);
 			if (item != null) return item;
@@ -146,16 +149,13 @@ namespace BusinessLogic
 					writer.DisplaySpells(spellKnown);
 					break;
 				case "me":
-					writer.DescribeSelf("It is you.");
+					writer.DescribeSelf(Player.Description);
 					break;
 				case "inventory":
 					writer.ShowInventory(Player.Inventory);
 					break;
 				case "equipment":
 					writer.ShowEquipment(Player.Equipment);
-					break;
-				case "hp":
-					writer.ShowHealthPoints(Player.HitPoints);
 					break;
 				default:
 					if (!TryParseCommand(text))
@@ -179,7 +179,7 @@ namespace BusinessLogic
 			}
 			var damage = creature.Damage;
 			writer.WriteTextOutput($"The {creature.Name} attacks you and deals {damage} damage.");
-			Player.HitPoints -= damage;
+			Player.HealthPoints -= damage;
 
 			if (Player.IsDead())
 			{

@@ -13,7 +13,7 @@ namespace BusinessLogic.Effects
 		/// <inheritdoc />
 		public string ActOn(Player subject)
 		{
-			subject.HitPoints -= damage;
+			subject.HealthPoints -= damage;
 			return $"Player was dealt {damage} damage";
 		}
 	}

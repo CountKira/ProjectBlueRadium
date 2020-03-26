@@ -8,18 +8,40 @@ namespace BusinessLogic
 {
 	public class Creature : Entity
 	{
-		public Creature(string name, string description, int healthPoints, int damage, IEnumerable<ITag>? tags = null):
+		int healthPoints;
+		readonly INotificationHandler<Creature, int>? healthPointsChanged;
+
+		public Creature(string name,
+			string description,
+			int healthPoints,
+			int damage,
+			INotificationHandler<Creature, int>? healthPointsChanged = null,
+			IEnumerable<ITag>? tags = null) :
 			base(tags ?? Enumerable.Empty<ITag>())
 		{
 			Name = name;
 			Description = description;
+			MaxHealthPoints = healthPoints;
 			HealthPoints = healthPoints;
 			Damage = damage;
+			this.healthPointsChanged = healthPointsChanged;
 		}
 
 		public string Name { get; }
 		public string Description { get; }
-		public int HealthPoints { get; set; }
+		public int MaxHealthPoints { get; }
+
+		public int HealthPoints
+		{
+			get => healthPoints;
+			set
+			{
+				healthPoints = value;
+				healthPointsChanged?.Notify(this, value);
+			}
+		}
+
 		public int Damage { get; }
+
 	}
 }

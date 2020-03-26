@@ -32,7 +32,7 @@ namespace SharedTestingResources
 				},
 				new ItemCollection(), new[]
 				{
-					new Creature("Evil guy", "The evil threat of the campaign.", 4, 2, new []{new MarkerTag(Tag.GameEnd), })
+					new Creature("Evil guy", "The evil threat of the campaign.", 4, 2, tags: new []{new MarkerTag(Tag.GameEnd), })
 				}),
 			new Room("You are in a bright room.",
 				new[]

@@ -124,12 +124,6 @@ namespace SharedViewResources {
 			}
 		}
 
-		/// <inheritdoc />
-		public void ShowHealthPoints(int healthPoints)
-		{
-			WriteLine(healthPoints.ToString());
-		}
-
 		void WriteLine(string text) => writer.WriteLine(text);
 	}
 }

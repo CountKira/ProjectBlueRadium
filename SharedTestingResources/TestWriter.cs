@@ -15,8 +15,6 @@ namespace SharedTestingResources
 		public ItemCollection Inventory { get; private set; }
 		public ItemCollection Equipment { get; private set; }
 
-		public int HealthPoints { get; private set; }
-
 		/// <inheritdoc />
 		public void WriteTextOutput(string text)
 		{
@@ -69,12 +67,6 @@ namespace SharedTestingResources
 		public void ShowEquipment(ItemCollection equipment)
 		{
 			Equipment = equipment;
-		}
-
-		/// <inheritdoc />
-		public void ShowHealthPoints(int healthPoints)
-		{
-			HealthPoints = healthPoints;
 		}
 	}
 }

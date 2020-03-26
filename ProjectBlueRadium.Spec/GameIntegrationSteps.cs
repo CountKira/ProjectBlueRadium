@@ -28,7 +28,7 @@ namespace ProjectBlueRadium.Spec
 		public void GivenIStartANewGameInTheTestDungeon(int health)
 		{
 			game = new Game(writer, new TestingRoomRepository(), new MockRandom());
-			game.Player.HitPoints = health;
+			game.Player.HealthPoints = health;
 		}
 
 
@@ -89,7 +89,7 @@ namespace ProjectBlueRadium.Spec
 		public void ThenISeeADescriptionOfMyself()
 		{
 			var result = writer.Me;
-			Assert.Equal("It is you.", result);
+			Assert.Equal("The hero of our story", result);
 		}
 
 		[Then(@"I have learned fireball")]
@@ -218,7 +218,7 @@ namespace ProjectBlueRadium.Spec
 		[Then(@"I have (.*) hp")]
 		public void ThenIHaveHp(int healthPoints)
 		{
-			Assert.Equal(healthPoints, writer.HealthPoints);
+			Assert.Equal(healthPoints, game.Player.HealthPoints);
 		}
 
 

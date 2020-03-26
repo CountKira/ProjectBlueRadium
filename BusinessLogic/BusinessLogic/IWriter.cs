@@ -11,6 +11,5 @@
 		void DescribeSelf(string description);
 		void ShowInventory(ItemCollection inventory);
 		void ShowEquipment(ItemCollection equipment);
-		void ShowHealthPoints(int healthPoints);
 	}
 }
