@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using SharedViewResources;
 using Console = SadConsole.Console;
 
@@ -20,7 +19,22 @@ namespace SadConsoleView.Writer
 
 		public void WriteLine(string text)
 		{
-			text = StringSplitter.BreakText(text, width);
+			var rows = (text.Length - 1) / width + 1;
+			var overflow = Math.Max(0, console.Cursor.Row + rows - height);
+			console.ShiftUp(overflow);
+			console.Cursor.Row -= overflow;
+			console.Cursor.Column = 0;
+			console.Cursor.Print(text);
+			console.Cursor.Row += 2;
+		}
+
+		public void WriteCommand(string text)
+		{
+			text = $"> {text}";
+			if (text.Length > width)
+			{
+				text = $"{text.Substring(0, width)}{Environment.NewLine}{text.Substring(width)}";
+			}
 			var rows = (text.Length - 1) / width + 1;
 			var overflow = Math.Max(0, console.Cursor.Row + rows - height);
 			console.ShiftUp(overflow);

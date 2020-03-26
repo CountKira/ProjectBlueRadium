@@ -1,9 +1,6 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
 using SadConsole;
-using SadConsole.Controls;
-using SadConsole.Themes;
 using SadConsoleView.Writer;
 using SharedViewResources;
 using Game = BusinessLogic.Game;
@@ -30,9 +27,9 @@ namespace SadConsoleView
 				IsVisible = true,
 				Position = new Point(0, 1)
 			};
-			var statWriter = new HealthPointWriter(statusConsole);
-			game = new Game(new ViewWriter(new SadConsoleWriter(MainConsole)), new ConsoleTestRoom(), new SystemRandom(), statWriter);
-			var textBox = new InputConsole(consoleWidth, game.EnterCommand) { Position = new Point(0, consoleHeight - 1) };
+			var sadConsoleWriter = new SadConsoleWriter(MainConsole);
+			game = new Game(new ViewWriter(sadConsoleWriter), new ConsoleTestRoom(), new SystemRandom(), new HealthPointWriter(statusConsole));
+			var textBox = new InputConsole(consoleWidth, game.EnterCommand, sadConsoleWriter) { Position = new Point(0, consoleHeight - 1) };
 
 			Global.FocusedConsoles.Set(textBox);
 			Children.Add(MainConsole);
@@ -40,79 +37,6 @@ namespace SadConsoleView
 			Children.Add(statusConsole);
 
 			game.EnterCommand("look");
-		}
-	}
-
-	class InputConsole : ControlsConsole
-	{
-		readonly LastCommandManager lastCommandManager = new LastCommandManager();
-		readonly Action<string> onTextEntered;
-
-		public InputConsole(int width, Action<string> onTextEntered) : base(width, 1)
-		{
-			this.onTextEntered = onTextEntered;
-			Library.Default.SetControlTheme(typeof(MyTextBox), Library.Default.GetControlTheme(typeof(TextBox)));
-			var textBox = new MyTextBox(width)
-			{
-				Position = new Point(0, 0)
-			};
-			textBox.KeyPressed += TextBoxOnKeyPressed;
-			Add(textBox);
-			FocusedControl = textBox;
-		}
-
-
-		void TextBoxOnKeyPressed(object? sender, TextBox.KeyPressEventArgs e)
-		{
-			if (sender is MyTextBox textBox)
-				switch (e.Key.Key)
-				{
-					case Keys.Enter:
-						{
-							var text = textBox.EditingText;
-							lastCommandManager.Add(text);
-							onTextEntered(text);
-							textBox.Clear();
-							e.IsCancelled = true;
-							break;
-						}
-					case Keys.Up:
-						{
-							var text = lastCommandManager.GetPrevious();
-							if (text != null)
-							{
-								textBox.SetText(text);
-							}
-
-							e.IsCancelled = true;
-							break;
-						}
-					case Keys.Down:
-						{
-							var text = lastCommandManager.GetNext();
-							if (text != null)
-							{
-								textBox.SetText(text);
-							}
-
-							e.IsCancelled = true;
-							break;
-						}
-				}
-		}
-	}
-
-	class MyTextBox : TextBox
-	{
-		/// <inheritdoc />
-		public MyTextBox(int width) : base(width) { }
-
-		public void Clear() => EditingText = string.Empty;
-
-		public void SetText(string text)
-		{
-			EditingText = text;
-			CaretPosition = text.Length;
 		}
 	}
 }

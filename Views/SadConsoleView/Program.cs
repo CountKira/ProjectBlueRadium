@@ -10,14 +10,14 @@ namespace SadConsoleView
 		static void Main()
 		{
 			// Setup the engine and create the main window.
-			SadConsole.Game.Create(80, 25);
+			Game.Create(80, 25);
 
 			// Hook the start event so we can add consoles to the system.
-			SadConsole.Game.OnInitialize = Init;
+			Game.OnInitialize = Init;
 
 			// Start the game.
-			SadConsole.Game.Instance.Run();
-			SadConsole.Game.Instance.Dispose();
+			Game.Instance.Run();
+			Game.Instance.Dispose();
 		}
 
 		static void Init()

@@ -12,7 +12,7 @@ namespace SharedViewResources
 			while (t.Length > width)
 			{
 				var index = FindLastSpace(t, width);
-				var (first, second) = SplitString(t, index);
+				var (first, second) = SplitString(t, index < 0 ? width : index);
 				sb.Append(first);
 				if (first.Length < width)
 				{
@@ -32,9 +32,9 @@ namespace SharedViewResources
 			return (f, s);
 		}
 
-		static int FindLastSpace(string text, int startPosition)
+		static int FindLastSpace(string text, int width)
 		{
-			for (var i = startPosition; i >= 0; i--)
+			for (var i = width; i >= 0; i--)
 				if (text[i] == ' ')
 					return i;
 
