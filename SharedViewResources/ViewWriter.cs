@@ -30,11 +30,11 @@ namespace SharedViewResources {
 				case InvalidCommandType.PassageNotFound:
 					WriteLine($"There is no {invalidCommand.Specifier} to go to.");
 					break;
-				case InvalidCommandType.CanNotEquip:
-					WriteLine($"{invalidCommand.Specifier} can not be equipped, because it is not a weapon.");
+				case InvalidCommandType.CanNotWield:
+					WriteLine($"Can not wield {invalidCommand.Specifier}, because it is not a weapon.");
 					break;
-				case InvalidCommandType.AlreadyEquipped:
-					WriteLine("An weapon is already equipped.");
+				case InvalidCommandType.AlreadyWielding:
+					WriteLine("Already wielding an weapon.");
 					break;
 				case InvalidCommandType.NotExecutable:
 					WriteLine($"This action can not be performed with \"{invalidCommand.Specifier}\".");
@@ -62,15 +62,19 @@ namespace SharedViewResources {
 			switch (actionDto.Verb)
 			{
 				case VerbEnum.Drink:
-					break;
 				case VerbEnum.Look:
 					break;
 				case VerbEnum.Get:
 					WriteLine($"You pick up the {actionDto.Specifier}.");
 					break;
-				case VerbEnum.Equip:
-					WriteLine($"You equipped a {actionDto.Specifier}.");
+				case VerbEnum.Wield:
+					WriteLine($"You wield the {actionDto.Specifier}.");
 					break;
+				case VerbEnum.Remove:
+					WriteLine($"You removed the {actionDto.Specifier}.");
+					break;
+				default:
+					throw new ArgumentOutOfRangeException();
 			}
 		}
 

@@ -29,7 +29,8 @@ namespace BusinessLogic
 				{"get ", new GetVerb(writer)},
 				{"go ", new GoVerb(writer)},
 				{"look ", new LookVerb(writer)},
-				{"equip ", new EquipVerb(writer)},
+				{"wield ", new WieldVerb(writer)},
+				{"unwield ", new UnwieldVerb(writer)},
 				{"read ", new ReadVerb(writer)},
 				{"drink ", new DrinkVerb(writer)},
 				{"attack ", new AttackVerb(writer)},
@@ -108,21 +109,35 @@ namespace BusinessLogic
 		}
 
 		/// <inheritdoc />
-		public Item GetItemFromPlayerInventory(string itemName)
+		public Item? GetItemFromPlayerEquipment(string itemName) => Player.Equipment.FirstOrDefault(i => i.Name.Equals(itemName, StringComparison.OrdinalIgnoreCase));
+
+		/// <inheritdoc />
+		public Item? GetItemFromPlayerInventory(string itemName)
 			=> Player.Inventory.FirstOrDefault(i => i.Name.Equals(itemName, StringComparison.OrdinalIgnoreCase));
 
 		/// <inheritdoc />
-		public void EquipWeapon(Item item)
+		public void WieldWeapon(Item item)
 		{
-			if (Player.Equipment.Any(i=>i.HasTag(Tag.Weapon)))
+			if (Player.Equipment.Any(i => i.HasTag(Tag.Weapon)))
 			{
-				writer.SetInvalidCommand(new InvalidCommand(InvalidCommandType.AlreadyEquipped));
+				writer.SetInvalidCommand(new InvalidCommand(InvalidCommandType.AlreadyWielding));
 			}
 			else
 			{
-				writer.WriteAction(new ActionDTO(VerbEnum.Equip) { Specifier = item.Name });
+				writer.WriteAction(new ActionDTO(VerbEnum.Wield) { Specifier = item.Name });
 				Player.Equipment.Add(item);
 			}
+		}
+
+		/// <inheritdoc />
+		public void UnwieldWeapon(Item item)
+		{
+			if (Player.Equipment.Contains(item))
+			{
+				Player.Equipment.Remove(item);
+				writer.WriteAction(new ActionDTO(VerbEnum.Remove) { Specifier = item.Name });
+			}
+
 		}
 
 		/// <inheritdoc />

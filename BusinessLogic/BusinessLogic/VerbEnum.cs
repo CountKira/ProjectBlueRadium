@@ -5,6 +5,7 @@
 		Drink,
 		Look,
 		Get,
-		Equip
+		Wield,
+		Unwield
 	}
 }

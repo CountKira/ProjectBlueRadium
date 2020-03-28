@@ -10,11 +10,13 @@ namespace BusinessLogic
 		bool TryGetConnectedRoom(string passageName, out int roomId);
 		void GoToRoomById(int roomId);
 		object? GetLocalAvailableEntity(string entity);
-		Item GetItemFromPlayerInventory(string itemName);
-		void EquipWeapon(Item item);
+		Item? GetItemFromPlayerInventory(string itemName);
+		void WieldWeapon(Item item);
+		void UnwieldWeapon(Item item);
 		void LearnSpell();
 		void HandleAttacking(string enemy);
 		void HasActed();
 		Player Player { get; }
+		Item? GetItemFromPlayerEquipment(string itemName);
 	}
 }

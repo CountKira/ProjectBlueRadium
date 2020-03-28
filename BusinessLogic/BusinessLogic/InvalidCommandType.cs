@@ -7,8 +7,8 @@
 		EntityNotFound,
 		UnknownCommand,
 		PassageNotFound,
-		CanNotEquip,
-		AlreadyEquipped,
+		CanNotWield,
+		AlreadyWielding,
 		NotExecutable
 	}
 }

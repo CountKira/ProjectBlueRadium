@@ -195,7 +195,7 @@ namespace ProjectBlueRadium.Spec
 		public void ThenIEquippedSword()
 		{
 			var actual = writer.Action;
-			Assert.Equal(VerbEnum.Equip, actual.Verb);
+			Assert.Equal(VerbEnum.Wield, actual.Verb);
 			Assert.Equal("sword", actual.Specifier);
 		}
 
@@ -203,7 +203,7 @@ namespace ProjectBlueRadium.Spec
 		public void ThenIGetNotifiedThatTheItemCanNotBeEquipped(string item)
 		{
 			var actual = writer.InvalidCommand;
-			Assert.Equal(InvalidCommandType.CanNotEquip, actual.CommandType);
+			Assert.Equal(InvalidCommandType.CanNotWield, actual.CommandType);
 			Assert.Equal(item, actual.Specifier);
 		}
 
@@ -211,7 +211,7 @@ namespace ProjectBlueRadium.Spec
 		public void ThenIGetNotifiedThatTheItemSwordIsAlreadyEquipped()
 		{
 			var actual = writer.InvalidCommand;
-			Assert.Equal(InvalidCommandType.AlreadyEquipped, actual.CommandType);
+			Assert.Equal(InvalidCommandType.AlreadyWielding, actual.CommandType);
 			Assert.Equal("sword", actual.Specifier);
 		}
 
