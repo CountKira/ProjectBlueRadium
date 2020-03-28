@@ -135,7 +135,7 @@ namespace BusinessLogic
 			if (Player.Equipment.Contains(item))
 			{
 				Player.Equipment.Remove(item);
-				writer.WriteAction(new ActionDTO(VerbEnum.Remove) { Specifier = item.Name });
+				writer.WriteAction(new ActionDTO(VerbEnum.Unwield) { Specifier = item.Name });
 			}
 
 		}

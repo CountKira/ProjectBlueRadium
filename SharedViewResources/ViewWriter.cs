@@ -70,7 +70,7 @@ namespace SharedViewResources {
 				case VerbEnum.Wield:
 					WriteLine($"You wield the {actionDto.Specifier}.");
 					break;
-				case VerbEnum.Remove:
+				case VerbEnum.Unwield:
 					WriteLine($"You removed the {actionDto.Specifier}.");
 					break;
 				default:
