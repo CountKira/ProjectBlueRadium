@@ -114,10 +114,9 @@ namespace BusinessLogic
 		/// <inheritdoc />
 		public void EquipWeapon(Item item)
 		{
-			if (Player.Equipment.HasItem(item.Name))
+			if (Player.Equipment.Any(i=>i.HasTag(Tag.Weapon)))
 			{
-				writer.SetInvalidCommand(new InvalidCommand(InvalidCommandType.AlreadyEquipped)
-				{ Specifier = item.Name });
+				writer.SetInvalidCommand(new InvalidCommand(InvalidCommandType.AlreadyEquipped));
 			}
 			else
 			{

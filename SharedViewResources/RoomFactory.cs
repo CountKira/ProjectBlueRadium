@@ -1,7 +1,8 @@
 ﻿using BusinessLogic;
 using BusinessLogic.Tags;
 
-namespace SharedViewResources {
+namespace SharedViewResources
+{
 	static class RoomFactory
 	{
 		public static Room StartingRoom() =>

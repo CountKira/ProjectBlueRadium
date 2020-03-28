@@ -34,7 +34,7 @@ namespace SharedViewResources {
 					WriteLine($"{invalidCommand.Specifier} can not be equipped, because it is not a weapon.");
 					break;
 				case InvalidCommandType.AlreadyEquipped:
-					WriteLine($"{invalidCommand.Specifier} is already equipped.");
+					WriteLine("An weapon is already equipped.");
 					break;
 				case InvalidCommandType.NotExecutable:
 					WriteLine($"This action can not be performed with \"{invalidCommand.Specifier}\".");
