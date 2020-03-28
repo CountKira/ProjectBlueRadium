@@ -11,7 +11,9 @@ namespace SadConsoleView
 	public class MainScreen : ContainerConsole
 	{
 		readonly Game game;
+		readonly InputConsole textBox;
 		Console MainConsole { get; }
+		public bool IsRunning => game.IsRunning;
 
 		public MainScreen()
 		{
@@ -29,7 +31,7 @@ namespace SadConsoleView
 			};
 			var sadConsoleWriter = new SadConsoleWriter(MainConsole);
 			game = new Game(new ViewWriter(sadConsoleWriter), new ConsoleTestRoom(), new SystemRandom(), new HealthPointWriter(statusConsole));
-			var textBox = new InputConsole(consoleWidth, game.EnterCommand, sadConsoleWriter) { Position = new Point(0, consoleHeight - 1) };
+			textBox = new InputConsole(consoleWidth, game.EnterCommand, sadConsoleWriter) { Position = new Point(0, consoleHeight - 1) };
 
 			Global.FocusedConsoles.Set(textBox);
 			Children.Add(MainConsole);
@@ -37,6 +39,11 @@ namespace SadConsoleView
 			Children.Add(statusConsole);
 
 			game.EnterCommand("look");
+		}
+
+		public void ShutDown()
+		{
+			textBox.UseKeyboard = false;
 		}
 	}
 }
