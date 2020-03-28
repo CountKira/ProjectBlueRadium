@@ -10,6 +10,7 @@ namespace SharedViewResources {
 				new ItemCollection
 				{
 					ItemFactory.Dagger(),
+					ItemFactory.Sword(),
 					ItemFactory.HealingPotion(),
 					ItemFactory.HealingPotion(),
 				});

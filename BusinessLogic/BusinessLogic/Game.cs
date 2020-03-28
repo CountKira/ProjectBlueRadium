@@ -195,7 +195,9 @@ namespace BusinessLogic
 				writer.WriteTextOutput("Missed.");
 				return;
 			}
-			var damage = Player.Equipment.Any(i => i.HasTag(Tag.Weapon)) ? 2 : 1;
+
+			var weapon = Player.Equipment.FirstOrDefault(i => i.HasTag(Tag.Weapon));
+			var damage = weapon?.GetTag<WeaponTag>(Tag.Weapon)?.Damage ?? 1;
 			DealDamageToCreature(damage, creature);
 			if (creature.HealthPoints <= 0)
 			{
