@@ -3,7 +3,7 @@ using SadConsole;
 
 namespace SadConsoleView.Writer 
 {
-	public class HealthPointWriter : INotificationHandler<Creature, int>
+	public class HealthPointWriter : INotificationHandler<int>
 	{
 		readonly Console statusConsole;
 
@@ -13,7 +13,7 @@ namespace SadConsoleView.Writer
 		}
 
 		/// <inheritdoc />
-		public void Notify(Creature sender, int e)
+		public void Notify(int e)
 		{
 			statusConsole.Clear();
 			statusConsole.Print(0, 0, $"Hp: {e}");

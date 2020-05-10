@@ -1,7 +1,7 @@
 ﻿namespace BusinessLogic
 {
-	public interface INotificationHandler<in TSender, in TArgs>
+	public interface INotificationHandler<in TArgs>
 	{
-		void Notify(TSender sender, TArgs e);
+		void Notify(TArgs e);
 	}
 }

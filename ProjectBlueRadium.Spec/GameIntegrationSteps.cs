@@ -163,7 +163,6 @@ namespace ProjectBlueRadium.Spec
 			Assert.Equal(passages, result.Passages.Select(p => p.DisplayName).ToArray());
 		}
 
-		[Then(@"I see the creatures ""(.*)""")]
 		[Then(@"I see the creature ""(.*)""")]
 		public void ThenISeeTheCreatures(string[] creatures)
 		{
@@ -207,12 +206,11 @@ namespace ProjectBlueRadium.Spec
 			Assert.Equal(item, actual.Specifier);
 		}
 
-		[Then(@"I get notified that the item \(sword\) is already equipped")]
-		public void ThenIGetNotifiedThatTheItemSwordIsAlreadyEquipped()
+		[Then(@"I get notified that something is already equipped")]
+		public void ThenIGetNotifiedThatSomethingIsAlreadyEquipped()
 		{
 			var actual = writer.InvalidCommand;
 			Assert.Equal(InvalidCommandType.AlreadyWielding, actual.CommandType);
-			Assert.Equal("sword", actual.Specifier);
 		}
 
 		[Then(@"I have (.*) hp")]

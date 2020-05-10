@@ -2,8 +2,6 @@
 {
 	public enum Tag
 	{
-		Weapon,
-		Consumable,
 		GameEnd,
 	}
 }

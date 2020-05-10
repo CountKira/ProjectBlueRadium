@@ -17,7 +17,7 @@ namespace BusinessLogic
 		bool spellKnown;
 		bool hasActed;
 
-		public Game(IWriter writer, IRoomRepository roomRepository, IRandom random, INotificationHandler<Creature, int>? healthPointsChanged = null)
+		public Game(IWriter writer, IRoomRepository roomRepository, IRandom random, INotificationHandler<int>? healthPointsChanged = null)
 		{
 			this.writer = writer;
 			this.roomRepository = roomRepository;
@@ -38,7 +38,7 @@ namespace BusinessLogic
 			foreach (var verb in verbList)
 				verb.Value.Initialize(this);
 			Player = new Player(healthPointsChanged);
-			healthPointsChanged?.Notify(Player, Player.HealthPoints);
+			healthPointsChanged?.Notify(Player.HealthPoints);
 		}
 
 		public Player Player { get; }
@@ -118,7 +118,7 @@ namespace BusinessLogic
 		/// <inheritdoc />
 		public void WieldWeapon(Item item)
 		{
-			if (Player.Equipment.Any(i => i.HasTag(Tag.Weapon)))
+			if (Player.Equipment.Any(i => i.HasTag<WeaponTag>()))
 			{
 				writer.SetInvalidCommand(new InvalidCommand(InvalidCommandType.AlreadyWielding));
 			}
@@ -210,14 +210,14 @@ namespace BusinessLogic
 				return;
 			}
 
-			var weapon = Player.Equipment.FirstOrDefault(i => i.HasTag(Tag.Weapon));
-			var damage = weapon?.GetTag<WeaponTag>(Tag.Weapon)?.Damage ?? 1;
+			var weapon = Player.Equipment.FirstOrDefault(i => i.HasTag<WeaponTag>());
+			var damage = weapon?.GetTag<WeaponTag>()?.Damage ?? 1;
 			DealDamageToCreature(damage, creature);
 			if (creature.HealthPoints <= 0)
 			{
 				writer.WriteTextOutput($"You have slain the {creature.Name}.");
 
-				if (creature.HasTag(Tag.GameEnd))
+				if (creature.HasMarkerTag(Tag.GameEnd))
 				{
 					writer.WriteTextOutput("You have slain the final enemy. A winner is you.");
 					IsRunning = false;

@@ -13,10 +13,10 @@ namespace BusinessLogic.Verbs
 			var player = Game!.Player;
 			if (player.Inventory.HasItem(itemName) && player.Inventory.GetItem(itemName) is { } item)
 			{
-				if (item.HasTag(Tag.Consumable))
+				if (item.HasTag<ConsumableTag>())
 				{
 					Game.Player.Inventory.Remove(item);
-					var tag = item.GetTag<ConsumableTag>(Tag.Consumable);
+					var tag = item.GetTag<ConsumableTag>();
 					var effect = tag?.GetEffect();
 					var result = effect?.ActOn(Game.Player);
 					if (result != null)

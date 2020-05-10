@@ -169,7 +169,7 @@ Scenario: At the start of the game the character has nothing equipped
 Scenario Outline: When I equip a item it shows up in the equippment
 	When I enter go west
 	And I enter get <item>
-	And I enter equip <item>
+	And I enter wield <item>
 	And I enter equipment
 	Then I have <item> equipped
 
@@ -179,19 +179,19 @@ Scenario Outline: When I equip a item it shows up in the equippment
 		| shield |
 
 Scenario: Can not equip non existent item
-	When I enter equip NotAItem
+	When I enter wield NotAItem
 	Then The entity NotAItem can not be found
 
 Scenario: Succesfully equipping an item gets confirmed
 	When I enter go west
 	And I enter get sword
-	And I enter equip sword
+	And I enter wield sword
 	Then I equipped sword
 
 Scenario Outline: Case is irrelevant for equipping
 	When I enter go west
 	And I enter get sword
-	And I enter equip <item>
+	And I enter wield <item>
 	Then I equipped sword
 
 	Examples:
@@ -201,7 +201,7 @@ Scenario Outline: Case is irrelevant for equipping
 
 Scenario Outline: Can not equip non weapon item
 	When I enter get <item>
-	And I enter equip <item>
+	And I enter wield <item>
 	Then I get notified that the <item> can not be equipped
 
 	Examples:
@@ -212,14 +212,14 @@ Scenario Outline: Can not equip non weapon item
 Scenario: Same item can not be equipped multiple times
 	When I enter go west
 	And I enter get sword
-	And I enter equip sword
-	And I enter equip sword
-	Then I get notified that the item (sword) is already equipped
+	And I enter wield sword
+	And I enter wield sword
+	Then I get notified that something is already equipped
 
 Scenario: Attacking the evil guy with a sword deals 2 damage to him
 	When I enter go west
 	And I enter get sword
-	And I enter equip sword
+	And I enter wield sword
 	And I enter go east
 	And I enter go north
 	And I enter attack evil guy
@@ -228,7 +228,7 @@ Scenario: Attacking the evil guy with a sword deals 2 damage to him
 Scenario: Dealing enough damage with the sword to the evil guy kills him and ends the game
 	When I enter go west
 	And I enter get sword
-	And I enter equip sword
+	And I enter wield sword
 	And I enter go east
 	And I enter go north
 	And I enter attack evil guy

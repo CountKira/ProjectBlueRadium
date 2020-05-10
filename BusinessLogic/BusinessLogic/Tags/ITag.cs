@@ -1,6 +1,4 @@
-﻿namespace BusinessLogic.Tags {
-	public interface ITag
-	{
-		Tag GetTag();
-	}
+﻿namespace BusinessLogic.Tags
+{
+	public interface ITag { }
 }

@@ -1,12 +1,9 @@
-﻿using System.Collections.Generic;
-using BusinessLogic.Tags;
-
-namespace BusinessLogic
+﻿namespace BusinessLogic
 {
 	public class Player : Creature
 	{
 		/// <inheritdoc />
-		public Player(INotificationHandler<Creature, int>? healthPointsChanged = null) :
+		public Player(INotificationHandler<int>? healthPointsChanged = null) :
 			base("The player", "The hero of our story", 10, 2, healthPointsChanged)
 		{ }
 

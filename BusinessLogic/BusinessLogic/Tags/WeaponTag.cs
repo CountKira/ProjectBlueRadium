@@ -6,9 +6,6 @@
 			Damage = damage;
 		}
 
-		public int Damage { get; set; }
-
-		/// <inheritdoc />
-		public Tag GetTag() => Tag.Weapon;
+		public int Damage { get; }
 	}
 }

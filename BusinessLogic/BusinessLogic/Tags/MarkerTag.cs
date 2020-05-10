@@ -1,13 +1,12 @@
-﻿namespace BusinessLogic.Tags {
+﻿namespace BusinessLogic.Tags
+{
 	public class MarkerTag : ITag
 	{
-		readonly Tag tag;
+		public Tag Tag { get; }
 
 		public MarkerTag(Tag tag)
 		{
-			this.tag = tag;
+			Tag = tag;
 		}
-		/// <inheritdoc />
-		public Tag GetTag() => tag;
 	}
 }

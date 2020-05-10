@@ -1,7 +1,8 @@
 ﻿using BusinessLogic.Effects;
 
-namespace BusinessLogic.Tags {
-	public class ConsumableTag: ITag
+namespace BusinessLogic.Tags
+{
+	public class ConsumableTag : ITag
 	{
 		readonly IEffect effect;
 
@@ -9,8 +10,6 @@ namespace BusinessLogic.Tags {
 		{
 			this.effect = effect;
 		}
-		/// <inheritdoc />
-		public Tag GetTag() => Tag.Consumable;
 
 		public IEffect GetEffect() => effect;
 	}

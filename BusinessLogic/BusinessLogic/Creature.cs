@@ -9,13 +9,13 @@ namespace BusinessLogic
 	public class Creature : Entity
 	{
 		int healthPoints;
-		readonly INotificationHandler<Creature, int>? healthPointsChanged;
+		readonly INotificationHandler<int>? healthPointsChanged;
 
 		public Creature(string name,
 			string description,
 			int healthPoints,
 			int damage,
-			INotificationHandler<Creature, int>? healthPointsChanged = null,
+			INotificationHandler<int>? healthPointsChanged = null,
 			IEnumerable<ITag>? tags = null) :
 			base(tags ?? Enumerable.Empty<ITag>())
 		{
@@ -37,7 +37,7 @@ namespace BusinessLogic
 			set
 			{
 				healthPoints = value;
-				healthPointsChanged?.Notify(this, value);
+				healthPointsChanged?.Notify(value);
 			}
 		}
 

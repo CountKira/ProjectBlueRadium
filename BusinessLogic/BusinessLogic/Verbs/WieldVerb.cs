@@ -16,7 +16,7 @@ namespace BusinessLogic.Verbs
 			}
 			else
 			{
-				if (itemObj.HasTag(Tag.Weapon))
+				if (itemObj.HasTag<WeaponTag>())
 				{
 					Game.WieldWeapon(itemObj);
 					Game.HasActed();

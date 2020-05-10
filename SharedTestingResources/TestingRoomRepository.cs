@@ -40,8 +40,8 @@ namespace SharedTestingResources
 					new Passage(0, "east")
 				}, new ItemCollection
 				{
-					new Item("sword", "A sharp sword.", new[] {new MarkerTag(Tag.Weapon), }),
-					new Item("shield", "A shield", new[] {new MarkerTag(Tag.Weapon),})
+					new Item("sword", "A sharp sword.", new[] {new WeaponTag(2), }),
+					new Item("shield", "A shield", new[] {new WeaponTag(0), }),
 				})
 		};
 
