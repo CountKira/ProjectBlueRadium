@@ -7,11 +7,12 @@ namespace SharedViewResources
 	{
 		public static Room StartingRoom() =>
 			new Room("Start room with basic equipment.",
-				new[] { new Passage(1, "north"), },
+				new[] { new Passage(1, "north", new[] { new LockTag(0), }), },
 				new ItemCollection
 				{
 					ItemFactory.Dagger(),
 					ItemFactory.Sword(),
+					ItemFactory.Key(0),
 					ItemFactory.HealingPotion(),
 					ItemFactory.HealingPotion(),
 				});

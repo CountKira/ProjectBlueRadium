@@ -6,6 +6,7 @@
 		Look,
 		Get,
 		Wield,
-		Unwield
+		Unwield,
+		Unlocked,
 	}
 }

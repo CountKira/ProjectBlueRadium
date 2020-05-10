@@ -24,17 +24,10 @@ namespace BusinessLogic
 
 		public SeenObjects GetDescription() => new SeenObjects(description, passages, itemsOnFloor, creatures);
 
-		public bool TryGetRoom(string roomName, out int i)
+		public bool TryGetPassage(string roomName, out Passage passage)
 		{
-			var o = passages.FirstOrDefault(p => p.DisplayName == roomName);
-			if (o != null)
-			{
-				i = o.RoomGuid;
-				return true;
-			}
-
-			i = -1;
-			return false;
+			passage = passages.FirstOrDefault(p => p.DisplayName == roomName);
+			return passage != null;
 		}
 
 		public void RemoveItem(Item item)

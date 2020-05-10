@@ -9,6 +9,9 @@
 		PassageNotFound,
 		CanNotWield,
 		AlreadyWielding,
-		NotExecutable
+		NotExecutable,
+		MissingKey,
+		NotLocked,
+		Locked
 	}
 }

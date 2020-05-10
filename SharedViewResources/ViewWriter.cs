@@ -2,7 +2,8 @@
 using System.Linq;
 using BusinessLogic;
 
-namespace SharedViewResources {
+namespace SharedViewResources
+{
 	public class ViewWriter : IWriter
 	{
 		readonly IViewWriter writer;
@@ -39,6 +40,15 @@ namespace SharedViewResources {
 				case InvalidCommandType.NotExecutable:
 					WriteLine($"This action can not be performed with \"{invalidCommand.Specifier}\".");
 					break;
+				case InvalidCommandType.MissingKey:
+					WriteLine("Matching key is missing.");
+					break;
+				case InvalidCommandType.NotLocked:
+					WriteLine($"The way {invalidCommand.Specifier} is not locked.");
+					break;
+				case InvalidCommandType.Locked:
+					WriteLine("Locked.");
+					break;
 				default:
 					throw new ArgumentOutOfRangeException();
 			}
@@ -72,6 +82,9 @@ namespace SharedViewResources {
 					break;
 				case VerbEnum.Unwield:
 					WriteLine($"You removed the {actionDto.Specifier}.");
+					break;
+				case VerbEnum.Unlocked:
+					WriteLine($"Unlocked the way {actionDto.Specifier}.");
 					break;
 				default:
 					throw new ArgumentOutOfRangeException();

@@ -7,7 +7,7 @@ namespace BusinessLogic
 		void Stop();
 		Item? GetItemObjectInRoom(string item);
 		void PickUpItem(Item item);
-		bool TryGetConnectedRoom(string passageName, out int roomId);
+		bool TryGetPassage(string passageName, out Passage passage);
 		void GoToRoomById(int roomId);
 		object? GetLocalAvailableEntity(string entity);
 		Item? GetItemFromPlayerInventory(string itemName);

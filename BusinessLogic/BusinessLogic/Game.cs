@@ -34,6 +34,7 @@ namespace BusinessLogic
 				{"read ", new ReadVerb(writer)},
 				{"drink ", new DrinkVerb(writer)},
 				{"attack ", new AttackVerb(writer)},
+				{"unlock ", new UnlockVerb(writer)},
 			};
 			foreach (var verb in verbList)
 				verb.Value.Initialize(this);
@@ -59,8 +60,8 @@ namespace BusinessLogic
 			AddToPlayerInventory(item);
 		}
 
-		public bool TryGetConnectedRoom(string passageName, out int roomId)
-			=> room.TryGetRoom(passageName, out roomId);
+		public bool TryGetPassage(string passageName, out Passage passage)
+			=> room.TryGetPassage(passageName, out passage);
 
 		public void GoToRoomById(int roomId)
 		{
