@@ -60,8 +60,8 @@ namespace BusinessLogic
 			AddToPlayerInventory(item);
 		}
 
-		public bool TryGetPassage(string passageName, out Passage passage)
-			=> room.TryGetPassage(passageName, out passage);
+		public bool TryGetPortal(string portalName, out Portal portal)
+			=> room.TryGetPortal(portalName, out portal);
 
 		public void GoToRoomById(int roomId)
 		{

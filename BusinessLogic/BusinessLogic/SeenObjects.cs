@@ -2,16 +2,16 @@
 {
 	public class SeenObjects
 	{
-		public SeenObjects(string entityDescription, Passage[] passages, ItemCollection items, Creature[] creatures)
+		public SeenObjects(string entityDescription, Portal[] portals, ItemCollection items, Creature[] creatures)
 		{
 			EntityDescription = entityDescription;
-			Passages = passages;
+			Portals = portals;
 			Items = items;
 			Creatures = creatures;
 		}
 
 		public string EntityDescription { get; }
-		public Passage[] Passages { get; }
+		public Portal[] Portals { get; }
 		public ItemCollection Items { get; }
 		public Creature[] Creatures { get; }
 	}

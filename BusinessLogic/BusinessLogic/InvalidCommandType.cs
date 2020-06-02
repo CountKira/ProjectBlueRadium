@@ -6,7 +6,7 @@
 		EnemyNotFound,
 		EntityNotFound,
 		UnknownCommand,
-		PassageNotFound,
+		PortalNotFound,
 		CanNotWield,
 		AlreadyWielding,
 		NotExecutable,

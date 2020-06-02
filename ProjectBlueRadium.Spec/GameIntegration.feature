@@ -89,7 +89,7 @@ Scenario: A Book that is not in the same room can not be read
 
 Scenario:  Can not go into a non existing room
 	When I enter go saberwooky
-	Then The passage saberwooky can not be found
+	Then The portal saberwooky can not be found
 
 Scenario: Looking at an item that does not exist can not be found
 	When I enter look sasquatchIsMyFather
@@ -109,14 +109,14 @@ Scenario: Looking into the main room
 	When I enter look
 	Then The room is described as "You are in an empty room. The walls are smooth."
 	And I see the items "poison,potion,book,fireball spell book"
-	And I see the passages "north,west"
+	And I see the portals "north,west"
 
 Scenario: Looking into the room north
 	When I enter go north
 	And I enter look
 	Then The room is described as "You are in a dark room."
 	And I see no items
-	And I see the passages "south"
+	And I see the portals "south"
 	And I see the creature "Evil guy"
 
 Scenario: Looking into the room west
@@ -124,7 +124,7 @@ Scenario: Looking into the room west
 	And I enter look
 	Then The room is described as "You are in a bright room."
 	And I see the items "sword,shield"
-	And I see the passage "east"
+	And I see the portal "east"
 
 Scenario: Leaving the main room and then going back gives the description of the main room
 	When I enter go west
@@ -132,7 +132,7 @@ Scenario: Leaving the main room and then going back gives the description of the
 	And I enter look
 	Then The room is described as "You are in an empty room. The walls are smooth."
 	And I see the items "poison,potion,book,fireball spell book"
-	And I see the passages "north,west"
+	And I see the portals "north,west"
 
 Scenario: When i pick up some items they are in my inventory
 	When I enter get poison

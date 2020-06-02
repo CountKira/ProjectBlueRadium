@@ -1,13 +1,13 @@
-﻿using BusinessLogic;
+﻿using System.Collections.Generic;
+using BusinessLogic;
 using BusinessLogic.Tags;
 
 namespace SharedViewResources
 {
 	static class RoomFactory
 	{
-		public static Room StartingRoom() =>
-			new Room("Start room with basic equipment.",
-				new[] { new Passage(1, "north", new[] { new LockTag(0), }), },
+		public static Room.Builder StartingRoom() =>
+			new Room.Builder("Start room with basic equipment.",
 				new ItemCollection
 				{
 					ItemFactory.Dagger(),
@@ -17,26 +17,18 @@ namespace SharedViewResources
 					ItemFactory.HealingPotion(),
 				});
 
-		public static Room FirstChallengeRoom()
-		{
-			return new Room(
-				"First challenge.",
-				new[] { new Passage(0, "south"), new Passage(2, "north") },
+		public static Room.Builder FirstChallengeRoom() =>
+			new Room.Builder("First challenge.",
 				creatures: new[]
 				{
 					CreatureFactory.Goblin(),
 				});
-		}
 
-		public static Room SecondChallengeRoom()
-		{
-			return new Room(
-				"Second challenge.",
-				new[] { new Passage(1, "south") },
+		public static Room.Builder SecondChallengeRoom() =>
+			new Room.Builder("Second challenge.",
 				creatures: new[]
 				{
 					CreatureFactory.Goblin(new []{new MarkerTag(Tag.GameEnd), }),
 				});
-		}
 	}
 }

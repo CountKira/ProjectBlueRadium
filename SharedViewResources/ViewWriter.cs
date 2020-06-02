@@ -28,7 +28,7 @@ namespace SharedViewResources
 				case InvalidCommandType.UnknownCommand:
 					WriteLine("Unknown command.");
 					break;
-				case InvalidCommandType.PassageNotFound:
+				case InvalidCommandType.PortalNotFound:
 					WriteLine($"There is no {invalidCommand.Specifier} to go to.");
 					break;
 				case InvalidCommandType.CanNotWield:
@@ -99,11 +99,11 @@ namespace SharedViewResources
 			var creature = seen.Creatures.FirstOrDefault();
 			var creatureStatus = creature?.HealthPoints > 0 ? "" : "dead ";
 			var creatureS = creature == null ? "" : $" There is a {creatureStatus}{creature.Name} in the room.";
-			var passageMessage =
-				seen.Passages.Length > 0
-					? $" There is a passage {string.Join(" and ", seen.Passages.Select(p => p.DisplayName))}."
+			var portal =
+				seen.Portals.Length > 0
+					? $" There is a door {string.Join(" and ", seen.Portals.Select(p => p.DisplayName))}."
 					: "";
-			var result = $"{seen.EntityDescription}{passageMessage}{creatureS}{items}";
+			var result = $"{seen.EntityDescription}{portal}{creatureS}{items}";
 			WriteLine(result);
 		}
 

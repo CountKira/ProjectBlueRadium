@@ -12,16 +12,16 @@ namespace BusinessLogic.Verbs
 		public UnlockVerb(IWriter writer) : base(writer) { }
 
 		/// <inheritdoc />
-		public override void Execute(string s)
+		public override void Execute(string portalName)
 		{
-			if (Game.TryGetPassage(s, out var passage))
+			if (Game.TryGetPortal(portalName, out var portal))
 			{
-				var lockTag = passage.GetTag<LockTag>();
+				var lockTag = portal.Passage.GetTag<LockTag>();
 				if (lockTag != null)
 				{
 					if (PlayerHasKey(lockTag))
 					{
-						writer.WriteAction(new ActionDTO(VerbEnum.Unlocked) { Specifier = passage.DisplayName });
+						writer.WriteAction(new ActionDTO(VerbEnum.Unlocked) { Specifier = portal.DisplayName });
 						lockTag.Unlock();
 						Game.HasActed();
 					}
@@ -30,7 +30,7 @@ namespace BusinessLogic.Verbs
 				}
 				else
 				{
-					writer.SetInvalidCommand(new InvalidCommand(InvalidCommandType.NotLocked) { Specifier = passage.DisplayName });
+					writer.SetInvalidCommand(new InvalidCommand(InvalidCommandType.NotLocked) { Specifier = portal.DisplayName });
 				}
 			}
 		}

@@ -105,12 +105,12 @@ namespace ProjectBlueRadium.Spec
 			Assert.Equal(InvalidCommandType.UnknownCommand, result);
 		}
 
-		[Then(@"The passage (.*) can not be found")]
-		public void PassageNotFound(string passageName)
+		[Then(@"The portal (.*) can not be found")]
+		public void EntryWayNotFound(string entryWayName)
 		{
 			var result = writer.InvalidCommand;
-			Assert.Equal(InvalidCommandType.PassageNotFound, result.CommandType);
-			Assert.Equal(passageName, result.Specifier);
+			Assert.Equal(InvalidCommandType.PortalNotFound, result.CommandType);
+			Assert.Equal(entryWayName, result.Specifier);
 		}
 
 		[Then(@"I have nothing equipped")]
@@ -155,12 +155,11 @@ namespace ProjectBlueRadium.Spec
 			ThenISeeTheItems(Array.Empty<string>());
 		}
 
-		[Then(@"I see the passages ""(.*)""")]
-		[Then(@"I see the passage ""(.*)""")]
-		public void ThenISeeThePassages(string[] passages)
+		[Then(@"I see the portals? ""(.*)""")]
+		public void ThenISeeTheEntryWays(string[] entryWays)
 		{
 			var result = writer.SeenThings;
-			Assert.Equal(passages, result.Passages.Select(p => p.DisplayName).ToArray());
+			Assert.Equal(entryWays, result.Portals.Select(p => p.DisplayName).ToArray());
 		}
 
 		[Then(@"I see the creature ""(.*)""")]
