@@ -1,12 +1,7 @@
-﻿using BusinessLogic.SemanticTypes;
-
-namespace BusinessLogic
+﻿namespace BusinessLogic
 {
-	public class Player : Creature
+	public class Player
 	{
-		/// <inheritdoc />
-		public Player(INotificationHandler<int>? healthPointsChanged = null) :
-			base("The player", "The hero of our story", 10, 2, healthPointsChanged)
-		{ }
+		public static Creature GetNewInstance(INotificationHandler<int>? healthPointsChanged) => new Creature("The player", "The hero of our story", 10, 2, healthPointsChanged);
 	}
 }

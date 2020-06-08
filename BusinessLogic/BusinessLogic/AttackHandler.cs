@@ -17,7 +17,7 @@ namespace BusinessLogic
 			this.game = game;
 		}
 
-		public void AttackCreature(Player player, Creature creature)
+		public void AttackCreature(Creature player, Creature enemy)
 		{
 			if (DoesMiss())
 			{
@@ -27,12 +27,12 @@ namespace BusinessLogic
 
 			var weapon = player.Equipment.FirstOrDefault(i => i.HasTag<WeaponTag>());
 			var damage = weapon?.GetTag<WeaponTag>()?.Damage ?? 1;
-			DealDamageToCreature(damage, creature);
-			if (creature.IsDead)
+			DealDamageToCreature(damage, enemy);
+			if (enemy.IsDead)
 			{
-				writer.WriteTextOutput($"You have slain the {creature.Name}.");
+				writer.WriteTextOutput($"You have slain the {enemy.Name}.");
 
-				if (creature.HasMarkerTag(Tag.GameEnd))
+				if (enemy.HasMarkerTag(Tag.GameEnd))
 				{
 					writer.WriteTextOutput("You have slain the final enemy. A winner is you.");
 					game.IsRunning = false;
@@ -40,19 +40,19 @@ namespace BusinessLogic
 			}
 		}
 
-		public void GetAttackedByCreature(Player player, Creature creature)
+		public void GetAttackedByCreature(Creature player, Creature enemy)
 		{
 			if (DoesMiss())
 			{
-				writer.WriteTextOutput($"The {creature.Name} missed his attack.");
+				writer.WriteTextOutput($"The {enemy.Name} missed his attack.");
 				return;
 			}
 
-			writer.WriteTextOutput($"The {creature.Name} attacks you and deals {player.HealthPoints.Damage(creature.Damage)} damage.");
+			writer.WriteTextOutput($"The {enemy.Name} attacks you and deals {player.HealthPoints.Damage(enemy.Damage)} damage.");
 
 			if (player.IsDead)
 			{
-				writer.WriteTextOutput($"The {creature.Name} killed you.");
+				writer.WriteTextOutput($"The {enemy.Name} killed you.");
 				game.IsRunning = false;
 			}
 		}

@@ -16,7 +16,7 @@ namespace BusinessLogic
 		void LearnSpell();
 		void HandleAttacking(string enemy);
 		void HasActed();
-		Player Player { get; }
+		Creature Player { get; }
 		Item? GetItemFromPlayerEquipment(string itemName);
 	}
 }

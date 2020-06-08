@@ -12,7 +12,7 @@ namespace BusinessLogic.Effects
 			this.damage = damage;
 		}
 		/// <inheritdoc />
-		public string ActOn(Player subject)
+		public string ActOn(Creature subject)
 		{
 			return $"Player was dealt {subject.HealthPoints.Damage(damage)} damage";
 		}

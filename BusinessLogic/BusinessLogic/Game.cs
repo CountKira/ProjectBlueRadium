@@ -42,7 +42,7 @@ namespace BusinessLogic
 			Player = new Player(healthPointsChanged);
 		}
 
-		public Player Player { get; }
+		public Creature Player { get; }
 
 		public bool IsRunning { get; set; } = true;
 

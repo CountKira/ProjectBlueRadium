@@ -12,7 +12,7 @@ namespace BusinessLogic.Effects
 			this.heal = heal;
 		}
 		/// <inheritdoc />
-		public string ActOn(Player subject)
+		public string ActOn(Creature subject)
 		{
 			return $"Player was healed by {subject.HealthPoints.Heal(heal)}";
 		}

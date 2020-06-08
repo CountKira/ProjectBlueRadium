@@ -2,6 +2,6 @@
 {
 	public interface IEffect
 	{
-		string ActOn(Player subject);
+		string ActOn(Creature subject);
 	}
 }
