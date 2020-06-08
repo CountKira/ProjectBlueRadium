@@ -12,7 +12,6 @@ namespace SharedViewResources
 				{
 					ItemFactory.Dagger(),
 					ItemFactory.Sword(),
-					ItemFactory.Key(0),
 					ItemFactory.HealingPotion(),
 					ItemFactory.HealingPotion(),
 				});
@@ -21,14 +20,14 @@ namespace SharedViewResources
 			new Room.Builder("First challenge.",
 				creatures: new[]
 				{
-					CreatureFactory.Goblin(),
+					CreatureFactory.Goblin(inventory:new []{ItemFactory.Key(0)}),
 				});
 
 		public static Room.Builder SecondChallengeRoom() =>
 			new Room.Builder("Second challenge.",
 				creatures: new[]
 				{
-					CreatureFactory.Goblin(new []{new MarkerTag(Tag.GameEnd), }),
+					CreatureFactory.Goblin(tags:new []{new MarkerTag(Tag.GameEnd), }),
 				});
 	}
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using BusinessLogic;
+using BusinessLogic.SemanticTypes;
 using SharedTestingResources;
 using TechTalk.SpecFlow;
 using Xunit;
@@ -15,7 +16,7 @@ namespace ProjectBlueRadium.Spec
 	[Binding]
 	public class GameIntegrationSteps
 	{
-		class MockRandom:IRandom
+		class MockRandom : IRandom
 		{
 			/// <inheritdoc />
 			public int Next(int i) => 1;
@@ -28,7 +29,9 @@ namespace ProjectBlueRadium.Spec
 		public void GivenIStartANewGameInTheTestDungeon(int health)
 		{
 			game = new Game(writer, new TestingRoomRepository(), new MockRandom());
-			game.Player.HealthPoints = health;
+			var playerHealthPoints = game.Player.HealthPoints;
+			var damage = new Damage(playerHealthPoints.Current - health);
+			playerHealthPoints.Damage(damage);
 		}
 
 
@@ -213,9 +216,9 @@ namespace ProjectBlueRadium.Spec
 		}
 
 		[Then(@"I have (.*) hp")]
-		public void ThenIHaveHp(int healthPoints)
+		public void ThenIHaveHp(int healthPointsValue)
 		{
-			Assert.Equal(healthPoints, game.Player.HealthPoints);
+			Assert.Equal(healthPointsValue, game.Player.HealthPoints.Current);
 		}
 
 

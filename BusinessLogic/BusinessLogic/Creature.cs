@@ -2,46 +2,46 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using BusinessLogic.SemanticTypes;
 using BusinessLogic.Tags;
 
 namespace BusinessLogic
 {
 	public class Creature : Entity
 	{
-		int healthPoints;
-		readonly INotificationHandler<int>? healthPointsChanged;
-
 		public Creature(string name,
 			string description,
 			int healthPoints,
-			int damage,
+			Damage damage,
 			INotificationHandler<int>? healthPointsChanged = null,
+			IEnumerable<Item>? inventory = null,
 			IEnumerable<ITag>? tags = null) :
 			base(tags ?? Enumerable.Empty<ITag>())
 		{
 			Name = name;
 			Description = description;
-			MaxHealthPoints = healthPoints;
-			HealthPoints = healthPoints;
+			HealthPoints = new HealthPoints(healthPoints, healthPoints, healthPointsChanged);
 			Damage = damage;
-			this.healthPointsChanged = healthPointsChanged;
+			if (inventory != null)
+			{
+				foreach (var item in inventory)
+				{
+					Inventory.Add(item);
+				}
+			}
 		}
 
 		public string Name { get; }
 		public string Description { get; }
-		public int MaxHealthPoints { get; }
 
-		public int HealthPoints
-		{
-			get => healthPoints;
-			set
-			{
-				healthPoints = value;
-				healthPointsChanged?.Notify(value);
-			}
-		}
+		public bool IsDead => HealthPoints.ZeroOrBelow;
 
-		public int Damage { get; }
+		public ItemCollection Equipment { get; } = new ItemCollection();
+		public ItemCollection Inventory { get; } = new ItemCollection();
+
+		public HealthPoints HealthPoints { get; }
+
+		public Damage Damage { get; }
 
 	}
 }

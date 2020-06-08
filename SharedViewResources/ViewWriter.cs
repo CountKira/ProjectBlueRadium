@@ -96,15 +96,33 @@ namespace SharedViewResources
 		{
 			var itemConcat = ItemCollectionToString.GetItemNameConcat(seen.Items);
 			var items = seen.Items.Any() ? $" You see {itemConcat} on the floor." : "";
+
 			var creature = seen.Creatures.FirstOrDefault();
-			var creatureStatus = creature?.HealthPoints > 0 ? "" : "dead ";
-			var creatureS = creature == null ? "" : $" There is a {creatureStatus}{creature.Name} in the room.";
+			var creatureDescription = GetCreatureDescription(creature);
+
 			var portal =
 				seen.Portals.Length > 0
 					? $" There is a door {string.Join(" and ", seen.Portals.Select(p => p.DisplayName))}."
 					: "";
-			var result = $"{seen.EntityDescription}{portal}{creatureS}{items}";
-			WriteLine(result);
+
+			WriteLine($"{seen.EntityDescription}{portal}{creatureDescription}{items}");
+		}
+
+		static string GetCreatureDescription(Creature? creature)
+		{
+			if (creature is null)
+				return "";
+			var creatureStatus = creature.IsDead ? "dead " : "";
+			var creatureInventory = GetCreatureInventoryText(creature);
+			return $" There is a {creatureStatus}{creature.Name} in the room{creatureInventory}.";
+		}
+
+		static string GetCreatureInventoryText(Creature creature)
+		{
+			if (!creature.IsDead)
+				return "";
+			var inventoryText = ItemCollectionToString.GetItemNameConcat(creature.Inventory);
+			return string.IsNullOrEmpty(inventoryText) ? "" : $" with {inventoryText}";
 		}
 
 		/// <inheritdoc />

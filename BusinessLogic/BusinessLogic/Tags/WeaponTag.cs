@@ -1,11 +1,13 @@
-﻿namespace BusinessLogic.Tags {
+﻿using BusinessLogic.SemanticTypes;
+
+namespace BusinessLogic.Tags {
 	public class WeaponTag : ITag
 	{
-		public WeaponTag(int damage)
+		public WeaponTag(Damage damage)
 		{
 			Damage = damage;
 		}
 
-		public int Damage { get; }
+		public Damage Damage { get; }
 	}
 }

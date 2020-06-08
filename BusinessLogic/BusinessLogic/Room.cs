@@ -31,13 +31,19 @@ namespace BusinessLogic
 
 		public void RemoveItem(Item item)
 		{
-			itemsOnFloor.Remove(item);
+			if (!itemsOnFloor.Remove(item))
+			{
+				var creature = creatures.FirstOrDefault(c => c.IsDead && c.Inventory.HasItem(item));
+				creature.Inventory.Remove(item);
+			}
 		}
 
-		public bool HasItem(string item) => itemsOnFloor.HasItem(item);
-
-		public Item GetItem(string item) =>
-			itemsOnFloor.First(i => i.Name.Equals(item, StringComparison.OrdinalIgnoreCase));
+		public Item? GetItem(string item)
+		{
+			bool HasName(Item str) => str.Name.Equals(item, StringComparison.OrdinalIgnoreCase);
+			return itemsOnFloor.FirstOrDefault(HasName) ??
+				   creatures.Where(c => c.IsDead).SelectMany(c => c.Inventory).FirstOrDefault(HasName);
+		}
 
 		public Creature? GetCreature(string creatureName) =>
 			creatures.FirstOrDefault(a => a.Name.Equals(creatureName, StringComparison.OrdinalIgnoreCase));

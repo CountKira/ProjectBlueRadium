@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using BusinessLogic.SemanticTypes;
 using BusinessLogic.Tags;
 using BusinessLogic.Verbs;
 
@@ -10,10 +11,10 @@ namespace BusinessLogic
 	public class Game : IGame
 	{
 		readonly IRoomRepository roomRepository;
-		readonly IRandom random;
 		readonly Dictionary<string, Verb> verbList;
 		readonly IWriter writer;
 		Room room;
+		readonly AttackHandler attackHandler;
 		bool spellKnown;
 		bool hasActed;
 
@@ -21,7 +22,7 @@ namespace BusinessLogic
 		{
 			this.writer = writer;
 			this.roomRepository = roomRepository;
-			this.random = random;
+			attackHandler = new AttackHandler(writer, random, this);
 			room = roomRepository.GetStartRoom();
 
 			verbList = new Dictionary<string, Verb>
@@ -39,12 +40,11 @@ namespace BusinessLogic
 			foreach (var verb in verbList)
 				verb.Value.Initialize(this);
 			Player = new Player(healthPointsChanged);
-			healthPointsChanged?.Notify(Player.HealthPoints);
 		}
 
 		public Player Player { get; }
 
-		public bool IsRunning { get; private set; } = true;
+		public bool IsRunning { get; set; } = true;
 
 		void AddToPlayerInventory(Item item) => Player.Inventory.Add(item);
 
@@ -72,8 +72,8 @@ namespace BusinessLogic
 		void ExecuteOtherActors()
 		{
 			var creatures = room.GetCreatures();
-			foreach (var creature in creatures.Where(c => c.HealthPoints > 0))
-				GetAttackedByCreature(creature);
+			foreach (var creature in creatures.Where(c => !c.IsDead))
+				attackHandler.GetAttackedByCreature(Player, creature);
 		}
 
 		public void HandleAttacking(string enemy)
@@ -86,13 +86,13 @@ namespace BusinessLogic
 				return;
 			}
 
-			if (creature.HealthPoints <= 0)
+			if (creature.IsDead)
 			{
 				writer.SetInvalidCommand(new InvalidCommand(InvalidCommandType.EntityNotFound)
 				{ Specifier = enemy });
 				return;
 			}
-			AttackCreature(creature);
+			attackHandler.AttackCreature(Player, creature);
 			HasActed();
 		}
 
@@ -147,7 +147,7 @@ namespace BusinessLogic
 			spellKnown = true;
 		}
 
-		public Item? GetItemObjectInRoom(string itemName) => room.HasItem(itemName) ? room.GetItem(itemName) : null;
+		public Item? GetItemObjectInRoom(string itemName) => room.GetItem(itemName);
 
 		public void EnterCommand(string text)
 		{
@@ -183,55 +183,6 @@ namespace BusinessLogic
 				hasActed = false;
 				ExecuteOtherActors();
 			}
-		}
-
-		void GetAttackedByCreature(Creature creature)
-		{
-			if (DoesMiss())
-			{
-				writer.WriteTextOutput($"The {creature.Name} missed his attack.");
-				return;
-			}
-			var damage = creature.Damage;
-			writer.WriteTextOutput($"The {creature.Name} attacks you and deals {damage} damage.");
-			Player.HealthPoints -= damage;
-
-			if (Player.IsDead())
-			{
-				writer.WriteTextOutput($"The {creature.Name} killed you.");
-				IsRunning = false;
-			}
-		}
-
-		void AttackCreature(Creature creature)
-		{
-			if (DoesMiss())
-			{
-				writer.WriteTextOutput("Missed.");
-				return;
-			}
-
-			var weapon = Player.Equipment.FirstOrDefault(i => i.HasTag<WeaponTag>());
-			var damage = weapon?.GetTag<WeaponTag>()?.Damage ?? 1;
-			DealDamageToCreature(damage, creature);
-			if (creature.HealthPoints <= 0)
-			{
-				writer.WriteTextOutput($"You have slain the {creature.Name}.");
-
-				if (creature.HasMarkerTag(Tag.GameEnd))
-				{
-					writer.WriteTextOutput("You have slain the final enemy. A winner is you.");
-					IsRunning = false;
-				}
-			}
-		}
-
-		bool DoesMiss() => random.Next(2) == 0;
-
-		void DealDamageToCreature(int damage, Creature creature)
-		{
-			creature.HealthPoints -= damage;
-			writer.WriteTextOutput($"You attack the {creature.Name} and deal {damage} damage.");
 		}
 
 		bool TryParseCommand(string inputText)

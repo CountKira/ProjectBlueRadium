@@ -1,22 +1,20 @@
 ﻿using System;
+using BusinessLogic.SemanticTypes;
 
 namespace BusinessLogic.Effects
 {
 	public class HealEffect : IEffect
 	{
-		readonly int heal;
+		readonly Heal heal;
 
-		public HealEffect(int heal)
+		public HealEffect(Heal heal)
 		{
 			this.heal = heal;
 		}
 		/// <inheritdoc />
 		public string ActOn(Player subject)
 		{
-			var originalHp = subject.HealthPoints;
-			var newHp = subject.HealthPoints + heal;
-			subject.HealthPoints = Math.Min(newHp, subject.MaxHealthPoints);
-			return $"Player was healed by {subject.HealthPoints - originalHp}";
+			return $"Player was healed by {subject.HealthPoints.Heal(heal)}";
 		}
 	}
 }

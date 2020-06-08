@@ -1,20 +1,20 @@
 ﻿using System;
+using BusinessLogic.SemanticTypes;
 
 namespace BusinessLogic.Effects
 {
 	public class DamageEffect : IEffect
 	{
-		readonly int damage;
+		readonly Damage damage;
 
-		public DamageEffect(int damage)
+		public DamageEffect(Damage damage)
 		{
 			this.damage = damage;
 		}
 		/// <inheritdoc />
 		public string ActOn(Player subject)
 		{
-			subject.HealthPoints -= damage;
-			return $"Player was dealt {damage} damage";
+			return $"Player was dealt {subject.HealthPoints.Damage(damage)} damage";
 		}
 	}
 }

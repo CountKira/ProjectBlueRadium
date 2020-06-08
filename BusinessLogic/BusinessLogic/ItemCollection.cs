@@ -20,8 +20,9 @@ namespace BusinessLogic
 			items.Add(item);
 		}
 
-		public void Remove(Item item) => items.Remove(item);
+		public bool Remove(Item item) => items.Remove(item);
 		public bool HasItem(string item) => items.Select(i => i.Name).Contains(item, StringComparer.OrdinalIgnoreCase);
+		public bool HasItem(Item item) => items.Contains(item);
 
 		public Item? GetItem(string itemName)
 		{
