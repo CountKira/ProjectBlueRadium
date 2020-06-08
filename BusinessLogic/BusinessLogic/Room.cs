@@ -38,11 +38,22 @@ namespace BusinessLogic
 			}
 		}
 
-		public Item? GetItem(string item)
+		public Item? GetItem(string itemName)
 		{
-			bool HasName(Item str) => str.Name.Equals(item, StringComparison.OrdinalIgnoreCase);
-			return itemsOnFloor.FirstOrDefault(HasName) ??
-				   creatures.Where(c => c.IsDead).SelectMany(c => c.Inventory).FirstOrDefault(HasName);
+			return itemsOnFloor.GetItem(itemName) ?? FindItemOnDeadCreatures(itemName);
+		}
+
+		Item? FindItemOnDeadCreatures(string itemName)
+		{
+			foreach (var creature in creatures.Where(c => c.IsDead))
+			{
+				if (creature.Inventory.GetItem(itemName) is { } item)
+				{
+					return item;
+				}
+			}
+
+			return null;
 		}
 
 		public Creature? GetCreature(string creatureName) =>

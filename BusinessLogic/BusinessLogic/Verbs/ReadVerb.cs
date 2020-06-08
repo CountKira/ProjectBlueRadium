@@ -3,22 +3,20 @@
 	class ReadVerb : Verb
 	{
 		/// <inheritdoc />
-		public ReadVerb(IWriter writer) : base(writer) { }
+		public ReadVerb(IWriter writer, IGame game) : base(writer, game) { }
 
 		/// <inheritdoc />
 		public override void Execute(string item)
 		{
-			var obj = Game!.GetItemObjectInRoom(item);
-			if (obj != null)
+			if (Game.GetItemObjectInRoom(item) is { } obj)
 			{
 				writer.LearnedFireball();
 				Game.LearnSpell();
-				Game.HasActed();
 			}
 			else
 			{
 				writer.SetInvalidCommand(new InvalidCommand(InvalidCommandType.ItemNotFound)
-					{Specifier = item});
+				{ Specifier = item });
 			}
 		}
 	}

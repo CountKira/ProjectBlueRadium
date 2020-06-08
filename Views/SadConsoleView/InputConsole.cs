@@ -21,7 +21,7 @@ namespace SadConsoleView
 			Library.Default.SetControlTheme(typeof(EditableTextBox), Library.Default.GetControlTheme(typeof(TextBox)));
 			var textBox = new EditableTextBox(width)
 			{
-				Position = new Point(0, 0)
+				Position = new Point(0, 0),
 			};
 			textBox.KeyPressed += TextBoxOnKeyPressed;
 			Add(textBox);
@@ -32,6 +32,7 @@ namespace SadConsoleView
 		void TextBoxOnKeyPressed(object? sender, TextBox.KeyPressEventArgs e)
 		{
 			if (sender is EditableTextBox textBox)
+				// ReSharper disable once SwitchStatementMissingSomeEnumCasesNoDefault
 				switch (e.Key.Key)
 				{
 					case Keys.Enter:

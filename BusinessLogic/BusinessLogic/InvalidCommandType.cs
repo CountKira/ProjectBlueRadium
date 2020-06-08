@@ -12,6 +12,6 @@
 		NotExecutable,
 		MissingKey,
 		NotLocked,
-		Locked
+		Locked,
 	}
 }

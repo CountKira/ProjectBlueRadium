@@ -5,18 +5,17 @@ namespace BusinessLogic.Verbs
 	class DrinkVerb : Verb
 	{
 		/// <inheritdoc />
-		public DrinkVerb(IWriter writer) : base(writer) { }
+		public DrinkVerb(IWriter writer, IGame game) : base(writer, game) { }
 
 		/// <inheritdoc />
 		public override void Execute(string itemName)
 		{
-			var player = Game!.Player;
-			if (player.Inventory.HasItem(itemName) && player.Inventory.GetItem(itemName) is { } item)
+			var player = Game.Player;
+			if (player.Inventory.GetItem(itemName) is { } item)
 			{
-				if (item.HasTag<ConsumableTag>())
+				if (item.GetTag<ConsumableTag>() is { } tag)
 				{
 					Game.Player.Inventory.Remove(item);
-					var tag = item.GetTag<ConsumableTag>();
 					var effect = tag?.GetEffect();
 					var result = effect?.ActOn(Game.Player);
 					if (result != null)
@@ -35,7 +34,7 @@ namespace BusinessLogic.Verbs
 			{
 				var invalidCommand = new InvalidCommand(InvalidCommandType.ItemNotFound)
 				{
-					Specifier = itemName
+					Specifier = itemName,
 				};
 				writer.SetInvalidCommand(invalidCommand);
 			}

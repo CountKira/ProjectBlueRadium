@@ -24,7 +24,7 @@ namespace BusinessLogic.Tests
 		{
 			var itemCollection = new ItemCollection
 			{
-				new DummyItem("Thing", "TestThing")
+				new DummyItem("Thing", "TestThing"),
 			};
 			var text = ItemCollectionToString.GetItemNameConcat(itemCollection);
 			Assert.Equal("a Thing", text);
@@ -37,7 +37,7 @@ namespace BusinessLogic.Tests
 			{
 				new DummyItem("Thing", "TestThing"),
 				new DummyItem("Thing2", "TestThing"),
-				new DummyItem("Thing3", "TestThing")
+				new DummyItem("Thing3", "TestThing"),
 			};
 			var text = ItemCollectionToString.GetItemNameConcat(itemCollection);
 			Assert.Equal("a Thing, a Thing2 and a Thing3", text);
@@ -49,7 +49,7 @@ namespace BusinessLogic.Tests
 			var itemCollection = new ItemCollection
 			{
 				new DummyItem("Thing", "TestThing"),
-				new DummyItem("Thing2", "TestThing")
+				new DummyItem("Thing2", "TestThing"),
 			};
 			var text = ItemCollectionToString.GetItemNameConcat(itemCollection);
 			Assert.Equal("a Thing and a Thing2", text);

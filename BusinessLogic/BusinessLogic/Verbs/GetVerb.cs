@@ -2,18 +2,16 @@
 {
 	class GetVerb : Verb
 	{
-		public GetVerb(IWriter writer) : base(writer) { }
+		public GetVerb(IWriter writer, IGame game) : base(writer, game) { }
 
 		public override void Execute(string item)
 		{
-			var itemObj = Game!.GetItemObjectInRoom(item);
-			if (itemObj is null)
-				writer.SetInvalidCommand(new InvalidCommand(InvalidCommandType.ItemNotFound) {Specifier = item});
-			else
+			if (Game.GetItemObjectInRoom(item) is { } itemObj)
 			{
 				Game.PickUpItem(itemObj);
-				Game.HasActed();
 			}
+			else
+				writer.SetInvalidCommand(new InvalidCommand(InvalidCommandType.ItemNotFound) { Specifier = item });
 		}
 	}
 }

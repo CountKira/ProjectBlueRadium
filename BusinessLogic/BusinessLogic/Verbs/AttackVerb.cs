@@ -3,12 +3,12 @@
 	class AttackVerb : Verb
 	{
 		/// <inheritdoc />
-		public AttackVerb(IWriter writer) : base(writer) { }
+		public AttackVerb(IWriter writer, IGame game) : base(writer, game) { }
 
 		/// <inheritdoc />
 		public override void Execute(string enemy)
 		{
-			Game!.HandleAttacking(enemy);
+			Game.HandleAttacking(enemy);
 		}
 	}
 }

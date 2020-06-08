@@ -25,8 +25,8 @@ namespace BusinessLogic
 				return;
 			}
 
-			var weapon = player.Equipment.FirstOrDefault(i => i.HasTag<WeaponTag>());
-			var damage = weapon?.GetTag<WeaponTag>()?.Damage ?? 1;
+			var weaponDamage = GetEquippedWeaponDamage(player);
+			var damage = weaponDamage ?? 1;
 			DealDamageToCreature(damage, enemy);
 			if (enemy.IsDead)
 			{
@@ -35,9 +35,18 @@ namespace BusinessLogic
 				if (enemy.HasMarkerTag(Tag.GameEnd))
 				{
 					writer.WriteTextOutput("You have slain the final enemy. A winner is you.");
-					game.IsRunning = false;
+					game.Stop();
 				}
 			}
+		}
+
+		Damage? GetEquippedWeaponDamage(Creature player)
+		{
+			foreach (var item in player.Equipment)
+				if (item.GetTag<WeaponTag>() is { } weapon)
+					return weapon.Damage;
+
+			return null;
 		}
 
 		public void GetAttackedByCreature(Creature player, Creature enemy)
@@ -53,7 +62,7 @@ namespace BusinessLogic
 			if (player.IsDead)
 			{
 				writer.WriteTextOutput($"The {enemy.Name} killed you.");
-				game.IsRunning = false;
+				game.Stop();
 			}
 		}
 		bool DoesMiss() => random.Next(2) == 0;

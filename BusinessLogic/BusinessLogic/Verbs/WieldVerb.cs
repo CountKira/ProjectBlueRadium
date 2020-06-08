@@ -4,11 +4,11 @@ namespace BusinessLogic.Verbs
 {
 	class WieldVerb : Verb
 	{
-		public WieldVerb(IWriter writer) : base(writer) { }
+		public WieldVerb(IWriter writer, IGame game) : base(writer, game) { }
 
 		public override void Execute(string itemName)
 		{
-			var itemObj = Game!.GetItemFromPlayerInventory(itemName);
+			var itemObj = Game.GetItemFromPlayerInventory(itemName);
 			if (itemObj is null)
 			{
 				writer.SetInvalidCommand(new InvalidCommand(InvalidCommandType.EntityNotFound)

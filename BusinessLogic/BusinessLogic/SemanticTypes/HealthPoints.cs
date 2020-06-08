@@ -7,14 +7,13 @@ namespace BusinessLogic.SemanticTypes
 		readonly INotificationHandler<int>? healthPointsChanged;
 		int current;
 
-		public HealthPoints(int current, int? max = null, INotificationHandler<int>? healthPointsChanged = null)
+		public HealthPoints(int current, INotificationHandler<int>? healthPointsChanged)
 		{
 			this.healthPointsChanged = healthPointsChanged;
 			Current = current;
-			Max = max ?? current;
+			Max = current;
 		}
 
-		/// <inheritdoc />
 		public int Current
 		{
 			get => current;

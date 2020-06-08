@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using BusinessLogic.SemanticTypes;
 using BusinessLogic.Tags;
 using BusinessLogic.Verbs;
 
@@ -27,24 +25,23 @@ namespace BusinessLogic
 
 			verbList = new Dictionary<string, Verb>
 			{
-				{"get ", new GetVerb(writer)},
-				{"go ", new GoVerb(writer)},
-				{"look ", new LookVerb(writer)},
-				{"wield ", new WieldVerb(writer)},
-				{"unwield ", new UnwieldVerb(writer)},
-				{"read ", new ReadVerb(writer)},
-				{"drink ", new DrinkVerb(writer)},
-				{"attack ", new AttackVerb(writer)},
-				{"unlock ", new UnlockVerb(writer)},
+				{"get ", new GetVerb(writer, this)},
+				{"go ", new GoVerb(writer, this)},
+				{"look ", new LookVerb(writer,this)},
+				{"wield ", new WieldVerb(writer,this)},
+				{"unwield ", new UnwieldVerb(writer, this)},
+				{"read ", new ReadVerb(writer,this)},
+				{"drink ", new DrinkVerb(writer, this)},
+				{"attack ", new AttackVerb(writer, this)},
+				{"unlock ", new UnlockVerb(writer, this)},
 			};
-			foreach (var verb in verbList)
-				verb.Value.Initialize(this);
-			Player = new Player(healthPointsChanged);
+
+			Player = BusinessLogic.Player.GetNewInstance(healthPointsChanged);
 		}
 
 		public Creature Player { get; }
 
-		public bool IsRunning { get; set; } = true;
+		public bool IsRunning { get; private set; } = true;
 
 		void AddToPlayerInventory(Item item) => Player.Inventory.Add(item);
 
@@ -58,6 +55,7 @@ namespace BusinessLogic
 			WriteAction(new ActionDTO(VerbEnum.Get) { Specifier = item.Name });
 			room.RemoveItem(item);
 			AddToPlayerInventory(item);
+			HasActed();
 		}
 
 		public bool TryGetPortal(string portalName, out Portal portal)
@@ -79,19 +77,13 @@ namespace BusinessLogic
 		public void HandleAttacking(string enemy)
 		{
 			var creature = room.GetCreature(enemy);
-			if (creature is null)
+			if (creature is null || creature.IsDead)
 			{
 				writer.SetInvalidCommand(new InvalidCommand(InvalidCommandType.EntityNotFound)
 				{ Specifier = enemy });
 				return;
 			}
 
-			if (creature.IsDead)
-			{
-				writer.SetInvalidCommand(new InvalidCommand(InvalidCommandType.EntityNotFound)
-				{ Specifier = enemy });
-				return;
-			}
 			attackHandler.AttackCreature(Player, creature);
 			HasActed();
 		}
@@ -99,22 +91,23 @@ namespace BusinessLogic
 		/// <inheritdoc />
 		public void HasActed() => hasActed = true;
 
-		public object? GetLocalAvailableEntity(string entityName)
+		public string? GetLocalAvailableEntityDescription(string entityName)
 		{
-			var item = GetItemObjectInRoom(entityName);
-			if (item != null) return item;
-			if (Player.Inventory.HasItem(entityName)) return Player.Inventory.First(i => i.Name == entityName);
+			if (GetItemObjectInRoom(entityName) is { } floorItem)
+				return floorItem.Description;
+
+			if (Player.Inventory.GetItem(entityName) is { } playerItem)
+				return playerItem.Description;
 
 			var creature = room.GetCreature(entityName);
-			return creature;
+			return creature?.Description;
 		}
 
 		/// <inheritdoc />
-		public Item? GetItemFromPlayerEquipment(string itemName) => Player.Equipment.FirstOrDefault(i => i.Name.Equals(itemName, StringComparison.OrdinalIgnoreCase));
+		public Item? GetItemFromPlayerEquipment(string itemName) => Player.Equipment.GetItem(itemName);
 
 		/// <inheritdoc />
-		public Item? GetItemFromPlayerInventory(string itemName)
-			=> Player.Inventory.FirstOrDefault(i => i.Name.Equals(itemName, StringComparison.OrdinalIgnoreCase));
+		public Item? GetItemFromPlayerInventory(string itemName) => Player.Inventory.GetItem(itemName);
 
 		/// <inheritdoc />
 		public void WieldWeapon(Item item)
@@ -145,6 +138,7 @@ namespace BusinessLogic
 		public void LearnSpell()
 		{
 			spellKnown = true;
+			HasActed();
 		}
 
 		public Item? GetItemObjectInRoom(string itemName) => room.GetItem(itemName);

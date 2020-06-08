@@ -20,7 +20,7 @@ namespace BusinessLogic
 		{
 			Name = name;
 			Description = description;
-			HealthPoints = new HealthPoints(healthPoints, healthPoints, healthPointsChanged);
+			HealthPoints = new HealthPoints(healthPoints, healthPointsChanged);
 			Damage = damage;
 			if (inventory != null)
 			{

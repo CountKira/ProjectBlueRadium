@@ -21,12 +21,11 @@ namespace BusinessLogic
 		}
 
 		public bool Remove(Item item) => items.Remove(item);
-		public bool HasItem(string item) => items.Select(i => i.Name).Contains(item, StringComparer.OrdinalIgnoreCase);
 		public bool HasItem(Item item) => items.Contains(item);
 
 		public Item? GetItem(string itemName)
 		{
-			return items.FirstOrDefault(i => i.Name == itemName);
+			return items.FirstOrDefault(i => i.Name.Equals(itemName, StringComparison.OrdinalIgnoreCase));
 		}
 	}
 }

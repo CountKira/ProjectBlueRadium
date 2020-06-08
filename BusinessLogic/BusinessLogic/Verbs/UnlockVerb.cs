@@ -9,7 +9,7 @@ namespace BusinessLogic.Verbs
 	class UnlockVerb : Verb
 	{
 		/// <inheritdoc />
-		public UnlockVerb(IWriter writer) : base(writer) { }
+		public UnlockVerb(IWriter writer, IGame game) : base(writer, game) { }
 
 		/// <inheritdoc />
 		public override void Execute(string portalName)

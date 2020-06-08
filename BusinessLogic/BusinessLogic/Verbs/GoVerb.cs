@@ -4,11 +4,11 @@ namespace BusinessLogic.Verbs
 {
 	class GoVerb : Verb
 	{
-		public GoVerb(IWriter writer) : base(writer) { }
+		public GoVerb(IWriter writer, IGame game) : base(writer, game) { }
 
 		public override void Execute(string portalName)
 		{
-			if (Game!.TryGetPortal(portalName, out var portal))
+			if (Game.TryGetPortal(portalName, out var portal))
 				if (portal.Passage.GetTag<LockTag>()?.IsLocked ?? false)
 				{
 					writer.SetInvalidCommand(new InvalidCommand(InvalidCommandType.Locked));
