@@ -40,7 +40,7 @@ namespace BusinessLogic
 			}
 		}
 
-		Damage? GetEquippedWeaponDamage(Creature player)
+		static Damage? GetEquippedWeaponDamage(Creature player)
 		{
 			foreach (var item in player.Equipment)
 				if (item.GetTag<WeaponTag>() is { } weapon)

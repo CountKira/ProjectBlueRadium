@@ -60,31 +60,29 @@ namespace SharedViewResources
 			WriteLine(spellKnown ? "Fireball" : "You have no spells.");
 		}
 
-		/// <inheritdoc />
-		public void LearnedFireball()
-		{
-			WriteLine("You learned the spell fireball.");
-		}
 
 		/// <inheritdoc />
-		public void WriteAction(ActionDTO actionDto)
+		public void Write(OutputData outputData)
 		{
-			switch (actionDto.Verb)
+			switch (outputData.Type)
 			{
-				case VerbEnum.Drink:
-				case VerbEnum.Look:
+				case OutputDataType.LearnedSpell:
+					WriteLine($"You learned the spell {outputData.Specifier}.");
 					break;
-				case VerbEnum.Get:
-					WriteLine($"You pick up the {actionDto.Specifier}.");
+				case OutputDataType.Drink:
+				case OutputDataType.Look:
 					break;
-				case VerbEnum.Wield:
-					WriteLine($"You wield the {actionDto.Specifier}.");
+				case OutputDataType.Get:
+					WriteLine($"You pick up the {outputData.Specifier}.");
 					break;
-				case VerbEnum.Unwield:
-					WriteLine($"You removed the {actionDto.Specifier}.");
+				case OutputDataType.Wield:
+					WriteLine($"You wield the {outputData.Specifier}.");
 					break;
-				case VerbEnum.Unlocked:
-					WriteLine($"Unlocked the way {actionDto.Specifier}.");
+				case OutputDataType.Unwield:
+					WriteLine($"You removed the {outputData.Specifier}.");
+					break;
+				case OutputDataType.Unlocked:
+					WriteLine($"Unlocked the way {outputData.Specifier}.");
 					break;
 				default:
 					throw new ArgumentOutOfRangeException();

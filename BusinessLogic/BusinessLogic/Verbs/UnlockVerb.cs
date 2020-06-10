@@ -21,7 +21,7 @@ namespace BusinessLogic.Verbs
 				{
 					if (PlayerHasKey(lockTag))
 					{
-						writer.WriteAction(new ActionDTO(VerbEnum.Unlocked) { Specifier = portal.DisplayName });
+						writer.Write(new OutputData(OutputDataType.Unlocked) { Specifier = portal.DisplayName });
 						lockTag.Unlock();
 						Game.HasActed();
 					}

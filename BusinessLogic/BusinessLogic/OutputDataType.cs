@@ -1,6 +1,6 @@
 ﻿namespace BusinessLogic
 {
-	public enum VerbEnum
+	public enum OutputDataType
 	{
 		Drink,
 		Look,
@@ -8,5 +8,6 @@
 		Wield,
 		Unwield,
 		Unlocked,
+		LearnedSpell
 	}
 }

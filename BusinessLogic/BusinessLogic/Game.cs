@@ -48,11 +48,9 @@ namespace BusinessLogic
 		/// <inheritdoc />
 		public void Stop() => IsRunning = false;
 
-		void WriteAction(ActionDTO actionDto) => writer.WriteAction(actionDto);
-
 		public void PickUpItem(Item item)
 		{
-			WriteAction(new ActionDTO(VerbEnum.Get) { Specifier = item.Name });
+			writer.Write(new OutputData(OutputDataType.Get) { Specifier = item.Name });
 			room.RemoveItem(item);
 			AddToPlayerInventory(item);
 			HasActed();
@@ -118,7 +116,7 @@ namespace BusinessLogic
 			}
 			else
 			{
-				writer.WriteAction(new ActionDTO(VerbEnum.Wield) { Specifier = item.Name });
+				writer.Write(new OutputData(OutputDataType.Wield) { Specifier = item.Name });
 				Player.Equipment.Add(item);
 			}
 		}
@@ -129,7 +127,7 @@ namespace BusinessLogic
 			if (Player.Equipment.Contains(item))
 			{
 				Player.Equipment.Remove(item);
-				writer.WriteAction(new ActionDTO(VerbEnum.Unwield) { Specifier = item.Name });
+				writer.Write(new OutputData(OutputDataType.Unwield) { Specifier = item.Name });
 			}
 
 		}
