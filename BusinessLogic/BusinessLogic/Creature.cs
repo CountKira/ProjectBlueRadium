@@ -42,6 +42,6 @@ namespace BusinessLogic
 		public HealthPoints HealthPoints { get; }
 
 		public Damage Damage { get; }
-
+		public bool HasSpell { get; set; }
 	}
 }

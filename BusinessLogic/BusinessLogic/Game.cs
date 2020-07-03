@@ -2,39 +2,25 @@
 using System.Collections.Generic;
 using System.Linq;
 using BusinessLogic.Tags;
-using BusinessLogic.Verbs;
 
 namespace BusinessLogic
 {
 	public class Game : IGame
 	{
 		readonly IRoomRepository roomRepository;
-		readonly Dictionary<string, Verb> verbList;
 		readonly IWriter writer;
 		Room room;
 		readonly AttackHandler attackHandler;
-		bool spellKnown;
 		bool hasActed;
+		readonly CommandInterpreter commandInterpreter;
 
 		public Game(IWriter writer, IRoomRepository roomRepository, IRandom random, INotificationHandler<int>? healthPointsChanged = null)
 		{
 			this.writer = writer;
 			this.roomRepository = roomRepository;
 			attackHandler = new AttackHandler(writer, random, this);
+			commandInterpreter = new CommandInterpreter(writer, this);
 			room = roomRepository.GetStartRoom();
-
-			verbList = new Dictionary<string, Verb>
-			{
-				{"get ", new GetVerb(writer, this)},
-				{"go ", new GoVerb(writer, this)},
-				{"look ", new LookVerb(writer,this)},
-				{"wield ", new WieldVerb(writer,this)},
-				{"unwield ", new UnwieldVerb(writer, this)},
-				{"read ", new ReadVerb(writer,this)},
-				{"drink ", new DrinkVerb(writer, this)},
-				{"attack ", new AttackVerb(writer, this)},
-				{"unlock ", new UnlockVerb(writer, this)},
-			};
 
 			Player = BusinessLogic.Player.GetNewInstance(healthPointsChanged);
 		}
@@ -105,6 +91,9 @@ namespace BusinessLogic
 		public Item? GetItemFromPlayerEquipment(string itemName) => Player.Equipment.GetItem(itemName);
 
 		/// <inheritdoc />
+		public Room GetCurrentRoom() => room;
+
+		/// <inheritdoc />
 		public Item? GetItemFromPlayerInventory(string itemName) => Player.Inventory.GetItem(itemName);
 
 		/// <inheritdoc />
@@ -135,7 +124,7 @@ namespace BusinessLogic
 		/// <inheritdoc />
 		public void LearnSpell()
 		{
-			spellKnown = true;
+			Player.HasSpell = true;
 			HasActed();
 		}
 
@@ -143,55 +132,13 @@ namespace BusinessLogic
 
 		public void EnterCommand(string text)
 		{
-			var inputText = text.ToLower();
-			switch (inputText)
-			{
-				case "exit":
-					IsRunning = false;
-					break;
-				case "look":
-					writer.WriteSeenObjects(room.GetDescription());
-					break;
-				case "spells":
-					writer.DisplaySpells(spellKnown);
-					break;
-				case "me":
-					writer.DescribeSelf(Player.Description);
-					break;
-				case "inventory":
-					writer.ShowInventory(Player.Inventory);
-					break;
-				case "equipment":
-					writer.ShowEquipment(Player.Equipment);
-					break;
-				default:
-					if (!TryParseCommand(text))
-						writer.SetInvalidCommand(new InvalidCommand(InvalidCommandType.UnknownCommand));
-					break;
-			}
+			commandInterpreter.Interpret(text);
 
 			if (hasActed)
 			{
 				hasActed = false;
 				ExecuteOtherActors();
 			}
-		}
-
-		bool TryParseCommand(string inputText)
-		{
-			return verbList.Any(verb => ParseCommand(inputText, verb.Key, verb.Value.Execute));
-		}
-
-		static bool ParseCommand(string inputText, string verb, Action<string> commandMethod)
-		{
-			if (inputText.StartsWith(verb))
-			{
-				var itemName = inputText.Substring(verb.Length);
-				commandMethod(itemName);
-				return true;
-			}
-
-			return false;
 		}
 	}
 }

@@ -18,5 +18,6 @@ namespace BusinessLogic
 		void HasActed();
 		Creature Player { get; }
 		Item? GetItemFromPlayerEquipment(string itemName);
+		Room GetCurrentRoom();
 	}
 }
