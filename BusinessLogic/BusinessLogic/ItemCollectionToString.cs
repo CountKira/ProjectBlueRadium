@@ -1,18 +1,18 @@
-﻿using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace BusinessLogic
 {
 	public static class ItemCollectionToString
 	{
-		public static string GetItemNameConcat(ItemCollection items)
+		public static string GetItemNameConcat(IEnumerable<Item> items)
 		{
-			return items.Count() switch
+			var ar = items.ToArray();
+			return ar.Length switch
 			{
 				0 => "",
-				1 => $"a {items.First().Name}",
-				2 => $"a {string.Join(" and a ", items.Select(i => i.Name))}",
-				_ => $"a {string.Join(", a ", items.Take(items.Count() - 1).Select(i => i.Name))} and a {items.Last().Name}",
+				1 => $"a {ar[0].Name}",
+				_ => $"a {string.Join(", a ", ar[..^1].Select(item => item.Name))} and a {ar[^1].Name}",
 			};
 		}
 	}

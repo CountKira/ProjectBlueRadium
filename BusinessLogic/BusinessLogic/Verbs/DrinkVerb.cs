@@ -11,11 +11,11 @@ namespace BusinessLogic.Verbs
 		public override void Execute(string itemName)
 		{
 			var player = Game.Player;
-			if (player.Inventory.GetItem(itemName) is { } item)
+			if (player.HasItem(itemName, out var item))
 			{
-				if (item.GetTag<ConsumableTag>() is { } tag)
+				if (item!.GetTag<ConsumableTag>() is { } tag)
 				{
-					Game.Player.Inventory.Remove(item);
+					Game.Player.RemoveItem(item);
 					var effect = tag?.GetEffect();
 					var result = effect?.ActOn(Game.Player);
 					if (result != null)

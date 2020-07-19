@@ -33,8 +33,17 @@ namespace BusinessLogic
 		{
 			if (!itemsOnFloor.Remove(item))
 			{
-				var creature = creatures.FirstOrDefault(c => c.IsDead && c.Inventory.HasItem(item));
-				creature.Inventory.Remove(item);
+
+				// ReSharper disable once LoopCanBeConvertedToQuery
+				// Maybe there is a better way to that but converting to linq always
+				// returns a method with an unused return value
+				foreach (var creature in creatures)
+				{
+					if (creature.RemoveItem(item))
+					{
+						return;
+					}
+				}
 			}
 		}
 
@@ -47,10 +56,8 @@ namespace BusinessLogic
 		{
 			foreach (var creature in creatures.Where(c => c.IsDead))
 			{
-				if (creature.Inventory.GetItem(itemName) is { } item)
-				{
+				if (creature.HasItem(itemName, out var item))
 					return item;
-				}
 			}
 
 			return null;

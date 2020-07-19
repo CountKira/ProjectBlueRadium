@@ -19,7 +19,7 @@ namespace BusinessLogic.Verbs
 				var lockTag = portal.Passage.GetTag<LockTag>();
 				if (lockTag != null)
 				{
-					if (PlayerHasKey(lockTag))
+					if (Game.Player.HasKey(lockTag))
 					{
 						writer.Write(new OutputData(OutputDataType.Unlocked) { Specifier = portal.DisplayName });
 						lockTag.Unlock();
@@ -33,11 +33,6 @@ namespace BusinessLogic.Verbs
 					writer.SetInvalidCommand(new InvalidCommand(InvalidCommandType.NotLocked) { Specifier = portal.DisplayName });
 				}
 			}
-		}
-
-		bool PlayerHasKey(LockTag lockTag)
-		{
-			return Game.Player.Inventory.Any(i => i.GetTag<KeyTag>()?.LockId == lockTag.LockId);
 		}
 	}
 }

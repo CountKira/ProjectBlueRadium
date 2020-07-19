@@ -1,4 +1,6 @@
-﻿namespace BusinessLogic
+﻿using System.Collections.Generic;
+
+namespace BusinessLogic
 {
 	public interface IWriter
 	{
@@ -8,7 +10,7 @@
 		void Write(OutputData outputData);
 		void WriteSeenObjects(SeenObjects seen);
 		void DescribeSelf(string description);
-		void ShowInventory(ItemCollection inventory);
-		void ShowEquipment(ItemCollection equipment);
+		void ShowInventory(IEnumerable<Item> inventory);
+		void ShowEquipment(IEnumerable<Item> equipment);
 	}
 }

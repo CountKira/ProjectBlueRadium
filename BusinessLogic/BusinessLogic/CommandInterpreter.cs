@@ -46,10 +46,10 @@ namespace BusinessLogic
 					writer.DescribeSelf(game.Player.Description);
 					break;
 				case "inventory":
-					writer.ShowInventory(game.Player.Inventory);
+					writer.ShowInventory(game.Player.GetInventoryItems());
 					break;
 				case "equipment":
-					writer.ShowEquipment(game.Player.Equipment);
+					writer.ShowEquipment(game.Player.GetEquippedItems());
 					break;
 				default:
 					if (!TryParseCommand(text))

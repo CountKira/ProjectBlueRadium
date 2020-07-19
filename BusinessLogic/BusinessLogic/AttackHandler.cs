@@ -25,8 +25,7 @@ namespace BusinessLogic
 				return;
 			}
 
-			var weaponDamage = GetEquippedWeaponDamage(player);
-			var damage = weaponDamage ?? 1;
+			var damage = player.GetDamage();
 			DealDamageToCreature(damage, enemy);
 			if (enemy.IsDead)
 			{
@@ -38,15 +37,6 @@ namespace BusinessLogic
 					game.Stop();
 				}
 			}
-		}
-
-		static Damage? GetEquippedWeaponDamage(Creature player)
-		{
-			foreach (var item in player.Equipment)
-				if (item.GetTag<WeaponTag>() is { } weapon)
-					return weapon.Damage;
-
-			return null;
 		}
 
 		public void GetAttackedByCreature(Creature player, Creature enemy)

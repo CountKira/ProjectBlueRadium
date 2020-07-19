@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using BusinessLogic;
 
@@ -119,7 +120,7 @@ namespace SharedViewResources
 		{
 			if (!creature.IsDead)
 				return "";
-			var inventoryText = ItemCollectionToString.GetItemNameConcat(creature.Inventory);
+			var inventoryText = ItemCollectionToString.GetItemNameConcat(creature.GetInventoryItems());
 			return string.IsNullOrEmpty(inventoryText) ? "" : $" with {inventoryText}";
 		}
 
@@ -130,31 +131,23 @@ namespace SharedViewResources
 		}
 
 		/// <inheritdoc />
-		public void ShowInventory(ItemCollection inventory)
+		public void ShowInventory(IEnumerable<Item> inventory)
 		{
-			if (inventory.Any())
-			{
-				var items = ItemCollectionToString.GetItemNameConcat(inventory);
-				WriteLine($"You have {items}.");
-			}
-			else
-			{
-				WriteLine("Your inventory is empty.");
-			}
+			var items = ItemCollectionToString.GetItemNameConcat(inventory);
+			WriteLine(
+				string.IsNullOrEmpty(items)
+					? "Your inventory is empty."
+					: $"You have {items}.");
 		}
 
 		/// <inheritdoc />
-		public void ShowEquipment(ItemCollection equipment)
+		public void ShowEquipment(IEnumerable<Item> equipment)
 		{
-			if (equipment.Any())
-			{
-				var items = ItemCollectionToString.GetItemNameConcat(equipment);
-				WriteLine($"You have {items} equipped.");
-			}
-			else
-			{
-				WriteLine("You have nothing equipped");
-			}
+			var items = ItemCollectionToString.GetItemNameConcat(equipment);
+			WriteLine(
+				string.IsNullOrEmpty(items)
+					? "You have nothing equipped"
+					: $"You have {items} equipped.");
 		}
 
 		void WriteLine(string text) => writer.WriteLine(text);

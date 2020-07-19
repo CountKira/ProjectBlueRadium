@@ -4,7 +4,7 @@ using BusinessLogic.Tags;
 
 namespace SharedViewResources
 {
-	static class ItemFactory
+	public static class ItemFactory
 	{
 		public static Item HealingPotion() => new Item("healing potion", "a healing potion",
 			new[] { new ConsumableTag(new HealEffect(5))});

@@ -1,4 +1,5 @@
 ﻿using System;
+using BusinessLogic;
 using Microsoft.Xna.Framework;
 using SadConsole;
 using SadConsoleView.Writer;
@@ -30,7 +31,8 @@ namespace SadConsoleView
 				Position = new Point(0, 1),
 			};
 			var sadConsoleWriter = new SadConsoleWriter(MainConsole);
-			game = new Game(new ViewWriter(sadConsoleWriter), new ConsoleTestRoom(), new SystemRandom(), new HealthPointWriter(statusConsole));
+			var player = CreatePlayer(statusConsole);
+			game = new Game(new ViewWriter(sadConsoleWriter), new ConsoleTestRoom(), new SystemRandom(), player);
 			textBox = new InputConsole(consoleWidth, game.EnterCommand, sadConsoleWriter) { Position = new Point(0, consoleHeight - 1) };
 
 			Global.FocusedConsoles.Set(textBox);
@@ -39,6 +41,15 @@ namespace SadConsoleView
 			Children.Add(statusConsole);
 
 			game.EnterCommand("look");
+		}
+
+		static Creature CreatePlayer(Console statusConsole)
+		{
+			var sword = ItemFactory.Sword();
+			var inventory = new[] { sword, ItemFactory.HealingPotion() };
+			var player = new Creature("The player", "The hero of our story", 10, 2, new HealthPointWriter(statusConsole), inventory);
+			player.Equip(sword);
+			return player;
 		}
 
 		public void ShutDown()

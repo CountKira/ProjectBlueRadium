@@ -12,8 +12,8 @@ namespace SharedTestingResources
 		public OutputData Action { get; private set; }
 		public SeenObjects SeenThings { get; private set; }
 		public string Me { get; private set; }
-		public ItemCollection Inventory { get; private set; }
-		public ItemCollection Equipment { get; private set; }
+		public IEnumerable<Item> Inventory { get; private set; }
+		public IEnumerable<Item> Equipment { get; private set; }
 
 		/// <inheritdoc />
 		public void WriteTextOutput(string text)
@@ -55,13 +55,13 @@ namespace SharedTestingResources
 		}
 
 		/// <inheritdoc />
-		public void ShowInventory(ItemCollection inventory)
+		public void ShowInventory(IEnumerable<Item> inventory)
 		{
 			Inventory = inventory;
 		}
 
 		/// <inheritdoc />
-		public void ShowEquipment(ItemCollection equipment)
+		public void ShowEquipment(IEnumerable<Item> equipment)
 		{
 			Equipment = equipment;
 		}

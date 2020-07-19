@@ -14,7 +14,7 @@ namespace BusinessLogic
 		bool hasActed;
 		readonly CommandInterpreter commandInterpreter;
 
-		public Game(IWriter writer, IRoomRepository roomRepository, IRandom random, INotificationHandler<int>? healthPointsChanged = null)
+		public Game(IWriter writer, IRoomRepository roomRepository, IRandom random, Creature player)
 		{
 			this.writer = writer;
 			this.roomRepository = roomRepository;
@@ -22,14 +22,14 @@ namespace BusinessLogic
 			commandInterpreter = new CommandInterpreter(writer, this);
 			room = roomRepository.GetStartRoom();
 
-			Player = BusinessLogic.Player.GetNewInstance(healthPointsChanged);
+			Player = player;
 		}
 
 		public Creature Player { get; }
 
 		public bool IsRunning { get; private set; } = true;
 
-		void AddToPlayerInventory(Item item) => Player.Inventory.Add(item);
+		void AddToPlayerInventory(Item item) => Player.PutIntoInventory(item);
 
 		/// <inheritdoc />
 		public void Stop() => IsRunning = false;
@@ -80,45 +80,44 @@ namespace BusinessLogic
 			if (GetItemObjectInRoom(entityName) is { } floorItem)
 				return floorItem.Description;
 
-			if (Player.Inventory.GetItem(entityName) is { } playerItem)
-				return playerItem.Description;
+			if (Player.HasItem(entityName, out var item))
+				return item!.Description;
 
 			var creature = room.GetCreature(entityName);
 			return creature?.Description;
 		}
 
 		/// <inheritdoc />
-		public Item? GetItemFromPlayerEquipment(string itemName) => Player.Equipment.GetItem(itemName);
-
-		/// <inheritdoc />
 		public Room GetCurrentRoom() => room;
 
 		/// <inheritdoc />
-		public Item? GetItemFromPlayerInventory(string itemName) => Player.Inventory.GetItem(itemName);
+		public Item? GetItemFromPlayerInventory(string itemName) => Player.GetItem(itemName);
 
 		/// <inheritdoc />
 		public void WieldWeapon(Item item)
 		{
-			if (Player.Equipment.Any(i => i.HasTag<WeaponTag>()))
+			if (Player.CanWieldWeapon)
 			{
 				writer.SetInvalidCommand(new InvalidCommand(InvalidCommandType.AlreadyWielding));
 			}
 			else
 			{
 				writer.Write(new OutputData(OutputDataType.Wield) { Specifier = item.Name });
-				Player.Equipment.Add(item);
+				Player.Equip(item);
 			}
 		}
 
 		/// <inheritdoc />
-		public void UnwieldWeapon(Item item)
+		public bool UnwieldWeapon(string itemName)
 		{
-			if (Player.Equipment.Contains(item))
-			{
-				Player.Equipment.Remove(item);
-				writer.Write(new OutputData(OutputDataType.Unwield) { Specifier = item.Name });
-			}
+			var item = Player.WieldsItem(itemName);
+			var didUnwield = item != null && Player.Unwield(item);
+			if (didUnwield)
+				writer.Write(new OutputData(OutputDataType.Unwield) { Specifier = item!.Name });
+			else
+				writer.SetInvalidCommand(new InvalidCommand(InvalidCommandType.EntityNotFound) { Specifier = itemName });
 
+			return didUnwield;
 		}
 
 		/// <inheritdoc />

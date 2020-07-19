@@ -12,12 +12,11 @@ namespace BusinessLogic
 		string? GetLocalAvailableEntityDescription(string entity);
 		Item? GetItemFromPlayerInventory(string itemName);
 		void WieldWeapon(Item item);
-		void UnwieldWeapon(Item item);
+		bool UnwieldWeapon(string itemName);
 		void LearnSpell();
 		void HandleAttacking(string enemy);
 		void HasActed();
 		Creature Player { get; }
-		Item? GetItemFromPlayerEquipment(string itemName);
 		Room GetCurrentRoom();
 	}
 }

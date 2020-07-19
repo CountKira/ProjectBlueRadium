@@ -10,8 +10,6 @@ namespace SharedViewResources
 			new Room.Builder("Start room with basic equipment.",
 				new ItemCollection
 				{
-					ItemFactory.Dagger(),
-					ItemFactory.Sword(),
 					ItemFactory.HealingPotion(),
 					ItemFactory.HealingPotion(),
 				});
