@@ -45,7 +45,7 @@ namespace BusinessLogic
 		public bool TryGetPortal(string portalName, out Portal portal)
 			=> room.TryGetPortal(portalName, out portal);
 
-		public void GoToRoomById(int roomId)
+		public void GoToRoomById(RoomId roomId)
 		{
 			room = roomRepository.GetRoomById(roomId);
 			writer.WriteSeenObjects(room.GetDescription());

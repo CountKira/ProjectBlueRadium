@@ -8,7 +8,7 @@ namespace BusinessLogic
 	[DebuggerDisplay("{" + nameof(DisplayName) + "}")]
 	public class Portal
 	{
-		Portal(int roomGuid, string displayName, Passage passage)
+		Portal(RoomId roomGuid, string displayName, Passage passage)
 		{
 			Passage = passage;
 			RoomGuid = roomGuid;
@@ -16,7 +16,7 @@ namespace BusinessLogic
 			DisplayName = displayName;
 		}
 
-		public int RoomGuid { get; }
+		public RoomId RoomGuid { get; }
 		public string DisplayName { get; }
 		public Passage Passage { get; }
 
@@ -25,7 +25,7 @@ namespace BusinessLogic
 			Passage.Builder Passage { get; }
 			string DisplayName { get; }
 
-			public int? RoomGuid { get; set; }
+			public RoomId? RoomGuid { get; set; }
 
 			public Builder(Passage.Builder passage, string displayName)
 			{
@@ -35,14 +35,14 @@ namespace BusinessLogic
 
 			public Portal Build()
 			{
-				if (!RoomGuid.HasValue)
+				if (RoomGuid is null)
 				{
 					throw new InvalidOperationException();
 				}
-				return new Portal(RoomGuid.Value, DisplayName, Passage.Build());
+				return new Portal(RoomGuid, DisplayName, Passage.Build());
 			}
 
-			public void ManageRoomId(int roomId)
+			public void ManageRoomId(RoomId roomId)
 			{
 				Passage.Add(this, roomId);
 			}

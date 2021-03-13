@@ -8,7 +8,7 @@ namespace BusinessLogic
 		Item? GetItemObjectInRoom(string item);
 		void PickUpItem(Item item);
 		bool TryGetPortal(string portalName, out Portal portal);
-		void GoToRoomById(int roomId);
+		void GoToRoomById(RoomId roomId);
 		string? GetLocalAvailableEntityDescription(string entity);
 		Item? GetItemFromPlayerInventory(string itemName);
 		void WieldWeapon(Item item);

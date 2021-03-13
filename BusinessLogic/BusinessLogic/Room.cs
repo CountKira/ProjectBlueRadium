@@ -83,7 +83,7 @@ namespace BusinessLogic
 				this.creatures = creatures;
 			}
 
-			public int RoomId { get; set; }
+			public RoomId RoomId { get; set; }
 
 			public void AddPortal(Portal.Builder portalBuilder)
 			{

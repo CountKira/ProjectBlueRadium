@@ -11,7 +11,7 @@ namespace BusinessLogic
 
 		public Room.Builder AddRoomBuilder(Room.Builder builder)
 		{
-			builder.RoomId = roomCounter++;
+			builder.RoomId = new RoomId(roomCounter++);
 			roomBuilders.Add(builder);
 			return builder;
 		}
@@ -27,9 +27,9 @@ namespace BusinessLogic
 			room2.AddPortal(portal2);
 		}
 
-		public Dictionary<int, Room> Build()
+		public Dictionary<RoomId, Room> Build()
 		{
-			var dictionary = new Dictionary<int, Room>();
+			var dictionary = new Dictionary<RoomId, Room>();
 			foreach (var roomBuilder in roomBuilders)
 			{
 				var room = roomBuilder.Build();

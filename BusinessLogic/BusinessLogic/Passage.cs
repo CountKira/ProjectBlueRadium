@@ -11,14 +11,14 @@ namespace BusinessLogic
 
 		public class Builder
 		{
-			readonly List<(int, Portal.Builder)> portals = new List<(int, Portal.Builder)>(2);
+			readonly List<(RoomId, Portal.Builder)> portals = new(2);
 			readonly Passage passage;
 
 			public Builder(IEnumerable<ITag>? tags = null) => passage = new Passage(tags);
 
 			public Passage Build() => passage;
 
-			public void Add(Portal.Builder builder, int roomId)
+			public void Add(Portal.Builder builder, RoomId roomId)
 			{
 				portals.Add((roomId, builder));
 				if (portals.Count==2)

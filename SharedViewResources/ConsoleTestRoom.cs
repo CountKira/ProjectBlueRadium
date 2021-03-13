@@ -6,7 +6,7 @@ namespace SharedViewResources
 {
 	public class ConsoleTestRoom : IRoomRepository
 	{
-		readonly Dictionary<int, Room> rooms;
+		readonly Dictionary<RoomId, Room> rooms;
 
 		public ConsoleTestRoom()
 		{
@@ -25,11 +25,13 @@ namespace SharedViewResources
 			rooms = mapBuilder.Build();
 		}
 
-		/// <inheritdoc />
-		public Room GetStartRoom() => rooms[0];
+		readonly RoomId startRoomId = new(0);
 
 		/// <inheritdoc />
-		public Room GetRoomById(int id) => rooms[id];
+		public Room GetStartRoom() => rooms[startRoomId];
+
+		/// <inheritdoc />
+		public Room GetRoomById(RoomId id) => rooms[id];
 
 	}
 }

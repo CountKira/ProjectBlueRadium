@@ -8,7 +8,7 @@ namespace SharedTestingResources
 {
 	public class TestingRoomRepository : IRoomRepository
 	{
-		readonly Dictionary<int, Room> rooms;
+		readonly Dictionary<RoomId, Room> rooms;
 
 		public TestingRoomRepository()
 		{
@@ -58,11 +58,12 @@ namespace SharedTestingResources
 			});
 		}
 
+		readonly RoomId startRoomId = new(0);
 
 		/// <inheritdoc />
-		public Room GetStartRoom() => rooms[0];
+		public Room GetStartRoom() => rooms[startRoomId];
 
 		/// <inheritdoc />
-		public Room GetRoomById(int id) => rooms[id];
+		public Room GetRoomById(RoomId id) => rooms[id];
 	}
 }

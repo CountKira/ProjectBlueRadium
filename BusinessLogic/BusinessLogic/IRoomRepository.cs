@@ -3,6 +3,6 @@
 	public interface IRoomRepository
 	{
 		Room GetStartRoom();
-		Room GetRoomById(int id);
+		Room GetRoomById(RoomId id);
 	}
 }
