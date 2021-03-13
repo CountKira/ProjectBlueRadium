@@ -6,7 +6,7 @@
 		void Stop();
 		Item? GetItemObjectInRoom(string item);
 		void PickUpItem(Item item);
-		bool TryGetPortal(string portalName, out Portal portal);
+		bool TryGetPortal(string portalName, out Portal? portal);
 		void GoToRoomById(RoomId roomId);
 		string? GetLocalAvailableEntityDescription(string entity);
 		Item? GetItemFromPlayerInventory(string itemName);

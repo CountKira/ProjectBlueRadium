@@ -22,8 +22,8 @@ namespace SharedTestingResources
 				mapBuilder.AddRoomBuilder(RoomFactory.BrightRoom),
 			};
 
-			mapBuilder.ConnectRooms(builders[0], "north", builders[1], "south");
-			mapBuilder.ConnectRooms(builders[0], "west", builders[2], "east");
+			MapBuilder.ConnectRooms(builders[0], "north", builders[1], "south");
+			MapBuilder.ConnectRooms(builders[0], "west", builders[2], "east");
 
 			rooms = mapBuilder.Build();
 		}

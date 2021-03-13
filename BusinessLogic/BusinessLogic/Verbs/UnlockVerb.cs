@@ -12,7 +12,7 @@ namespace BusinessLogic.Verbs
 		{
 			if (Game.TryGetPortal(portalName, out var portal))
 			{
-				var lockTag = portal.Passage.GetTag<LockTag>();
+				var lockTag = portal!.Passage.GetTag<LockTag>();
 				if (lockTag != null)
 				{
 					if (Game.Player.HasKey(lockTag))

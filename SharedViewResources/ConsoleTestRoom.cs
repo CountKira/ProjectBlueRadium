@@ -21,8 +21,8 @@ namespace SharedViewResources
 			//{5, new Room("Healing potions")},
 			//{6, new Room("Stage end boss")},
 
-			mapBuilder.ConnectRooms(startRoom, "north", firstChallenge, "south");
-			mapBuilder.ConnectRooms(firstChallenge, "north", secondChallenge, "south", new[] {new LockTag(new(0)),});
+			MapBuilder.ConnectRooms(startRoom, "north", firstChallenge, "south");
+			MapBuilder.ConnectRooms(firstChallenge, "north", secondChallenge, "south", new[] {new LockTag(new(0)),});
 
 			rooms = mapBuilder.Build();
 		}

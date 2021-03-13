@@ -218,7 +218,7 @@ namespace ProjectBlueRadium.Spec
 
 
 		[StepArgumentTransformation]
-		public string[] TransformToStringArray(string str) => str.Split(',');
+		public static string[] TransformToStringArray(string str) => str.Split(',');
 
 		class MockRandom : IRandom
 		{

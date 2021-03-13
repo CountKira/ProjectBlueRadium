@@ -37,7 +37,7 @@ namespace BusinessLogic
 			HasActed();
 		}
 
-		public bool TryGetPortal(string portalName, out Portal portal)
+		public bool TryGetPortal(string portalName, out Portal? portal)
 			=> room.TryGetPortal(portalName, out portal);
 
 		public void GoToRoomById(RoomId roomId)

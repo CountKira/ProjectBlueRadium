@@ -9,7 +9,7 @@ namespace BusinessLogic.Verbs
 		public override void Execute(string portalName)
 		{
 			if (Game.TryGetPortal(portalName, out var portal))
-				if (portal.Passage.GetTag<LockTag>()?.IsLocked ?? false)
+				if (portal!.Passage.GetTag<LockTag>()?.IsLocked ?? false)
 					writer.SetInvalidCommand(new(InvalidCommandType.Locked));
 				else
 					Game.GoToRoomById(portal.RoomGuid);

@@ -17,13 +17,13 @@ namespace BusinessLogic
 		{
 			this.description = description;
 			this.itemsOnFloor = itemsOnFloor ?? new ItemCollection();
-			this.creatures = creatures ?? new Creature[0];
-			this.portals = portals ?? new Portal[0];
+			this.creatures = creatures ?? Array.Empty<Creature>();
+			this.portals = portals ?? Array.Empty<Portal>();
 		}
 
 		public SeenObjects GetDescription() => new(description, portals, itemsOnFloor, creatures);
 
-		public bool TryGetPortal(string portalName, out Portal portal)
+		public bool TryGetPortal(string portalName, out Portal? portal)
 		{
 			portal = portals.FirstOrDefault(p => p.DisplayName == portalName);
 			return portal != null;
@@ -72,10 +72,12 @@ namespace BusinessLogic
 				this.creatures = creatures;
 			}
 
-			public RoomId RoomId { get; set; }
+			public RoomId? RoomId { get; set; }
 
 			public void AddPortal(Portal.Builder portalBuilder)
 			{
+				if (RoomId is null)
+					throw new InvalidOperationException($"{nameof(RoomId)} is not set.");
 				portalBuilder.ManageRoomId(RoomId);
 				portalBuilders.Add(portalBuilder);
 			}

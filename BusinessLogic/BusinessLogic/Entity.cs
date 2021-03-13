@@ -14,6 +14,6 @@ namespace BusinessLogic
 
 		public bool HasTag<TTag>() where TTag : ITag => tags.Any(v => v is TTag);
 
-		public TTag? GetTag<TTag>() where TTag : class, ITag => (TTag) tags.FirstOrDefault(t => t is TTag);
+		public TTag? GetTag<TTag>() where TTag : class, ITag => (TTag?) tags.FirstOrDefault(t => t is TTag);
 	}
 }

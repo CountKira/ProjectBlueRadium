@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using BusinessLogic.Tags;
 
 namespace BusinessLogic
@@ -15,7 +16,7 @@ namespace BusinessLogic
 			return builder;
 		}
 
-		public void ConnectRooms(Room.Builder room1, string portalName1, Room.Builder room2, string portalName2,
+		public static void ConnectRooms(Room.Builder room1, string portalName1, Room.Builder room2, string portalName2,
 			IEnumerable<ITag>? tags = null)
 		{
 			var passage = new Passage.Builder(tags);
@@ -33,7 +34,7 @@ namespace BusinessLogic
 			foreach (var roomBuilder in roomBuilders)
 			{
 				var room = roomBuilder.Build();
-				dictionary.Add(roomBuilder.RoomId, room);
+				dictionary.Add(roomBuilder.RoomId ?? throw new InvalidOperationException($"{nameof(roomBuilder.RoomId)} is not set"), room);
 			}
 
 			return dictionary;
