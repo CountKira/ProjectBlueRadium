@@ -15,7 +15,5 @@ namespace BusinessLogic.SemanticTypes
 			Value = damage;
 		}
 		public int Value { get; }
-
-		public static implicit operator Damage(int value) => new Damage(value);
 	}
 }
