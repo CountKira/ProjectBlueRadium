@@ -13,7 +13,5 @@ namespace BusinessLogic.SemanticTypes
 			Value = heal;
 		}
 		public int Value { get; }
-
-		public static implicit operator Heal(int value) => new Heal(value);
 	}
 }

@@ -32,7 +32,7 @@ namespace SharedTestingResources
 			internal static Item Poison => new Item("poison", "This is a glass bottle, with a green substance inside it.",
 				new[] { new ConsumableTag(new DamageEffect(50)) });
 			internal static Item Potion => new Item("potion", "This is a glass bottle, with a red substance inside it.",
-				new[] { new ConsumableTag(new HealEffect(10))});
+				new[] { new ConsumableTag(new HealEffect(new(10)))});
 			internal static Item Book => new Item("book", "The book contains the story of boatmurdered.");
 			internal static Item FireballSpellBook => new Item("fireball spell book", "The book contains the teachings to learn the spell fireball.");
 			internal static Item Sword => new Item("sword", "A sharp sword.", new[] { new WeaponTag(2)});
