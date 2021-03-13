@@ -22,7 +22,7 @@ namespace ProjectBlueRadium.Spec
 		[Given(@"I start a new game in the test dungeon with (.*) health")]
 		public void GivenIStartANewGameInTheTestDungeon(int health)
 		{
-			var player = new Creature("The player", "The hero of our story", new(10, null), new(2));
+			var player = new Creature("The player", "The hero of our story", new(10, null), new(1));
 			game = new(writer, new TestingRoomRepository(), new MockRandom(), player);
 			var playerHealthPoints = game.Player.HealthPoints;
 			var damage = new Damage(playerHealthPoints.Current - health);
