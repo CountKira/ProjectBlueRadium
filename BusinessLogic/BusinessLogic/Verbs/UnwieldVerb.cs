@@ -4,9 +4,9 @@
 	{
 		public UnwieldVerb(IWriter writer, IGame game) : base(writer, game) { }
 
-		public override void Execute(string itemName)
+		public override void Execute(ExecutionTarget itemName)
 		{
-			if (Game.UnwieldWeapon(itemName))
+			if (Game.UnwieldWeapon(ItemName.FromExecutionTarget(itemName)))
 				Game.HasActed();
 		}
 	}

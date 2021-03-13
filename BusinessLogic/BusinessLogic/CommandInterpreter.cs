@@ -64,13 +64,13 @@ namespace BusinessLogic
 			return verbList.Any(verb => ParseCommand(inputText, verb.Key, verb.Value.Execute));
 		}
 
-		static bool ParseCommand(string inputText, string verb, Action<string> commandMethod)
+		static bool ParseCommand(string inputText, string verb, Action<ExecutionTarget> commandMethod)
 		{
 			var match = inputText.StartsWith(verb);
 			if (match)
 			{
-				var itemName = inputText.Substring(verb.Length);
-				commandMethod(itemName);
+				var executionTarget = inputText.Substring(verb.Length);
+				commandMethod(new(executionTarget));
 			}
 
 			return match;

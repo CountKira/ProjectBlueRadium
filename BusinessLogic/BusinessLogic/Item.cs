@@ -8,14 +8,14 @@ namespace BusinessLogic
 	[DebuggerDisplay("{" + nameof(Name) + "}")]
 	public class Item : Entity
 	{
-		public Item(string name, string description, IEnumerable<ITag>? tags = null)
+		public Item(ItemName name, string description, IEnumerable<ITag>? tags = null)
 			: base(tags ?? Enumerable.Empty<ITag>())
 		{
 			Name = name;
 			Description = description;
 		}
 
-		public string Name { get; }
+		public ItemName Name { get; }
 		public string Description { get; }
 	}
 }

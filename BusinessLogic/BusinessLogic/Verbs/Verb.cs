@@ -12,6 +12,6 @@
 
 		protected IGame Game { get; }
 
-		public abstract void Execute(string s);
+		public abstract void Execute(ExecutionTarget target);
 	}
 }

@@ -12,7 +12,7 @@ namespace BusinessLogic
 		readonly ItemCollection equipment = new();
 		readonly ItemCollection inventory = new();
 
-		public Creature(string name,
+		public Creature(CreatureName name,
 			string description,
 			HealthPoints healthPoints,
 			Damage damage,
@@ -29,7 +29,7 @@ namespace BusinessLogic
 					this.inventory.Add(item);
 		}
 
-		public string Name { get; }
+		public CreatureName Name { get; }
 		public string Description { get; }
 
 		public bool IsDead => HealthPoints.ZeroOrBelow;
@@ -57,7 +57,7 @@ namespace BusinessLogic
 
 		public void PutIntoInventory(Item item) => inventory.Add(item);
 
-		public bool HasItem(string itemName, out Item? item)
+		public bool HasItem(ItemName itemName, out Item? item)
 		{
 			item = inventory.GetItem(itemName);
 			return item != null;
@@ -65,7 +65,7 @@ namespace BusinessLogic
 
 		public bool HasKey(LockTag lockTag) => inventory.Any(i => i.GetTag<KeyTag>()?.LockId == lockTag.LockId);
 
-		public Item? GetItem(string itemName) => inventory.GetItem(itemName);
+		public Item? GetItem(ItemName itemName) => inventory.GetItem(itemName);
 
 		public bool Unwield(Item weapon) => equipment.Remove(weapon);
 
@@ -84,7 +84,7 @@ namespace BusinessLogic
 			return null;
 		}
 
-		public Item? WieldsItem(string itemName) => equipment.GetItem(itemName);
+		public Item? WieldsItem(ItemName itemName) => equipment.GetItem(itemName);
 
 		public IEnumerable<Item> GetEquippedItems() => equipment;
 		public IEnumerable<Item> GetInventoryItems() => inventory;

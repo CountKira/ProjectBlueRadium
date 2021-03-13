@@ -51,7 +51,7 @@ namespace BusinessLogic.Tests
 		class DummyItem : Item
 		{
 			/// <inheritdoc />
-			public DummyItem(string name, string description) : base(name, description) { }
+			public DummyItem(string name, string description) : base(new(name), description) { }
 		}
 	}
 }

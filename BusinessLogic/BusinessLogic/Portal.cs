@@ -6,7 +6,7 @@ namespace BusinessLogic
 	[DebuggerDisplay("{" + nameof(DisplayName) + "}")]
 	public class Portal
 	{
-		Portal(RoomId roomGuid, string displayName, Passage passage)
+		Portal(RoomId roomGuid, PortalName displayName, Passage passage)
 		{
 			Passage = passage;
 			RoomGuid = roomGuid;
@@ -15,19 +15,19 @@ namespace BusinessLogic
 		}
 
 		public RoomId RoomGuid { get; }
-		public string DisplayName { get; }
+		public PortalName DisplayName { get; }
 		public Passage Passage { get; }
 
 		public class Builder
 		{
-			public Builder(Passage.Builder passage, string displayName)
+			public Builder(Passage.Builder passage, PortalName displayName)
 			{
 				Passage = passage;
 				DisplayName = displayName;
 			}
 
 			Passage.Builder Passage { get; }
-			string DisplayName { get; }
+			PortalName DisplayName { get; }
 
 			public RoomId? RoomGuid { get; set; }
 

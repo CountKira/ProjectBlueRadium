@@ -4,12 +4,12 @@
 	{
 		public LookVerb(IWriter writer, IGame game) : base(writer, game) { }
 
-		public override void Execute(string entity)
+		public override void Execute(ExecutionTarget target)
 		{
-			var entityObj = Game.GetLocalAvailableEntityDescription(entity);
+			var entityObj = Game.GetLocalAvailableEntityDescription(target.Value);
 			if (entityObj == null)
 				writer.SetInvalidCommand(new(InvalidCommandType.EntityNotFound)
-					{Specifier = entity,});
+					{Specifier = target.Value,});
 			else
 				writer.WriteTextOutput(entityObj);
 		}

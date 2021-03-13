@@ -6,16 +6,16 @@ namespace BusinessLogic.Verbs
 	{
 		public GoVerb(IWriter writer, IGame game) : base(writer, game) { }
 
-		public override void Execute(string portalName)
+		public override void Execute(ExecutionTarget target)
 		{
-			if (Game.TryGetPortal(portalName, out var portal))
+			if (Game.TryGetPortal(PortalName.FromExecutionTarget(target), out var portal))
 				if (portal!.Passage.GetTag<LockTag>()?.IsLocked ?? false)
 					writer.SetInvalidCommand(new(InvalidCommandType.Locked));
 				else
 					Game.GoToRoomById(portal.RoomGuid);
 			else
 				writer.SetInvalidCommand(new(InvalidCommandType.PortalNotFound)
-					{Specifier = portalName,});
+					{Specifier = target.Value,});
 		}
 	}
 }

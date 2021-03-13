@@ -2,6 +2,7 @@
 using BusinessLogic;
 using BusinessLogic.Effects;
 using BusinessLogic.Tags;
+using BusinessLogic.Verbs;
 
 namespace SharedTestingResources
 {
@@ -22,8 +23,8 @@ namespace SharedTestingResources
 				mapBuilder.AddRoomBuilder(RoomFactory.BrightRoom),
 			};
 
-			MapBuilder.ConnectRooms(builders[0], "north", builders[1], "south");
-			MapBuilder.ConnectRooms(builders[0], "west", builders[2], "east");
+			MapBuilder.ConnectRooms(builders[0], BasicPortalName.North, builders[1], BasicPortalName.South);
+			MapBuilder.ConnectRooms(builders[0], BasicPortalName.West, builders[2], BasicPortalName.East);
 
 			rooms = mapBuilder.Build();
 		}
@@ -36,19 +37,19 @@ namespace SharedTestingResources
 
 		static class ItemFactory
 		{
-			internal static Item Poison => new("poison", "This is a glass bottle, with a green substance inside it.",
+			internal static Item Poison => new(new("poison"), "This is a glass bottle, with a green substance inside it.",
 				new[] {new ConsumableTag(new DamageEffect(new(50))),});
 
-			internal static Item Potion => new("potion", "This is a glass bottle, with a red substance inside it.",
+			internal static Item Potion => new(new("potion"), "This is a glass bottle, with a red substance inside it.",
 				new[] {new ConsumableTag(new HealEffect(new(10))),});
 
-			internal static Item Book => new("book", "The book contains the story of boatmurdered.");
+			internal static Item Book => new(new("book"), "The book contains the story of boatmurdered.");
 
-			internal static Item FireballSpellBook => new("fireball spell book",
+			internal static Item FireballSpellBook => new(new("fireball spell book"),
 				"The book contains the teachings to learn the spell fireball.");
 
-			internal static Item Sword => new("sword", "A sharp sword.", new[] {new WeaponTag(new(2)),});
-			internal static Item Shield => new("shield", "A shield", new[] {new WeaponTag(new(0)),});
+			internal static Item Sword => new(new("sword"), "A sharp sword.", new[] {new WeaponTag(new(2)),});
+			internal static Item Shield => new(new("shield"), "A shield", new[] {new WeaponTag(new(0)),});
 		}
 
 		static class RoomFactory
@@ -63,7 +64,7 @@ namespace SharedTestingResources
 
 			internal static Room.Builder DarkRoom => new("You are in a dark room.", creatures: new[]
 			{
-				new Creature("Evil guy", "The evil threat of the campaign.", new(4, null), new(2),
+				new Creature(new("Evil guy"), "The evil threat of the campaign.", new(4, null), new(2),
 					tags: new[] {new MarkerTag(Tag.GameEnd),}),
 			});
 

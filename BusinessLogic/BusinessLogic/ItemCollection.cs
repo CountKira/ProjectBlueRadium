@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -23,9 +22,6 @@ namespace BusinessLogic
 		public bool Remove(Item item) => items.Remove(item);
 		public bool HasItem(Item item) => items.Contains(item);
 
-		public Item? GetItem(string itemName)
-		{
-			return items.FirstOrDefault(i => i.Name.Equals(itemName, StringComparison.OrdinalIgnoreCase));
-		}
+		public Item? GetItem(ItemName itemName) => items.FirstOrDefault(i => i.Name == itemName);
 	}
 }

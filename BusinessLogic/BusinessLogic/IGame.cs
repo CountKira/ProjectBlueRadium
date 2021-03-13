@@ -4,16 +4,16 @@
 	{
 		Creature Player { get; }
 		void Stop();
-		Item? GetItemObjectInRoom(string item);
+		Item? GetItemObjectInRoom(ItemName item);
 		void PickUpItem(Item item);
-		bool TryGetPortal(string portalName, out Portal? portal);
+		bool TryGetPortal(PortalName portalName, out Portal? portal);
 		void GoToRoomById(RoomId roomId);
 		string? GetLocalAvailableEntityDescription(string entity);
-		Item? GetItemFromPlayerInventory(string itemName);
+		Item? GetItemFromPlayerInventory(ItemName itemName);
 		void WieldWeapon(Item item);
-		bool UnwieldWeapon(string itemName);
+		bool UnwieldWeapon(ItemName itemName);
 		void LearnSpell();
-		void HandleAttacking(string enemy);
+		void HandleAttacking(CreatureName enemy);
 		void HasActed();
 		Room GetCurrentRoom();
 	}

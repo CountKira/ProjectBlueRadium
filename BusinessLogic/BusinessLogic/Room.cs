@@ -23,7 +23,7 @@ namespace BusinessLogic
 
 		public SeenObjects GetDescription() => new(description, portals, itemsOnFloor, creatures);
 
-		public bool TryGetPortal(string portalName, out Portal? portal)
+		public bool TryGetPortal(PortalName portalName, out Portal? portal)
 		{
 			portal = portals.FirstOrDefault(p => p.DisplayName == portalName);
 			return portal != null;
@@ -40,9 +40,9 @@ namespace BusinessLogic
 						return;
 		}
 
-		public Item? GetItem(string itemName) => itemsOnFloor.GetItem(itemName) ?? FindItemOnDeadCreatures(itemName);
+		public Item? GetItem(ItemName itemName) => itemsOnFloor.GetItem(itemName) ?? FindItemOnDeadCreatures(itemName);
 
-		Item? FindItemOnDeadCreatures(string itemName)
+		Item? FindItemOnDeadCreatures(ItemName itemName)
 		{
 			foreach (var creature in creatures.Where(c => c.IsDead))
 				if (creature.HasItem(itemName, out var item))
@@ -51,8 +51,8 @@ namespace BusinessLogic
 			return null;
 		}
 
-		public Creature? GetCreature(string creatureName) =>
-			creatures.FirstOrDefault(a => a.Name.Equals(creatureName, StringComparison.OrdinalIgnoreCase));
+		public Creature? GetCreature(CreatureName creatureName) =>
+			creatures.FirstOrDefault(a => a.Name == creatureName);
 
 		public IEnumerable<Creature> GetCreatures() => creatures;
 

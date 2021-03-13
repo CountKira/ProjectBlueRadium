@@ -8,16 +8,16 @@ namespace BusinessLogic.Verbs
 		public UnlockVerb(IWriter writer, IGame game) : base(writer, game) { }
 
 		/// <inheritdoc />
-		public override void Execute(string portalName)
+		public override void Execute(ExecutionTarget target)
 		{
-			if (Game.TryGetPortal(portalName, out var portal))
+			if (Game.TryGetPortal(PortalName.FromExecutionTarget(target), out var portal))
 			{
 				var lockTag = portal!.Passage.GetTag<LockTag>();
 				if (lockTag != null)
 				{
 					if (Game.Player.HasKey(lockTag))
 					{
-						writer.Write(new(OutputDataType.Unlocked) {Specifier = portal.DisplayName,});
+						writer.Write(new(OutputDataType.Unlocked) {Specifier = portal.DisplayName.Value,});
 						lockTag.Unlock();
 						Game.HasActed();
 					}
@@ -28,7 +28,7 @@ namespace BusinessLogic.Verbs
 				}
 				else
 				{
-					writer.SetInvalidCommand(new(InvalidCommandType.NotLocked) {Specifier = portal.DisplayName,});
+					writer.SetInvalidCommand(new(InvalidCommandType.NotLocked) {Specifier = portal.DisplayName.Value,});
 				}
 			}
 		}

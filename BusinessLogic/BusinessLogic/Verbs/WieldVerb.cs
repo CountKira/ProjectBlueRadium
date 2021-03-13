@@ -6,13 +6,13 @@ namespace BusinessLogic.Verbs
 	{
 		public WieldVerb(IWriter writer, IGame game) : base(writer, game) { }
 
-		public override void Execute(string itemName)
+		public override void Execute(ExecutionTarget target)
 		{
-			var itemObj = Game.GetItemFromPlayerInventory(itemName);
+			var itemObj = Game.GetItemFromPlayerInventory(ItemName.FromExecutionTarget(target));
 			if (itemObj is null)
 			{
 				writer.SetInvalidCommand(new(InvalidCommandType.EntityNotFound)
-					{Specifier = itemName,});
+					{Specifier = target.Value,});
 			}
 			else
 			{
@@ -24,7 +24,7 @@ namespace BusinessLogic.Verbs
 				else
 				{
 					writer.SetInvalidCommand(new(InvalidCommandType.CanNotWield)
-						{Specifier = itemObj.Name,});
+						{Specifier = itemObj.Name.Value,});
 				}
 			}
 		}

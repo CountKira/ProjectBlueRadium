@@ -31,13 +31,13 @@ namespace BusinessLogic
 
 		public void PickUpItem(Item item)
 		{
-			writer.Write(new(OutputDataType.Get) {Specifier = item.Name,});
+			writer.Write(new(OutputDataType.Get) {Specifier = item.Name.Value,});
 			room.RemoveItem(item);
 			AddToPlayerInventory(item);
 			HasActed();
 		}
 
-		public bool TryGetPortal(string portalName, out Portal? portal)
+		public bool TryGetPortal(PortalName portalName, out Portal? portal)
 			=> room.TryGetPortal(portalName, out portal);
 
 		public void GoToRoomById(RoomId roomId)
@@ -46,13 +46,13 @@ namespace BusinessLogic
 			writer.WriteSeenObjects(room.GetDescription());
 		}
 
-		public void HandleAttacking(string enemy)
+		public void HandleAttacking(CreatureName enemy)
 		{
 			var creature = room.GetCreature(enemy);
 			if (creature is null || creature.IsDead)
 			{
 				writer.SetInvalidCommand(new(InvalidCommandType.EntityNotFound)
-					{Specifier = enemy,});
+					{Specifier = enemy.Value,});
 				return;
 			}
 
@@ -65,13 +65,14 @@ namespace BusinessLogic
 
 		public string? GetLocalAvailableEntityDescription(string entityName)
 		{
-			if (GetItemObjectInRoom(entityName) is { } floorItem)
+			var asItem = new ItemName(entityName);
+			if (GetItemObjectInRoom(asItem) is { } floorItem)
 				return floorItem.Description;
 
-			if (Player.HasItem(entityName, out var item))
+			if (Player.HasItem(asItem, out var item))
 				return item!.Description;
 
-			var creature = room.GetCreature(entityName);
+			var creature = room.GetCreature(new(entityName));
 			return creature?.Description;
 		}
 
@@ -79,7 +80,7 @@ namespace BusinessLogic
 		public Room GetCurrentRoom() => room;
 
 		/// <inheritdoc />
-		public Item? GetItemFromPlayerInventory(string itemName) => Player.GetItem(itemName);
+		public Item? GetItemFromPlayerInventory(ItemName itemName) => Player.GetItem(itemName);
 
 		/// <inheritdoc />
 		public void WieldWeapon(Item item)
@@ -90,20 +91,20 @@ namespace BusinessLogic
 			}
 			else
 			{
-				writer.Write(new(OutputDataType.Wield) {Specifier = item.Name,});
+				writer.Write(new(OutputDataType.Wield) {Specifier = item.Name.Value,});
 				Player.Equip(item);
 			}
 		}
 
 		/// <inheritdoc />
-		public bool UnwieldWeapon(string itemName)
+		public bool UnwieldWeapon(ItemName itemName)
 		{
 			var item = Player.WieldsItem(itemName);
 			var didUnwield = item != null && Player.Unwield(item);
 			if (didUnwield)
-				writer.Write(new(OutputDataType.Unwield) {Specifier = item!.Name,});
+				writer.Write(new(OutputDataType.Unwield) {Specifier = item!.Name.Value,});
 			else
-				writer.SetInvalidCommand(new(InvalidCommandType.EntityNotFound) {Specifier = itemName,});
+				writer.SetInvalidCommand(new(InvalidCommandType.EntityNotFound) {Specifier = itemName.Value,});
 
 			return didUnwield;
 		}
@@ -115,7 +116,7 @@ namespace BusinessLogic
 			HasActed();
 		}
 
-		public Item? GetItemObjectInRoom(string itemName) => room.GetItem(itemName);
+		public Item? GetItemObjectInRoom(ItemName itemName) => room.GetItem(itemName);
 
 		void AddToPlayerInventory(Item item) => Player.PutIntoInventory(item);
 

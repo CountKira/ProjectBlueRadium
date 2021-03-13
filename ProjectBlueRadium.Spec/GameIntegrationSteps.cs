@@ -22,7 +22,7 @@ namespace ProjectBlueRadium.Spec
 		[Given(@"I start a new game in the test dungeon with (.*) health")]
 		public void GivenIStartANewGameInTheTestDungeon(int health)
 		{
-			var player = new Creature("The player", "The hero of our story", new(10, null), new(1));
+			var player = new Creature(new("The player"), "The hero of our story", new(10, null), new(1));
 			game = new(writer, new TestingRoomRepository(), new MockRandom(), player);
 			var playerHealthPoints = game.Player.HealthPoints;
 			var damage = new Damage(playerHealthPoints.Current - health);
@@ -144,7 +144,7 @@ namespace ProjectBlueRadium.Spec
 		public void ThenISeeTheItems(string[] items)
 		{
 			var result = writer.SeenThings;
-			Assert.Equal(items, result.Items.Select(i => i.Name).ToArray());
+			Assert.Equal(items, result.Items.Select(i => i.Name.Value).ToArray());
 		}
 
 		[Then(@"I see no items")]
@@ -157,14 +157,14 @@ namespace ProjectBlueRadium.Spec
 		public void ThenISeeTheEntryWays(string[] entryWays)
 		{
 			var result = writer.SeenThings;
-			Assert.Equal(entryWays, result.Portals.Select(p => p.DisplayName).ToArray());
+			Assert.Equal(entryWays, result.Portals.Select(p => p.DisplayName.Value).ToArray());
 		}
 
 		[Then(@"I see the creature ""(.*)""")]
 		public void ThenISeeTheCreatures(string[] creatures)
 		{
 			var result = writer.SeenThings;
-			Assert.Equal(creatures, result.Creatures.Select(c => c.Name));
+			Assert.Equal(creatures, result.Creatures.Select(c => c.Name.Value));
 		}
 
 		[Then(@"I have no items in my inventory")]
@@ -177,14 +177,14 @@ namespace ProjectBlueRadium.Spec
 		public void ThenIHaveInMyInventory(string[] items)
 		{
 			var actual = writer.Inventory;
-			Assert.Equal(items, actual.Select(i => i.Name));
+			Assert.Equal(items, actual.Select(i => i.Name.Value));
 		}
 
 		[Then(@"I have (?!nothing)(.*) equipped")]
 		public void ThenIHaveSwordEquipped(string item)
 		{
 			var actual = writer.Equipment;
-			Assert.Contains(item, actual.Select(e => e.Name));
+			Assert.Contains(item, actual.Select(e => e.Name.Value));
 		}
 
 		[Then(@"I equipped sword")]

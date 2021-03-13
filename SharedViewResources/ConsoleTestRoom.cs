@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using BusinessLogic;
 using BusinessLogic.Tags;
+using BusinessLogic.Verbs;
 
 namespace SharedViewResources
 {
@@ -21,8 +22,8 @@ namespace SharedViewResources
 			//{5, new Room("Healing potions")},
 			//{6, new Room("Stage end boss")},
 
-			MapBuilder.ConnectRooms(startRoom, "north", firstChallenge, "south");
-			MapBuilder.ConnectRooms(firstChallenge, "north", secondChallenge, "south", new[] {new LockTag(new(0)),});
+			MapBuilder.ConnectRooms(startRoom, BasicPortalName.North, firstChallenge, BasicPortalName.South);
+			MapBuilder.ConnectRooms(firstChallenge, BasicPortalName.North, secondChallenge, BasicPortalName.South, new[] { new LockTag(new(0)), });
 
 			rooms = mapBuilder.Build();
 		}

@@ -8,10 +8,10 @@ namespace BusinessLogic.Verbs
 		public DrinkVerb(IWriter writer, IGame game) : base(writer, game) { }
 
 		/// <inheritdoc />
-		public override void Execute(string itemName)
+		public override void Execute(ExecutionTarget target)
 		{
 			var player = Game.Player;
-			if (player.HasItem(itemName, out var item))
+			if (player.HasItem(ItemName.FromExecutionTarget(target), out var item))
 			{
 				if (item!.GetTag<ConsumableTag>() is { } tag)
 				{
@@ -26,7 +26,8 @@ namespace BusinessLogic.Verbs
 				}
 				else
 				{
-					var invalidCommand = new InvalidCommand(InvalidCommandType.NotExecutable) {Specifier = itemName,};
+					var invalidCommand = new InvalidCommand(InvalidCommandType.NotExecutable)
+						{Specifier = target.Value,};
 					writer.SetInvalidCommand(invalidCommand);
 				}
 			}
@@ -34,7 +35,7 @@ namespace BusinessLogic.Verbs
 			{
 				var invalidCommand = new InvalidCommand(InvalidCommandType.ItemNotFound)
 				{
-					Specifier = itemName,
+					Specifier = target.Value,
 				};
 				writer.SetInvalidCommand(invalidCommand);
 			}
