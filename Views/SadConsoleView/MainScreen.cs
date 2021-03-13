@@ -47,7 +47,7 @@ namespace SadConsoleView
 		{
 			var sword = ItemFactory.Sword();
 			var inventory = new[] { sword, ItemFactory.HealingPotion() };
-			var player = new Creature("The player", "The hero of our story", 10, 2, new HealthPointWriter(statusConsole), inventory);
+			var player = new Creature("The player", "The hero of our story", new(10, new HealthPointWriter(statusConsole)), 2, inventory);
 			player.Equip(sword);
 			return player;
 		}

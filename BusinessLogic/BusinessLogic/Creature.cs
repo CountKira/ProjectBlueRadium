@@ -15,16 +15,15 @@ namespace BusinessLogic
 
 		public Creature(string name,
 			string description,
-			int healthPoints,
+			HealthPoints healthPoints,
 			Damage damage,
-			INotificationHandler<int>? healthPointsChanged = null,
 			IEnumerable<Item>? inventory = null,
 			IEnumerable<ITag>? tags = null) :
 			base(tags ?? Enumerable.Empty<ITag>())
 		{
 			Name = name;
 			Description = description;
-			HealthPoints = new HealthPoints(healthPoints, healthPointsChanged);
+			HealthPoints = healthPoints;
 			Damage = damage;
 			if (inventory != null)
 			{

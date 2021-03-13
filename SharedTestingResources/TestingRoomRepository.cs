@@ -2,6 +2,7 @@
 using System.Linq;
 using BusinessLogic;
 using BusinessLogic.Effects;
+using BusinessLogic.SemanticTypes;
 using BusinessLogic.Tags;
 
 namespace SharedTestingResources
@@ -49,7 +50,7 @@ namespace SharedTestingResources
 			});
 			internal static Room.Builder DarkRoom => new Room.Builder("You are in a dark room.", creatures: new[]
 			{
-				new Creature("Evil guy", "The evil threat of the campaign.", 4, 2, tags: new []{new MarkerTag(Tag.GameEnd)}),
+				new Creature("Evil guy", "The evil threat of the campaign.", new (4, null) , 2, tags: new []{new MarkerTag(Tag.GameEnd)}),
 			});
 			internal static Room.Builder BrightRoom => new Room.Builder("You are in a bright room.", new ItemCollection
 			{
