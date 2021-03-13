@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using BusinessLogic.Tags;
+﻿using BusinessLogic.Tags;
 
 namespace BusinessLogic.Verbs
 {
@@ -21,16 +17,18 @@ namespace BusinessLogic.Verbs
 				{
 					if (Game.Player.HasKey(lockTag))
 					{
-						writer.Write(new OutputData(OutputDataType.Unlocked) { Specifier = portal.DisplayName });
+						writer.Write(new(OutputDataType.Unlocked) {Specifier = portal.DisplayName,});
 						lockTag.Unlock();
 						Game.HasActed();
 					}
 					else
-						writer.SetInvalidCommand(new InvalidCommand(InvalidCommandType.MissingKey));
+					{
+						writer.SetInvalidCommand(new(InvalidCommandType.MissingKey));
+					}
 				}
 				else
 				{
-					writer.SetInvalidCommand(new InvalidCommand(InvalidCommandType.NotLocked) { Specifier = portal.DisplayName });
+					writer.SetInvalidCommand(new(InvalidCommandType.NotLocked) {Specifier = portal.DisplayName,});
 				}
 			}
 		}

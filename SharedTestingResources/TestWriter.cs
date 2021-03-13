@@ -5,7 +5,7 @@ namespace SharedTestingResources
 {
 	public class TestWriter : IWriter
 	{
-		public Queue<string> TextOutput { get; } = new Queue<string>();
+		public Queue<string> TextOutput { get; } = new();
 		public bool SpellKnown { get; private set; }
 		public bool FireballLearned { get; private set; }
 		public InvalidCommand InvalidCommand { get; private set; }

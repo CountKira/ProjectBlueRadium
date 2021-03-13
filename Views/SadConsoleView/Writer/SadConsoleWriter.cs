@@ -7,8 +7,8 @@ namespace SadConsoleView.Writer
 	class SadConsoleWriter : IViewWriter
 	{
 		readonly Console console;
-		readonly int width;
 		readonly int height;
+		readonly int width;
 
 		public SadConsoleWriter(Console console)
 		{
@@ -39,6 +39,7 @@ namespace SadConsoleView.Writer
 					? $"{p1}{Environment.NewLine}{text.Substring(width)}"
 					: $"{text.Substring(0, i)}{Environment.NewLine}{text.Substring(i)}";
 			}
+
 			WriteLine(text);
 		}
 	}

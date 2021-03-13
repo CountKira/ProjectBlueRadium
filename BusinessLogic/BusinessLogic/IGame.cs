@@ -1,9 +1,8 @@
-﻿using System;
-
-namespace BusinessLogic
+﻿namespace BusinessLogic
 {
 	public interface IGame
 	{
+		Creature Player { get; }
 		void Stop();
 		Item? GetItemObjectInRoom(string item);
 		void PickUpItem(Item item);
@@ -16,7 +15,6 @@ namespace BusinessLogic
 		void LearnSpell();
 		void HandleAttacking(string enemy);
 		void HasActed();
-		Creature Player { get; }
 		Room GetCurrentRoom();
 	}
 }

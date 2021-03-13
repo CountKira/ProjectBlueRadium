@@ -8,6 +8,6 @@
 		Wield,
 		Unwield,
 		Unlocked,
-		LearnedSpell
+		LearnedSpell,
 	}
 }

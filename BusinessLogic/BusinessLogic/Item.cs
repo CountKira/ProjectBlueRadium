@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using BusinessLogic.Tags;
@@ -10,7 +9,7 @@ namespace BusinessLogic
 	public class Item : Entity
 	{
 		public Item(string name, string description, IEnumerable<ITag>? tags = null)
-		: base(tags ?? Enumerable.Empty<ITag>())
+			: base(tags ?? Enumerable.Empty<ITag>())
 		{
 			Name = name;
 			Description = description;

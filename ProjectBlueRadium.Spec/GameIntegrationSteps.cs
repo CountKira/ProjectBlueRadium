@@ -16,20 +16,14 @@ namespace ProjectBlueRadium.Spec
 	[Binding]
 	public class GameIntegrationSteps
 	{
-		class MockRandom : IRandom
-		{
-			/// <inheritdoc />
-			public int Next(int i) => 1;
-		}
-
-		readonly TestWriter writer = new TestWriter();
+		readonly TestWriter writer = new();
 		Game game;
 
 		[Given(@"I start a new game in the test dungeon with (.*) health")]
 		public void GivenIStartANewGameInTheTestDungeon(int health)
 		{
 			var player = new Creature("The player", "The hero of our story", new(10, null), new(2));
-			game = new Game(writer, new TestingRoomRepository(), new MockRandom(), player);
+			game = new(writer, new TestingRoomRepository(), new MockRandom(), player);
 			var playerHealthPoints = game.Player.HealthPoints;
 			var damage = new Damage(playerHealthPoints.Current - health);
 			playerHealthPoints.Damage(damage);
@@ -225,5 +219,11 @@ namespace ProjectBlueRadium.Spec
 
 		[StepArgumentTransformation]
 		public string[] TransformToStringArray(string str) => str.Split(',');
+
+		class MockRandom : IRandom
+		{
+			/// <inheritdoc />
+			public int Next(int i) => 1;
+		}
 	}
 }

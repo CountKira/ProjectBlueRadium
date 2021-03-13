@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
 using BusinessLogic.SemanticTypes;
 using BusinessLogic.Tags;
 
@@ -10,8 +9,8 @@ namespace BusinessLogic
 {
 	public class Creature : Entity
 	{
-		readonly ItemCollection equipment = new ItemCollection();
-		readonly ItemCollection inventory = new ItemCollection();
+		readonly ItemCollection equipment = new();
+		readonly ItemCollection inventory = new();
 
 		public Creature(string name,
 			string description,
@@ -26,12 +25,8 @@ namespace BusinessLogic
 			HealthPoints = healthPoints;
 			Damage = damage;
 			if (inventory != null)
-			{
 				foreach (var item in inventory)
-				{
 					this.inventory.Add(item);
-				}
-			}
 		}
 
 		public string Name { get; }
@@ -39,6 +34,12 @@ namespace BusinessLogic
 
 		public bool IsDead => HealthPoints.ZeroOrBelow;
 		public bool CanWieldWeapon => equipment.Any(i => i.HasTag<WeaponTag>());
+
+		public HealthPoints HealthPoints { get; }
+
+		public Damage Damage { get; }
+		public bool HasSpell { get; set; }
+
 		public void Equip(Item item)
 		{
 			VerifyHasItemInInventory(item);
@@ -51,11 +52,6 @@ namespace BusinessLogic
 			if (!inventory.HasItem(item))
 				throw new InvalidOperationException("Can not equip a item that is not in the inventory");
 		}
-
-		public HealthPoints HealthPoints { get; }
-
-		public Damage Damage { get; }
-		public bool HasSpell { get; set; }
 
 		public bool RemoveItem(Item item) => inventory.Remove(item);
 
@@ -78,6 +74,7 @@ namespace BusinessLogic
 			var weaponDamage = GetEquippedWeaponDamage();
 			return weaponDamage ?? Damage;
 		}
+
 		Damage? GetEquippedWeaponDamage()
 		{
 			foreach (var item in equipment)
@@ -87,10 +84,7 @@ namespace BusinessLogic
 			return null;
 		}
 
-		public Item? WieldsItem(string itemName)
-		{
-			return equipment.GetItem(itemName);
-		}
+		public Item? WieldsItem(string itemName) => equipment.GetItem(itemName);
 
 		public IEnumerable<Item> GetEquippedItems() => equipment;
 		public IEnumerable<Item> GetInventoryItems() => inventory;

@@ -1,5 +1,4 @@
 ﻿using System;
-using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using SadConsole;
 using SadConsole.Controls;
@@ -10,7 +9,7 @@ namespace SadConsoleView
 {
 	class InputConsole : ControlsConsole
 	{
-		readonly LastCommandManager lastCommandManager = new LastCommandManager();
+		readonly LastCommandManager lastCommandManager = new();
 		readonly Action<string> onTextEntered;
 		readonly IViewWriter writer;
 
@@ -21,7 +20,7 @@ namespace SadConsoleView
 			Library.Default.SetControlTheme(typeof(EditableTextBox), Library.Default.GetControlTheme(typeof(TextBox)));
 			var textBox = new EditableTextBox(width)
 			{
-				Position = new Point(0, 0),
+				Position = new(0, 0),
 			};
 			textBox.KeyPressed += TextBoxOnKeyPressed;
 			Add(textBox);
@@ -36,37 +35,31 @@ namespace SadConsoleView
 				switch (e.Key.Key)
 				{
 					case Keys.Enter:
-						{
-							var text = textBox.EditingText;
-							lastCommandManager.Add(text);
-							writer.WriteCommand(text);
-							onTextEntered(text);
-							textBox.Clear();
-							e.IsCancelled = true;
-							break;
-						}
+					{
+						var text = textBox.EditingText;
+						lastCommandManager.Add(text);
+						writer.WriteCommand(text);
+						onTextEntered(text);
+						textBox.Clear();
+						e.IsCancelled = true;
+						break;
+					}
 					case Keys.Up:
-						{
-							var text = lastCommandManager.GetPrevious();
-							if (text != null)
-							{
-								textBox.SetText(text);
-							}
+					{
+						var text = lastCommandManager.GetPrevious();
+						if (text != null) textBox.SetText(text);
 
-							e.IsCancelled = true;
-							break;
-						}
+						e.IsCancelled = true;
+						break;
+					}
 					case Keys.Down:
-						{
-							var text = lastCommandManager.GetNext();
-							if (text != null)
-							{
-								textBox.SetText(text);
-							}
+					{
+						var text = lastCommandManager.GetNext();
+						if (text != null) textBox.SetText(text);
 
-							e.IsCancelled = true;
-							break;
-						}
+						e.IsCancelled = true;
+						break;
+					}
 				}
 		}
 	}

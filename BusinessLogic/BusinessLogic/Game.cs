@@ -1,42 +1,37 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using BusinessLogic.Tags;
+﻿using System.Linq;
 
 namespace BusinessLogic
 {
 	public class Game : IGame
 	{
+		readonly AttackHandler attackHandler;
+		readonly CommandInterpreter commandInterpreter;
 		readonly IRoomRepository roomRepository;
 		readonly IWriter writer;
-		Room room;
-		readonly AttackHandler attackHandler;
 		bool hasActed;
-		readonly CommandInterpreter commandInterpreter;
+		Room room;
 
 		public Game(IWriter writer, IRoomRepository roomRepository, IRandom random, Creature player)
 		{
 			this.writer = writer;
 			this.roomRepository = roomRepository;
-			attackHandler = new AttackHandler(writer, random, this);
-			commandInterpreter = new CommandInterpreter(writer, this);
+			attackHandler = new(writer, random, this);
+			commandInterpreter = new(writer, this);
 			room = roomRepository.GetStartRoom();
 
 			Player = player;
 		}
 
-		public Creature Player { get; }
-
 		public bool IsRunning { get; private set; } = true;
 
-		void AddToPlayerInventory(Item item) => Player.PutIntoInventory(item);
+		public Creature Player { get; }
 
 		/// <inheritdoc />
 		public void Stop() => IsRunning = false;
 
 		public void PickUpItem(Item item)
 		{
-			writer.Write(new OutputData(OutputDataType.Get) { Specifier = item.Name });
+			writer.Write(new(OutputDataType.Get) {Specifier = item.Name,});
 			room.RemoveItem(item);
 			AddToPlayerInventory(item);
 			HasActed();
@@ -51,20 +46,13 @@ namespace BusinessLogic
 			writer.WriteSeenObjects(room.GetDescription());
 		}
 
-		void ExecuteOtherActors()
-		{
-			var creatures = room.GetCreatures();
-			foreach (var creature in creatures.Where(c => !c.IsDead))
-				attackHandler.GetAttackedByCreature(Player, creature);
-		}
-
 		public void HandleAttacking(string enemy)
 		{
 			var creature = room.GetCreature(enemy);
 			if (creature is null || creature.IsDead)
 			{
-				writer.SetInvalidCommand(new InvalidCommand(InvalidCommandType.EntityNotFound)
-				{ Specifier = enemy });
+				writer.SetInvalidCommand(new(InvalidCommandType.EntityNotFound)
+					{Specifier = enemy,});
 				return;
 			}
 
@@ -98,11 +86,11 @@ namespace BusinessLogic
 		{
 			if (Player.CanWieldWeapon)
 			{
-				writer.SetInvalidCommand(new InvalidCommand(InvalidCommandType.AlreadyWielding));
+				writer.SetInvalidCommand(new(InvalidCommandType.AlreadyWielding));
 			}
 			else
 			{
-				writer.Write(new OutputData(OutputDataType.Wield) { Specifier = item.Name });
+				writer.Write(new(OutputDataType.Wield) {Specifier = item.Name,});
 				Player.Equip(item);
 			}
 		}
@@ -113,9 +101,9 @@ namespace BusinessLogic
 			var item = Player.WieldsItem(itemName);
 			var didUnwield = item != null && Player.Unwield(item);
 			if (didUnwield)
-				writer.Write(new OutputData(OutputDataType.Unwield) { Specifier = item!.Name });
+				writer.Write(new(OutputDataType.Unwield) {Specifier = item!.Name,});
 			else
-				writer.SetInvalidCommand(new InvalidCommand(InvalidCommandType.EntityNotFound) { Specifier = itemName });
+				writer.SetInvalidCommand(new(InvalidCommandType.EntityNotFound) {Specifier = itemName,});
 
 			return didUnwield;
 		}
@@ -128,6 +116,15 @@ namespace BusinessLogic
 		}
 
 		public Item? GetItemObjectInRoom(string itemName) => room.GetItem(itemName);
+
+		void AddToPlayerInventory(Item item) => Player.PutIntoInventory(item);
+
+		void ExecuteOtherActors()
+		{
+			var creatures = room.GetCreatures();
+			foreach (var creature in creatures.Where(c => !c.IsDead))
+				attackHandler.GetAttackedByCreature(Player, creature);
+		}
 
 		public void EnterCommand(string text)
 		{

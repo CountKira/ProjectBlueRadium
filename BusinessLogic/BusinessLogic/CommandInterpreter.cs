@@ -7,27 +7,28 @@ namespace BusinessLogic
 {
 	class CommandInterpreter
 	{
-		readonly IWriter writer;
 		readonly IGame game;
 		readonly Dictionary<string, Verb> verbList;
+		readonly IWriter writer;
 
 		public CommandInterpreter(IWriter writer, IGame game)
 		{
 			this.writer = writer;
 			this.game = game;
-			verbList = new Dictionary<string, Verb>
+			verbList = new()
 			{
 				{"get ", new GetVerb(writer, game)},
 				{"go ", new GoVerb(writer, game)},
-				{"look ", new LookVerb(writer,game)},
-				{"wield ", new WieldVerb(writer,game)},
+				{"look ", new LookVerb(writer, game)},
+				{"wield ", new WieldVerb(writer, game)},
 				{"unwield ", new UnwieldVerb(writer, game)},
-				{"read ", new ReadVerb(writer,game)},
+				{"read ", new ReadVerb(writer, game)},
 				{"drink ", new DrinkVerb(writer, game)},
 				{"attack ", new AttackVerb(writer, game)},
 				{"unlock ", new UnlockVerb(writer, game)},
 			};
 		}
+
 		public void Interpret(string text)
 		{
 			var inputText = text.ToLower();
@@ -53,7 +54,7 @@ namespace BusinessLogic
 					break;
 				default:
 					if (!TryParseCommand(text))
-						writer.SetInvalidCommand(new InvalidCommand(InvalidCommandType.UnknownCommand));
+						writer.SetInvalidCommand(new(InvalidCommandType.UnknownCommand));
 					break;
 			}
 		}

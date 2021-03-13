@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using BusinessLogic;
 using BusinessLogic.Effects;
-using BusinessLogic.SemanticTypes;
 using BusinessLogic.Tags;
 
 namespace SharedTestingResources
@@ -10,6 +8,8 @@ namespace SharedTestingResources
 	public class TestingRoomRepository : IRoomRepository
 	{
 		readonly Dictionary<RoomId, Room> rooms;
+
+		readonly RoomId startRoomId = new(0);
 
 		public TestingRoomRepository()
 		{
@@ -22,49 +22,56 @@ namespace SharedTestingResources
 				mapBuilder.AddRoomBuilder(RoomFactory.BrightRoom),
 			};
 
-			mapBuilder.ConnectRooms(builders[0],"north",builders[1],"south");
-			mapBuilder.ConnectRooms(builders[0],"west",builders[2],"east");
+			mapBuilder.ConnectRooms(builders[0], "north", builders[1], "south");
+			mapBuilder.ConnectRooms(builders[0], "west", builders[2], "east");
 
 			rooms = mapBuilder.Build();
 		}
-		static class ItemFactory
-		{
-			internal static Item Poison => new Item("poison", "This is a glass bottle, with a green substance inside it.",
-				new[] { new ConsumableTag(new DamageEffect(new(50))) });
-			internal static Item Potion => new Item("potion", "This is a glass bottle, with a red substance inside it.",
-				new[] { new ConsumableTag(new HealEffect(new(10)))});
-			internal static Item Book => new Item("book", "The book contains the story of boatmurdered.");
-			internal static Item FireballSpellBook => new Item("fireball spell book", "The book contains the teachings to learn the spell fireball.");
-			internal static Item Sword => new Item("sword", "A sharp sword.", new[] { new WeaponTag(new(2))});
-			internal static Item Shield => new Item("shield", "A shield", new[] { new WeaponTag(new(0))});
-		}
-
-		static class RoomFactory
-		{
-			internal static Room.Builder StartRoom => new Room.Builder("You are in an empty room. The walls are smooth.", new ItemCollection
-			{
-				ItemFactory.Poison,
-				ItemFactory.Potion,
-				ItemFactory.Book,
-				ItemFactory.FireballSpellBook,
-			});
-			internal static Room.Builder DarkRoom => new Room.Builder("You are in a dark room.", creatures: new[]
-			{
-				new Creature("Evil guy", "The evil threat of the campaign.", new (4, null) , new(2), tags: new []{new MarkerTag(Tag.GameEnd)}),
-			});
-			internal static Room.Builder BrightRoom => new Room.Builder("You are in a bright room.", new ItemCollection
-			{
-				ItemFactory.Sword,
-				ItemFactory.Shield,
-			});
-		}
-
-		readonly RoomId startRoomId = new(0);
 
 		/// <inheritdoc />
 		public Room GetStartRoom() => rooms[startRoomId];
 
 		/// <inheritdoc />
 		public Room GetRoomById(RoomId id) => rooms[id];
+
+		static class ItemFactory
+		{
+			internal static Item Poison => new("poison", "This is a glass bottle, with a green substance inside it.",
+				new[] {new ConsumableTag(new DamageEffect(new(50))),});
+
+			internal static Item Potion => new("potion", "This is a glass bottle, with a red substance inside it.",
+				new[] {new ConsumableTag(new HealEffect(new(10))),});
+
+			internal static Item Book => new("book", "The book contains the story of boatmurdered.");
+
+			internal static Item FireballSpellBook => new("fireball spell book",
+				"The book contains the teachings to learn the spell fireball.");
+
+			internal static Item Sword => new("sword", "A sharp sword.", new[] {new WeaponTag(new(2)),});
+			internal static Item Shield => new("shield", "A shield", new[] {new WeaponTag(new(0)),});
+		}
+
+		static class RoomFactory
+		{
+			internal static Room.Builder StartRoom => new("You are in an empty room. The walls are smooth.", new()
+			{
+				ItemFactory.Poison,
+				ItemFactory.Potion,
+				ItemFactory.Book,
+				ItemFactory.FireballSpellBook,
+			});
+
+			internal static Room.Builder DarkRoom => new("You are in a dark room.", creatures: new[]
+			{
+				new Creature("Evil guy", "The evil threat of the campaign.", new(4, null), new(2),
+					tags: new[] {new MarkerTag(Tag.GameEnd),}),
+			});
+
+			internal static Room.Builder BrightRoom => new("You are in a bright room.", new()
+			{
+				ItemFactory.Sword,
+				ItemFactory.Shield,
+			});
+		}
 	}
 }

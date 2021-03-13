@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 
 namespace BusinessLogic
 {
@@ -22,24 +20,21 @@ namespace BusinessLogic
 
 		public class Builder
 		{
-			Passage.Builder Passage { get; }
-			string DisplayName { get; }
-
-			public RoomId? RoomGuid { get; set; }
-
 			public Builder(Passage.Builder passage, string displayName)
 			{
 				Passage = passage;
 				DisplayName = displayName;
 			}
 
+			Passage.Builder Passage { get; }
+			string DisplayName { get; }
+
+			public RoomId? RoomGuid { get; set; }
+
 			public Portal Build()
 			{
-				if (RoomGuid is null)
-				{
-					throw new InvalidOperationException();
-				}
-				return new Portal(RoomGuid, DisplayName, Passage.Build());
+				if (RoomGuid is null) throw new InvalidOperationException();
+				return new(RoomGuid, DisplayName, Passage.Build());
 			}
 
 			public void ManageRoomId(RoomId roomId)

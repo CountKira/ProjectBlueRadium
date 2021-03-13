@@ -26,7 +26,7 @@ namespace BusinessLogic.Verbs
 				}
 				else
 				{
-					var invalidCommand = new InvalidCommand(InvalidCommandType.NotExecutable) { Specifier = itemName };
+					var invalidCommand = new InvalidCommand(InvalidCommandType.NotExecutable) {Specifier = itemName,};
 					writer.SetInvalidCommand(invalidCommand);
 				}
 			}

@@ -1,5 +1,4 @@
-﻿using System;
-using BusinessLogic.SemanticTypes;
+﻿using BusinessLogic.SemanticTypes;
 
 namespace BusinessLogic.Effects
 {
@@ -7,14 +6,9 @@ namespace BusinessLogic.Effects
 	{
 		readonly Heal heal;
 
-		public HealEffect(Heal heal)
-		{
-			this.heal = heal;
-		}
+		public HealEffect(Heal heal) => this.heal = heal;
+
 		/// <inheritdoc />
-		public string ActOn(Creature subject)
-		{
-			return $"Player was healed by {subject.HealthPoints.Heal(heal)}";
-		}
+		public string ActOn(Creature subject) => $"Player was healed by {subject.HealthPoints.Heal(heal)}";
 	}
 }

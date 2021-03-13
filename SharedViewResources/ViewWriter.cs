@@ -9,10 +9,8 @@ namespace SharedViewResources
 	{
 		readonly IViewWriter writer;
 
-		public ViewWriter(IViewWriter writer)
-		{
-			this.writer = writer;
-		}
+		public ViewWriter(IViewWriter writer) => this.writer = writer;
+
 		/// <inheritdoc />
 		public void WriteTextOutput(string text) => WriteLine(text);
 
@@ -107,23 +105,6 @@ namespace SharedViewResources
 			WriteLine($"{seen.EntityDescription}{portal}{creatureDescription}{items}");
 		}
 
-		static string GetCreatureDescription(Creature? creature)
-		{
-			if (creature is null)
-				return "";
-			var creatureStatus = creature.IsDead ? "dead " : "";
-			var creatureInventory = GetCreatureInventoryText(creature);
-			return $" There is a {creatureStatus}{creature.Name} in the room{creatureInventory}.";
-		}
-
-		static string GetCreatureInventoryText(Creature creature)
-		{
-			if (!creature.IsDead)
-				return "";
-			var inventoryText = ItemCollectionToString.GetItemNameConcat(creature.GetInventoryItems());
-			return string.IsNullOrEmpty(inventoryText) ? "" : $" with {inventoryText}";
-		}
-
 		/// <inheritdoc />
 		public void DescribeSelf(string description)
 		{
@@ -148,6 +129,23 @@ namespace SharedViewResources
 				string.IsNullOrEmpty(items)
 					? "You have nothing equipped"
 					: $"You have {items} equipped.");
+		}
+
+		static string GetCreatureDescription(Creature? creature)
+		{
+			if (creature is null)
+				return "";
+			var creatureStatus = creature.IsDead ? "dead " : "";
+			var creatureInventory = GetCreatureInventoryText(creature);
+			return $" There is a {creatureStatus}{creature.Name} in the room{creatureInventory}.";
+		}
+
+		static string GetCreatureInventoryText(Creature creature)
+		{
+			if (!creature.IsDead)
+				return "";
+			var inventoryText = ItemCollectionToString.GetItemNameConcat(creature.GetInventoryItems());
+			return string.IsNullOrEmpty(inventoryText) ? "" : $" with {inventoryText}";
 		}
 
 		void WriteLine(string text) => writer.WriteLine(text);

@@ -8,8 +8,8 @@
 		{
 			var entityObj = Game.GetLocalAvailableEntityDescription(entity);
 			if (entityObj == null)
-				writer.SetInvalidCommand(new InvalidCommand(InvalidCommandType.EntityNotFound)
-				{ Specifier = entity });
+				writer.SetInvalidCommand(new(InvalidCommandType.EntityNotFound)
+					{Specifier = entity,});
 			else
 				writer.WriteTextOutput(entityObj);
 		}

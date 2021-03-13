@@ -1,7 +1,8 @@
 ﻿using System;
 using SadConsole.Controls;
 
-namespace SadConsoleView {
+namespace SadConsoleView
+{
 	class EditableTextBox : TextBox
 	{
 		/// <inheritdoc />

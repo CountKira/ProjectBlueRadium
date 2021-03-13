@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using Microsoft.Xna.Framework;
 using SadConsole;
 using Game = SadConsole.Game;
@@ -9,7 +7,7 @@ namespace SadConsoleView
 {
 	public static class Program
 	{
-		static readonly MainScreen screen = new MainScreen();
+		static readonly MainScreen screen = new();
 		static DateTime? exitTime;
 
 		static void Main()
@@ -32,6 +30,7 @@ namespace SadConsoleView
 				else
 					return;
 			}
+
 			if (!screen.IsRunning)
 			{
 				screen.ShutDown();

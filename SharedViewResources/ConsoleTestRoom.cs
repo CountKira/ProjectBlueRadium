@@ -8,6 +8,8 @@ namespace SharedViewResources
 	{
 		readonly Dictionary<RoomId, Room> rooms;
 
+		readonly RoomId startRoomId = new(0);
+
 		public ConsoleTestRoom()
 		{
 			var mapBuilder = new MapBuilder();
@@ -20,18 +22,15 @@ namespace SharedViewResources
 			//{6, new Room("Stage end boss")},
 
 			mapBuilder.ConnectRooms(startRoom, "north", firstChallenge, "south");
-			mapBuilder.ConnectRooms(firstChallenge, "north", secondChallenge, "south", new[] { new LockTag(new(0)) });
+			mapBuilder.ConnectRooms(firstChallenge, "north", secondChallenge, "south", new[] {new LockTag(new(0)),});
 
 			rooms = mapBuilder.Build();
 		}
-
-		readonly RoomId startRoomId = new(0);
 
 		/// <inheritdoc />
 		public Room GetStartRoom() => rooms[startRoomId];
 
 		/// <inheritdoc />
 		public Room GetRoomById(RoomId id) => rooms[id];
-
 	}
 }

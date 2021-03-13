@@ -1,13 +1,12 @@
-﻿using System.Linq;
-using BusinessLogic.SemanticTypes;
+﻿using BusinessLogic.SemanticTypes;
 using BusinessLogic.Tags;
 
 namespace BusinessLogic
 {
 	class AttackHandler
 	{
-		readonly IRandom random;
 		readonly Game game;
+		readonly IRandom random;
 		readonly IWriter writer;
 
 		public AttackHandler(IWriter writer, IRandom random, Game game)
@@ -47,7 +46,8 @@ namespace BusinessLogic
 				return;
 			}
 
-			writer.WriteTextOutput($"The {enemy.Name} attacks you and deals {player.HealthPoints.Damage(enemy.Damage)} damage.");
+			writer.WriteTextOutput(
+				$"The {enemy.Name} attacks you and deals {player.HealthPoints.Damage(enemy.Damage)} damage.");
 
 			if (player.IsDead)
 			{
@@ -55,9 +55,11 @@ namespace BusinessLogic
 				game.Stop();
 			}
 		}
+
 		bool DoesMiss() => random.Next(2) == 0;
 
 		void DealDamageToCreature(Damage damage, Creature creature) =>
-			writer.WriteTextOutput($"You attack the {creature.Name} and deal {creature.HealthPoints.Damage(damage)} damage.");
+			writer.WriteTextOutput(
+				$"You attack the {creature.Name} and deal {creature.HealthPoints.Damage(damage)} damage.");
 	}
 }

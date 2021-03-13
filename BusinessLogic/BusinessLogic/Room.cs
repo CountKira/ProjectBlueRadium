@@ -21,7 +21,7 @@ namespace BusinessLogic
 			this.portals = portals ?? new Portal[0];
 		}
 
-		public SeenObjects GetDescription() => new SeenObjects(description, portals, itemsOnFloor, creatures);
+		public SeenObjects GetDescription() => new(description, portals, itemsOnFloor, creatures);
 
 		public bool TryGetPortal(string portalName, out Portal portal)
 		{
@@ -32,47 +32,36 @@ namespace BusinessLogic
 		public void RemoveItem(Item item)
 		{
 			if (!itemsOnFloor.Remove(item))
-			{
-
 				// ReSharper disable once LoopCanBeConvertedToQuery
 				// Maybe there is a better way to that but converting to linq always
 				// returns a method with an unused return value
 				foreach (var creature in creatures)
-				{
 					if (creature.RemoveItem(item))
-					{
 						return;
-					}
-				}
-			}
 		}
 
-		public Item? GetItem(string itemName)
-		{
-			return itemsOnFloor.GetItem(itemName) ?? FindItemOnDeadCreatures(itemName);
-		}
+		public Item? GetItem(string itemName) => itemsOnFloor.GetItem(itemName) ?? FindItemOnDeadCreatures(itemName);
 
 		Item? FindItemOnDeadCreatures(string itemName)
 		{
 			foreach (var creature in creatures.Where(c => c.IsDead))
-			{
 				if (creature.HasItem(itemName, out var item))
 					return item;
-			}
 
 			return null;
 		}
 
 		public Creature? GetCreature(string creatureName) =>
 			creatures.FirstOrDefault(a => a.Name.Equals(creatureName, StringComparison.OrdinalIgnoreCase));
+
 		public IEnumerable<Creature> GetCreatures() => creatures;
 
 		public class Builder
 		{
+			readonly Creature[]? creatures;
 			readonly string description;
 			readonly ItemCollection? itemsOnFloor;
-			readonly Creature[]? creatures;
-			readonly List<Portal.Builder> portalBuilders = new List<Portal.Builder>();
+			readonly List<Portal.Builder> portalBuilders = new();
 
 			public Builder(string description,
 				ItemCollection? itemsOnFloor = null,
@@ -93,10 +82,7 @@ namespace BusinessLogic
 
 			public Room Build()
 			{
-				if (portalBuilders == null)
-				{
-					throw new InvalidOperationException();
-				}
+				if (portalBuilders == null) throw new InvalidOperationException();
 				var entryWays = new Portal[portalBuilders.Count];
 				for (var index = 0; index < portalBuilders.Count; index++)
 				{
@@ -104,7 +90,7 @@ namespace BusinessLogic
 					entryWays[index] = entryWayBuilder.Build();
 				}
 
-				return new Room(description, entryWays, itemsOnFloor, creatures);
+				return new(description, entryWays, itemsOnFloor, creatures);
 			}
 		}
 	}

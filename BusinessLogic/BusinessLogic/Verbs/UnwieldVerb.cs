@@ -8,7 +8,6 @@
 		{
 			if (Game.UnwieldWeapon(itemName))
 				Game.HasActed();
-				
 		}
 	}
 }

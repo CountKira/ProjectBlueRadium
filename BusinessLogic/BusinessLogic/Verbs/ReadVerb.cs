@@ -10,13 +10,13 @@
 		{
 			if (Game.GetItemObjectInRoom(itemName) is { } item)
 			{
-				writer.Write(new OutputData(OutputDataType.LearnedSpell) { Specifier = item.Name });
+				writer.Write(new(OutputDataType.LearnedSpell) {Specifier = item.Name,});
 				Game.LearnSpell();
 			}
 			else
 			{
-				writer.SetInvalidCommand(new InvalidCommand(InvalidCommandType.ItemNotFound)
-				{ Specifier = itemName });
+				writer.SetInvalidCommand(new(InvalidCommandType.ItemNotFound)
+					{Specifier = itemName,});
 			}
 		}
 	}

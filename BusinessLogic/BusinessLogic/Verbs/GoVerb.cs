@@ -10,16 +10,12 @@ namespace BusinessLogic.Verbs
 		{
 			if (Game.TryGetPortal(portalName, out var portal))
 				if (portal.Passage.GetTag<LockTag>()?.IsLocked ?? false)
-				{
-					writer.SetInvalidCommand(new InvalidCommand(InvalidCommandType.Locked));
-				}
+					writer.SetInvalidCommand(new(InvalidCommandType.Locked));
 				else
-				{
 					Game.GoToRoomById(portal.RoomGuid);
-				}
 			else
-				writer.SetInvalidCommand(new InvalidCommand(InvalidCommandType.PortalNotFound)
-				{ Specifier = portalName });
+				writer.SetInvalidCommand(new(InvalidCommandType.PortalNotFound)
+					{Specifier = portalName,});
 		}
 	}
 }

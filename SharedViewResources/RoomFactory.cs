@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using BusinessLogic;
+﻿using BusinessLogic;
 using BusinessLogic.Tags;
 
 namespace SharedViewResources
@@ -7,25 +6,25 @@ namespace SharedViewResources
 	static class RoomFactory
 	{
 		public static Room.Builder StartingRoom() =>
-			new Room.Builder("Start room with basic equipment.",
-				new ItemCollection
+			new("Start room with basic equipment.",
+				new()
 				{
 					ItemFactory.HealingPotion(),
 					ItemFactory.HealingPotion(),
 				});
 
 		public static Room.Builder FirstChallengeRoom() =>
-			new Room.Builder("First challenge.",
+			new("First challenge.",
 				creatures: new[]
 				{
-					CreatureFactory.Goblin(new []{ItemFactory.Key(new(0))}),
+					CreatureFactory.Goblin(new[] {ItemFactory.Key(new(0)),}),
 				});
 
 		public static Room.Builder SecondChallengeRoom() =>
-			new Room.Builder("Second challenge.",
+			new("Second challenge.",
 				creatures: new[]
 				{
-					CreatureFactory.Goblin(tags:new []{new MarkerTag(Tag.GameEnd)}),
+					CreatureFactory.Goblin(tags: new[] {new MarkerTag(Tag.GameEnd),}),
 				});
 	}
 }

@@ -6,10 +6,7 @@ namespace BusinessLogic.Tags
 	{
 		readonly IEffect effect;
 
-		public ConsumableTag(IEffect effect)
-		{
-			this.effect = effect;
-		}
+		public ConsumableTag(IEffect effect) => this.effect = effect;
 
 		public IEffect GetEffect() => effect;
 	}

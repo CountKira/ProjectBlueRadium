@@ -7,11 +7,11 @@ namespace BusinessLogic.SemanticTypes
 		public Heal(int heal)
 		{
 			if (heal < 0)
-			{
-				throw new ArgumentOutOfRangeException($"{nameof(heal)} can not be lower than 0 in {nameof(Heal)}. Value = {heal}.");
-			}
+				throw new ArgumentOutOfRangeException(
+					$"{nameof(heal)} can not be lower than 0 in {nameof(Heal)}. Value = {heal}.");
 			Value = heal;
 		}
+
 		public int Value { get; }
 	}
 }

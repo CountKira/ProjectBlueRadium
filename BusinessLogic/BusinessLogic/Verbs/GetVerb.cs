@@ -7,11 +7,9 @@
 		public override void Execute(string item)
 		{
 			if (Game.GetItemObjectInRoom(item) is { } itemObj)
-			{
 				Game.PickUpItem(itemObj);
-			}
 			else
-				writer.SetInvalidCommand(new InvalidCommand(InvalidCommandType.ItemNotFound) { Specifier = item });
+				writer.SetInvalidCommand(new(InvalidCommandType.ItemNotFound) {Specifier = item,});
 		}
 	}
 }

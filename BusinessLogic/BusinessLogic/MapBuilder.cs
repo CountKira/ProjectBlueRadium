@@ -1,22 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using BusinessLogic.Tags;
 
 namespace BusinessLogic
 {
 	public class MapBuilder
 	{
-		readonly List<Room.Builder> roomBuilders = new List<Room.Builder>();
+		readonly List<Room.Builder> roomBuilders = new();
 		int roomCounter;
 
 		public Room.Builder AddRoomBuilder(Room.Builder builder)
 		{
-			builder.RoomId = new RoomId(roomCounter++);
+			builder.RoomId = new(roomCounter++);
 			roomBuilders.Add(builder);
 			return builder;
 		}
 
-		public void ConnectRooms(Room.Builder room1, string portalName1, Room.Builder room2, string portalName2, IEnumerable<ITag>? tags = null)
+		public void ConnectRooms(Room.Builder room1, string portalName1, Room.Builder room2, string portalName2,
+			IEnumerable<ITag>? tags = null)
 		{
 			var passage = new Passage.Builder(tags);
 
@@ -35,6 +35,7 @@ namespace BusinessLogic
 				var room = roomBuilder.Build();
 				dictionary.Add(roomBuilder.RoomId, room);
 			}
+
 			return dictionary;
 		}
 	}

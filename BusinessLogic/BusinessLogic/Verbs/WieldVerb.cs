@@ -11,8 +11,8 @@ namespace BusinessLogic.Verbs
 			var itemObj = Game.GetItemFromPlayerInventory(itemName);
 			if (itemObj is null)
 			{
-				writer.SetInvalidCommand(new InvalidCommand(InvalidCommandType.EntityNotFound)
-				{ Specifier = itemName });
+				writer.SetInvalidCommand(new(InvalidCommandType.EntityNotFound)
+					{Specifier = itemName,});
 			}
 			else
 			{
@@ -22,8 +22,10 @@ namespace BusinessLogic.Verbs
 					Game.HasActed();
 				}
 				else
-					writer.SetInvalidCommand(new InvalidCommand(InvalidCommandType.CanNotWield)
-					{ Specifier = itemObj.Name });
+				{
+					writer.SetInvalidCommand(new(InvalidCommandType.CanNotWield)
+						{Specifier = itemObj.Name,});
+				}
 			}
 		}
 	}

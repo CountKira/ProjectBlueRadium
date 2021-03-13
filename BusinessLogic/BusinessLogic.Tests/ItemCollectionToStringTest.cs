@@ -4,12 +4,6 @@ namespace BusinessLogic.Tests
 {
 	public class ItemCollectionToStringTest
 	{
-		class DummyItem : Item
-		{
-			/// <inheritdoc />
-			public DummyItem(string name, string description) : base(name, description) { }
-		}
-
 		[Fact]
 		public void EmptyItems()
 		{
@@ -52,6 +46,12 @@ namespace BusinessLogic.Tests
 			};
 			var text = ItemCollectionToString.GetItemNameConcat(itemCollection);
 			Assert.Equal("a Thing and a Thing2", text);
+		}
+
+		class DummyItem : Item
+		{
+			/// <inheritdoc />
+			public DummyItem(string name, string description) : base(name, description) { }
 		}
 	}
 }

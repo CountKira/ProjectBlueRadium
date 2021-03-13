@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace BusinessLogic.Verbs
+﻿namespace BusinessLogic.Verbs
 {
 	abstract class Verb
 	{
@@ -12,8 +10,8 @@ namespace BusinessLogic.Verbs
 			Game = game;
 		}
 
-		public abstract void Execute(string s);
-
 		protected IGame Game { get; }
+
+		public abstract void Execute(string s);
 	}
 }
