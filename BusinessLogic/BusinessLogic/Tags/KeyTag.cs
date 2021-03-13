@@ -2,10 +2,11 @@
 {
 	public class KeyTag : ITag
 	{
-		public KeyTag(int lockId)
+		public KeyTag(LockId lockId)
 		{
 			LockId = lockId;
 		}
-		public int LockId { get; }
+		public LockId LockId { get; }
+
 	}
 }

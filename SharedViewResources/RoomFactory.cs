@@ -18,7 +18,7 @@ namespace SharedViewResources
 			new Room.Builder("First challenge.",
 				creatures: new[]
 				{
-					CreatureFactory.Goblin(new []{ItemFactory.Key(0)}),
+					CreatureFactory.Goblin(new []{ItemFactory.Key(new(0))}),
 				});
 
 		public static Room.Builder SecondChallengeRoom() =>

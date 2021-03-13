@@ -20,7 +20,7 @@ namespace SharedViewResources
 			//{6, new Room("Stage end boss")},
 
 			mapBuilder.ConnectRooms(startRoom, "north", firstChallenge, "south");
-			mapBuilder.ConnectRooms(firstChallenge, "north", secondChallenge, "south", new[] { new LockTag(0) });
+			mapBuilder.ConnectRooms(firstChallenge, "north", secondChallenge, "south", new[] { new LockTag(new(0)) });
 
 			rooms = mapBuilder.Build();
 		}
