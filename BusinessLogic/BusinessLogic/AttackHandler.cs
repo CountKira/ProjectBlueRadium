@@ -47,7 +47,7 @@ namespace BusinessLogic
 			}
 
 			writer.WriteTextOutput(
-				$"The {enemy.Name} attacks you and deals {player.HealthPoints.Damage(enemy.Damage)} damage.");
+				$"The {enemy.Name} attacks you and deals {player.DealDamage(enemy.Damage)} damage.");
 
 			if (player.IsDead)
 			{
@@ -60,6 +60,6 @@ namespace BusinessLogic
 
 		void DealDamageToCreature(Damage damage, Creature creature) =>
 			writer.WriteTextOutput(
-				$"You attack the {creature.Name} and deal {creature.HealthPoints.Damage(damage)} damage.");
+				$"You attack the {creature.Name} and deal {creature.DealDamage(damage)} damage.");
 	}
 }
