@@ -66,7 +66,7 @@ class CommandInterpreter
 		var match = inputText.StartsWith(verb);
 		if (match)
 		{
-			var executionTarget = inputText.Substring(verb.Length);
+			var executionTarget = inputText[verb.Length..];
 			commandMethod(new(executionTarget));
 		}
 

@@ -29,7 +29,7 @@ public class Room
 	{
 		if (!itemsOnFloor.Remove(item))
 			// ReSharper disable once LoopCanBeConvertedToQuery
-			// Maybe there is a better way to that but converting to linq always
+			// Maybe there is a better way to do that but converting to linq always
 			// returns a method with an unused return value
 			foreach (var creature in creatures)
 				if (creature.RemoveItem(item))

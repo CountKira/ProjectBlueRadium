@@ -32,11 +32,11 @@ class SadConsoleWriter : IViewWriter
 		text = $"> {text}";
 		if (text.Length > width)
 		{
-			var p1 = text.Substring(0, width);
+			var p1 = text[..width];
 			var i = p1.LastIndexOf(' ');
 			text = i < 2
-				? $"{p1}{Environment.NewLine}{text.Substring(width)}"
-				: $"{text.Substring(0, i)}{Environment.NewLine}{text.Substring(i)}";
+				? $"{p1}{Environment.NewLine}{text[width..]}"
+				: $"{text[..i]}{Environment.NewLine}{text[i..]}";
 		}
 
 		WriteLine(text);
