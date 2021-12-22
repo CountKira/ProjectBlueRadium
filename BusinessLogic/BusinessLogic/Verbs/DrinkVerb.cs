@@ -16,10 +16,9 @@ class DrinkVerb : Verb
 			if (item!.GetTag<ConsumableTag>() is { } tag)
 			{
 				Game.Player.RemoveItem(item);
-				var effect = tag?.GetEffect();
-				var result = effect?.ActOn(Game.Player);
-				if (result != null)
-					writer.WriteTextOutput(result);
+				var effect = tag.GetEffect();
+				var result = effect.ActOn(Game.Player);
+				writer.WriteTextOutput(result);
 				if (Game.Player.IsDead)
 					Game.Stop();
 				Game.HasActed();

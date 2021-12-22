@@ -29,36 +29,37 @@ class InputConsole : ControlsConsole
 
 	void TextBoxOnKeyPressed(object? sender, TextBox.KeyPressEventArgs e)
 	{
-		if (sender is EditableTextBox textBox)
-			// ReSharper disable once SwitchStatementMissingSomeEnumCasesNoDefault
-			switch (e.Key.Key)
+		if (sender is not EditableTextBox textBox)
+			return;
+		// ReSharper disable once SwitchStatementMissingSomeEnumCasesNoDefault
+		switch (e.Key.Key)
+		{
+			case Keys.Enter:
 			{
-				case Keys.Enter:
-				{
-					var text = textBox.EditingText;
-					lastCommandManager.Add(text);
-					writer.WriteCommand(text);
-					onTextEntered(text);
-					textBox.Clear();
-					e.IsCancelled = true;
-					break;
-				}
-				case Keys.Up:
-				{
-					var text = lastCommandManager.GetPrevious();
-					if (text != null) textBox.SetText(text);
-
-					e.IsCancelled = true;
-					break;
-				}
-				case Keys.Down:
-				{
-					var text = lastCommandManager.GetNext();
-					if (text != null) textBox.SetText(text);
-
-					e.IsCancelled = true;
-					break;
-				}
+				var text = textBox.EditingText;
+				lastCommandManager.Add(text);
+				writer.WriteCommand(text);
+				onTextEntered(text);
+				textBox.Clear();
+				e.IsCancelled = true;
+				break;
 			}
+			case Keys.Up:
+			{
+				var text = lastCommandManager.GetPrevious();
+				if (text != null) textBox.SetText(text);
+
+				e.IsCancelled = true;
+				break;
+			}
+			case Keys.Down:
+			{
+				var text = lastCommandManager.GetNext();
+				if (text != null) textBox.SetText(text);
+
+				e.IsCancelled = true;
+				break;
+			}
+		}
 	}
 }
