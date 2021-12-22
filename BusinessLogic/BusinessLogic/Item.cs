@@ -1,21 +1,18 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
+﻿using System.Diagnostics;
 using BusinessLogic.Tags;
 
-namespace BusinessLogic
-{
-	[DebuggerDisplay("{" + nameof(Name) + "}")]
-	public class Item : Entity
-	{
-		public Item(ItemName name, string description, IEnumerable<ITag>? tags = null)
-			: base(tags ?? Enumerable.Empty<ITag>())
-		{
-			Name = name;
-			Description = description;
-		}
+namespace BusinessLogic;
 
-		public ItemName Name { get; }
-		public string Description { get; }
+[DebuggerDisplay("{" + nameof(Name) + "}")]
+public class Item : Entity
+{
+	public Item(ItemName name, string description, IEnumerable<ITag>? tags = null)
+		: base(tags ?? Enumerable.Empty<ITag>())
+	{
+		Name = name;
+		Description = description;
 	}
+
+	public ItemName Name { get; }
+	public string Description { get; }
 }

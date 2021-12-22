@@ -1,46 +1,44 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 
-namespace BusinessLogic
+namespace BusinessLogic;
+
+[DebuggerDisplay("{" + nameof(DisplayName) + "}")]
+public class Portal
 {
-	[DebuggerDisplay("{" + nameof(DisplayName) + "}")]
-	public class Portal
+	Portal(RoomId roomGuid, PortalName displayName, Passage passage)
 	{
-		Portal(RoomId roomGuid, PortalName displayName, Passage passage)
+		Passage = passage;
+		RoomGuid = roomGuid;
+
+		DisplayName = displayName;
+	}
+
+	public RoomId RoomGuid { get; }
+	public PortalName DisplayName { get; }
+	public Passage Passage { get; }
+
+	public class Builder
+	{
+		public Builder(Passage.Builder passage, PortalName displayName)
 		{
 			Passage = passage;
-			RoomGuid = roomGuid;
-
 			DisplayName = displayName;
 		}
 
-		public RoomId RoomGuid { get; }
-		public PortalName DisplayName { get; }
-		public Passage Passage { get; }
+		Passage.Builder Passage { get; }
+		PortalName DisplayName { get; }
 
-		public class Builder
+		public RoomId? RoomGuid { get; set; }
+
+		public Portal Build()
 		{
-			public Builder(Passage.Builder passage, PortalName displayName)
-			{
-				Passage = passage;
-				DisplayName = displayName;
-			}
+			if (RoomGuid is null) throw new InvalidOperationException();
+			return new(RoomGuid, DisplayName, Passage.Build());
+		}
 
-			Passage.Builder Passage { get; }
-			PortalName DisplayName { get; }
-
-			public RoomId? RoomGuid { get; set; }
-
-			public Portal Build()
-			{
-				if (RoomGuid is null) throw new InvalidOperationException();
-				return new(RoomGuid, DisplayName, Passage.Build());
-			}
-
-			public void ManageRoomId(RoomId roomId)
-			{
-				Passage.Add(this, roomId);
-			}
+		public void ManageRoomId(RoomId roomId)
+		{
+			Passage.Add(this, roomId);
 		}
 	}
 }

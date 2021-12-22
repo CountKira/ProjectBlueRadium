@@ -1,4 +1,3 @@
-﻿namespace BusinessLogic.Tags
-{
-	public interface ITag { }
-}
+﻿namespace BusinessLogic.Tags;
+
+public interface ITag { }

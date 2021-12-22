@@ -1,7 +1,6 @@
-﻿namespace BusinessLogic
+﻿namespace BusinessLogic;
+
+public interface IRandom
 {
-	public interface IRandom
-	{
-		int Next(int i);
-	}
+	int Next(int i);
 }

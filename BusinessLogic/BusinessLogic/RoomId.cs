@@ -1,4 +1,3 @@
-﻿namespace BusinessLogic
-{
-	public record RoomId(int Value);
-}
+﻿namespace BusinessLogic;
+
+public record RoomId(int Value);

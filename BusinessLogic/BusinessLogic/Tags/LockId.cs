@@ -1,4 +1,3 @@
-﻿namespace BusinessLogic.Tags
-{
-	public record LockId(int Value);
-}
+﻿namespace BusinessLogic.Tags;
+
+public record LockId(int Value);

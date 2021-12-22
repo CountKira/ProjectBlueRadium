@@ -1,8 +1,7 @@
-﻿namespace SharedViewResources
+﻿namespace SharedViewResources;
+
+public interface IViewWriter
 {
-	public interface IViewWriter
-	{
-		void WriteLine(string text);
-		void WriteCommand(string text);
-	}
+	void WriteLine(string text);
+	void WriteCommand(string text);
 }

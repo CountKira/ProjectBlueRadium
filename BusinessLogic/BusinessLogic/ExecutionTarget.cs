@@ -1,7 +1,6 @@
-﻿namespace BusinessLogic
+﻿namespace BusinessLogic;
+
+public class ExecutionTarget : OrdinalIgnoreCaseName
 {
-	public class ExecutionTarget : OrdinalIgnoreCaseName
-	{
-		public ExecutionTarget(string value) : base(value) { }
-	}
+	public ExecutionTarget(string value) : base(value) { }
 }

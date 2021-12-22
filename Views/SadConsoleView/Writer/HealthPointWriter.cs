@@ -1,19 +1,18 @@
 ﻿using BusinessLogic;
-using SadConsole;
+using Console = SadConsole.Console;
 
-namespace SadConsoleView.Writer
+namespace SadConsoleView.Writer;
+
+public class HealthPointWriter : INotificationHandler<int>
 {
-	public class HealthPointWriter : INotificationHandler<int>
-	{
-		readonly Console statusConsole;
+    readonly Console statusConsole;
 
-		public HealthPointWriter(Console statusConsole) => this.statusConsole = statusConsole;
+    public HealthPointWriter(Console statusConsole) => this.statusConsole = statusConsole;
 
-		/// <inheritdoc />
-		public void Notify(int e)
-		{
-			statusConsole.Clear();
-			statusConsole.Print(0, 0, $"Hp: {e}");
-		}
-	}
+    /// <inheritdoc />
+    public void Notify(int e)
+    {
+        statusConsole.Clear();
+        statusConsole.Print(0, 0, $"Hp: {e}");
+    }
 }

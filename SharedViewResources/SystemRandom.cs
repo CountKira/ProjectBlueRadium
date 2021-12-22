@@ -1,13 +1,11 @@
-﻿using System;
-using BusinessLogic;
+﻿using BusinessLogic;
 
-namespace SharedViewResources
+namespace SharedViewResources;
+
+public class SystemRandom : IRandom
 {
-	public class SystemRandom : IRandom
-	{
-		readonly Random random = new();
+	readonly Random random = new();
 
-		/// <inheritdoc />
-		public int Next(int i) => random.Next(i);
-	}
+	/// <inheritdoc />
+	public int Next(int i) => random.Next(i);
 }

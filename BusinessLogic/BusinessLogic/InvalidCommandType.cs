@@ -1,17 +1,16 @@
-﻿namespace BusinessLogic
+﻿namespace BusinessLogic;
+
+public enum InvalidCommandType
 {
-	public enum InvalidCommandType
-	{
-		ItemNotFound,
-		EnemyNotFound,
-		EntityNotFound,
-		UnknownCommand,
-		PortalNotFound,
-		CanNotWield,
-		AlreadyWielding,
-		NotExecutable,
-		MissingKey,
-		NotLocked,
-		Locked,
-	}
+	ItemNotFound,
+	EnemyNotFound,
+	EntityNotFound,
+	UnknownCommand,
+	PortalNotFound,
+	CanNotWield,
+	AlreadyWielding,
+	NotExecutable,
+	MissingKey,
+	NotLocked,
+	Locked,
 }

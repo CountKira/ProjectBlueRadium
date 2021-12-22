@@ -1,11 +1,10 @@
-﻿namespace BusinessLogic
+﻿namespace BusinessLogic;
+
+public class InvalidCommand
 {
-	public class InvalidCommand
-	{
-		public InvalidCommand(InvalidCommandType invalidCommandType) => CommandType = invalidCommandType;
+	public InvalidCommand(InvalidCommandType invalidCommandType) => CommandType = invalidCommandType;
 
-		public InvalidCommandType CommandType { get; }
+	public InvalidCommandType CommandType { get; }
 
-		public string? Specifier { get; set; }
-	}
+	public string? Specifier { get; set; }
 }

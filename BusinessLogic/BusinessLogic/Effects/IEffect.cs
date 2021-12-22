@@ -1,7 +1,6 @@
-﻿namespace BusinessLogic.Effects
+﻿namespace BusinessLogic.Effects;
+
+public interface IEffect
 {
-	public interface IEffect
-	{
-		string ActOn(Creature subject);
-	}
+	string ActOn(Creature subject);
 }

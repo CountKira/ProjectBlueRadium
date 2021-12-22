@@ -1,20 +1,18 @@
-﻿using System;
-using SadConsole.Controls;
+﻿using SadConsole.Controls;
 
-namespace SadConsoleView
+namespace SadConsoleView;
+
+class EditableTextBox : TextBox
 {
-	class EditableTextBox : TextBox
+	/// <inheritdoc />
+	public EditableTextBox(int width) : base(width) { }
+
+	public void Clear() => EditingText = string.Empty;
+
+	public void SetText(string text)
 	{
-		/// <inheritdoc />
-		public EditableTextBox(int width) : base(width) { }
-
-		public void Clear() => EditingText = string.Empty;
-
-		public void SetText(string text)
-		{
-			EditingText = text;
-			CaretPosition = text.Length;
-			LeftDrawOffset = Math.Max(0, CaretPosition - Width + 1);
-		}
+		EditingText = text;
+		CaretPosition = text.Length;
+		LeftDrawOffset = Math.Max(0, CaretPosition - Width + 1);
 	}
 }

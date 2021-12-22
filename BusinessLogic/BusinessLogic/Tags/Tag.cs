@@ -1,7 +1,6 @@
-﻿namespace BusinessLogic.Tags
+﻿namespace BusinessLogic.Tags;
+
+public enum Tag
 {
-	public enum Tag
-	{
-		GameEnd,
-	}
+	GameEnd,
 }

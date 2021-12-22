@@ -1,13 +1,12 @@
-﻿namespace BusinessLogic
+﻿namespace BusinessLogic;
+
+public enum OutputDataType
 {
-	public enum OutputDataType
-	{
-		Drink,
-		Look,
-		Get,
-		Wield,
-		Unwield,
-		Unlocked,
-		LearnedSpell,
-	}
+	Drink,
+	Look,
+	Get,
+	Wield,
+	Unwield,
+	Unlocked,
+	LearnedSpell,
 }

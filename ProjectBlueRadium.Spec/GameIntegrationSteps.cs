@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using BusinessLogic;
+﻿using BusinessLogic;
 using BusinessLogic.SemanticTypes;
 using SharedTestingResources;
 using TechTalk.SpecFlow;
@@ -11,219 +9,218 @@ using Xunit;
 // ReSharper disable UnusedMember.Global
 // ReSharper disable ParameterOnlyUsedForPreconditionCheck.Global
 
-namespace ProjectBlueRadium.Spec
+namespace ProjectBlueRadium.Spec;
+
+[Binding]
+public class GameIntegrationSteps
 {
-	[Binding]
-	public class GameIntegrationSteps
+	readonly TestWriter writer = new();
+	Game game;
+
+	[Given(@"I start a new game in the test dungeon with (.*) health")]
+	public void GivenIStartANewGameInTheTestDungeon(int health)
 	{
-		readonly TestWriter writer = new();
-		Game game;
-
-		[Given(@"I start a new game in the test dungeon with (.*) health")]
-		public void GivenIStartANewGameInTheTestDungeon(int health)
-		{
-			var player = new Creature(new("The player"), "The hero of our story", new(10, null), new(1));
-			game = new(writer, new TestingRoomRepository(), new MockRandom(), player);
-			var playerHealthPoints = game.Player.HealthPoints;
-			var damage = new Damage(playerHealthPoints.Current - health);
-			playerHealthPoints.Damage(damage);
-		}
+		var player = new Creature(new("The player"), "The hero of our story", new(10, null), new(1));
+		game = new(writer, new TestingRoomRepository(), new MockRandom(), player);
+		var playerHealthPoints = game.Player.HealthPoints;
+		var damage = new Damage(playerHealthPoints.Current - health);
+		playerHealthPoints.Damage(damage);
+	}
 
 
-		[When(@"I enter (?!multiple)(.*)")]
-		public void WhenIEnter(string command)
-		{
-			game.EnterCommand(command);
-		}
+	[When(@"I enter (?!multiple)(.*)")]
+	public void WhenIEnter(string command)
+	{
+		game.EnterCommand(command);
+	}
 
-		[When(@"I enter multiple (.*)")]
-		public void WhenIDoMultiple(string[] commands)
-		{
-			foreach (var command in commands) game.EnterCommand(command);
-		}
+	[When(@"I enter multiple (.*)")]
+	public void WhenIDoMultiple(string[] commands)
+	{
+		foreach (var command in commands) game.EnterCommand(command);
+	}
 
-		[Then(@"The game is over")]
-		public void ThenTheGameIsOver()
-		{
-			Assert.False(game.IsRunning);
-		}
+	[Then(@"The game is over")]
+	public void ThenTheGameIsOver()
+	{
+		Assert.False(game.IsRunning);
+	}
 
-		[Then(@"I do not know any spells")]
-		public void ThenIDoNotKnowAnySpells()
-		{
-			Assert.False(writer.SpellKnown);
-		}
+	[Then(@"I do not know any spells")]
+	public void ThenIDoNotKnowAnySpells()
+	{
+		Assert.False(writer.SpellKnown);
+	}
 
-		[Then(@"I know spells")]
-		public void ThenIKnowSpells()
-		{
-			Assert.True(writer.SpellKnown);
-		}
+	[Then(@"I know spells")]
+	public void ThenIKnowSpells()
+	{
+		Assert.True(writer.SpellKnown);
+	}
 
-		[Then(@"I got (.*)")]
-		public void GotItem(string itemName)
-		{
-			var result = writer.Action;
-			Assert.Equal(OutputDataType.Get, result.Type);
-			Assert.Equal(itemName, result.Specifier);
-		}
+	[Then(@"I got (.*)")]
+	public void GotItem(string itemName)
+	{
+		var result = writer.Action;
+		Assert.Equal(OutputDataType.Get, result.Type);
+		Assert.Equal(itemName, result.Specifier);
+	}
 
-		[Then(@"The output text shows (.*)")]
-		public void TheOutputTextShows(string expectedDescription)
-		{
-			var actualDescription = writer.TextOutput.Dequeue();
-			Assert.Equal(expectedDescription, actualDescription);
-		}
+	[Then(@"The output text shows (.*)")]
+	public void TheOutputTextShows(string expectedDescription)
+	{
+		var actualDescription = writer.TextOutput.Dequeue();
+		Assert.Equal(expectedDescription, actualDescription);
+	}
 
-		[Then(@"The item (.*) can not be found")]
-		public void TheItemCanNotBeenFound(string specifier)
-		{
-			var result = writer.InvalidCommand;
-			Assert.Equal(InvalidCommandType.ItemNotFound, result.CommandType);
-			Assert.Equal(specifier, result.Specifier);
-		}
+	[Then(@"The item (.*) can not be found")]
+	public void TheItemCanNotBeenFound(string specifier)
+	{
+		var result = writer.InvalidCommand;
+		Assert.Equal(InvalidCommandType.ItemNotFound, result.CommandType);
+		Assert.Equal(specifier, result.Specifier);
+	}
 
-		[Then(@"I see a description of myself")]
-		public void ThenISeeADescriptionOfMyself()
-		{
-			var result = writer.Me;
-			Assert.Equal("The hero of our story", result);
-		}
+	[Then(@"I see a description of myself")]
+	public void ThenISeeADescriptionOfMyself()
+	{
+		var result = writer.Me;
+		Assert.Equal("The hero of our story", result);
+	}
 
-		[Then(@"I have learned fireball")]
-		public void ThenIHaveLearnedFireball()
-		{
-			Assert.True(writer.FireballLearned);
-		}
+	[Then(@"I have learned fireball")]
+	public void ThenIHaveLearnedFireball()
+	{
+		Assert.True(writer.FireballLearned);
+	}
 
-		[Then(@"The command is unknown")]
-		public void UnknownCommand()
-		{
-			var result = writer.InvalidCommand.CommandType;
-			Assert.Equal(InvalidCommandType.UnknownCommand, result);
-		}
+	[Then(@"The command is unknown")]
+	public void UnknownCommand()
+	{
+		var result = writer.InvalidCommand.CommandType;
+		Assert.Equal(InvalidCommandType.UnknownCommand, result);
+	}
 
-		[Then(@"The portal (.*) can not be found")]
-		public void EntryWayNotFound(string entryWayName)
-		{
-			var result = writer.InvalidCommand;
-			Assert.Equal(InvalidCommandType.PortalNotFound, result.CommandType);
-			Assert.Equal(entryWayName, result.Specifier);
-		}
+	[Then(@"The portal (.*) can not be found")]
+	public void EntryWayNotFound(string entryWayName)
+	{
+		var result = writer.InvalidCommand;
+		Assert.Equal(InvalidCommandType.PortalNotFound, result.CommandType);
+		Assert.Equal(entryWayName, result.Specifier);
+	}
 
-		[Then(@"I have nothing equipped")]
-		public void ThenIHaveNothingEquipped()
-		{
-			var actual = writer.Equipment.Any();
-			Assert.False(actual);
-		}
+	[Then(@"I have nothing equipped")]
+	public void ThenIHaveNothingEquipped()
+	{
+		var actual = writer.Equipment.Any();
+		Assert.False(actual);
+	}
 
-		[Then(@"The entity (.*) can not be found")]
-		public void ThenEntityCanNotBeFound(string entity)
-		{
-			var result = writer.InvalidCommand;
-			Assert.Equal(InvalidCommandType.EntityNotFound, result.CommandType);
-			Assert.Equal(entity, result.Specifier);
-		}
+	[Then(@"The entity (.*) can not be found")]
+	public void ThenEntityCanNotBeFound(string entity)
+	{
+		var result = writer.InvalidCommand;
+		Assert.Equal(InvalidCommandType.EntityNotFound, result.CommandType);
+		Assert.Equal(entity, result.Specifier);
+	}
 
-		[Then(@"The game is running")]
-		public void ThenTheGameIsRunning()
-		{
-			Assert.True(game.IsRunning);
-		}
+	[Then(@"The game is running")]
+	public void ThenTheGameIsRunning()
+	{
+		Assert.True(game.IsRunning);
+	}
 
-		[Then(@"The room is described as ""(.*)""")]
-		public void ThenTheRoomIsDescribedAs(string roomDescription)
-		{
-			var result = writer.SeenThings;
-			Assert.Equal(roomDescription, result.EntityDescription);
-		}
+	[Then(@"The room is described as ""(.*)""")]
+	public void ThenTheRoomIsDescribedAs(string roomDescription)
+	{
+		var result = writer.SeenThings;
+		Assert.Equal(roomDescription, result.EntityDescription);
+	}
 
-		[Then(@"I see the items ""(.*)""")]
-		[Then(@"I see the item ""(.*)""")]
-		public void ThenISeeTheItems(string[] items)
-		{
-			var result = writer.SeenThings;
-			Assert.Equal(items, result.Items.Select(i => i.Name.Value).ToArray());
-		}
+	[Then(@"I see the items ""(.*)""")]
+	[Then(@"I see the item ""(.*)""")]
+	public void ThenISeeTheItems(string[] items)
+	{
+		var result = writer.SeenThings;
+		Assert.Equal(items, result.Items.Select(i => i.Name.Value).ToArray());
+	}
 
-		[Then(@"I see no items")]
-		public void ThenISeeNoItems()
-		{
-			ThenISeeTheItems(Array.Empty<string>());
-		}
+	[Then(@"I see no items")]
+	public void ThenISeeNoItems()
+	{
+		ThenISeeTheItems(Array.Empty<string>());
+	}
 
-		[Then(@"I see the portals? ""(.*)""")]
-		public void ThenISeeTheEntryWays(string[] entryWays)
-		{
-			var result = writer.SeenThings;
-			Assert.Equal(entryWays, result.Portals.Select(p => p.DisplayName.Value).ToArray());
-		}
+	[Then(@"I see the portals? ""(.*)""")]
+	public void ThenISeeTheEntryWays(string[] entryWays)
+	{
+		var result = writer.SeenThings;
+		Assert.Equal(entryWays, result.Portals.Select(p => p.DisplayName.Value).ToArray());
+	}
 
-		[Then(@"I see the creature ""(.*)""")]
-		public void ThenISeeTheCreatures(string[] creatures)
-		{
-			var result = writer.SeenThings;
-			Assert.Equal(creatures, result.Creatures.Select(c => c.Name.Value));
-		}
+	[Then(@"I see the creature ""(.*)""")]
+	public void ThenISeeTheCreatures(string[] creatures)
+	{
+		var result = writer.SeenThings;
+		Assert.Equal(creatures, result.Creatures.Select(c => c.Name.Value));
+	}
 
-		[Then(@"I have no items in my inventory")]
-		public void ThenIHaveNoItemsInMyInventory()
-		{
-			ThenIHaveInMyInventory(Array.Empty<string>());
-		}
+	[Then(@"I have no items in my inventory")]
+	public void ThenIHaveNoItemsInMyInventory()
+	{
+		ThenIHaveInMyInventory(Array.Empty<string>());
+	}
 
-		[Then(@"I have ""(.*)"" in my inventory")]
-		public void ThenIHaveInMyInventory(string[] items)
-		{
-			var actual = writer.Inventory;
-			Assert.Equal(items, actual.Select(i => i.Name.Value));
-		}
+	[Then(@"I have ""(.*)"" in my inventory")]
+	public void ThenIHaveInMyInventory(string[] items)
+	{
+		var actual = writer.Inventory;
+		Assert.Equal(items, actual.Select(i => i.Name.Value));
+	}
 
-		[Then(@"I have (?!nothing)(.*) equipped")]
-		public void ThenIHaveSwordEquipped(string item)
-		{
-			var actual = writer.Equipment;
-			Assert.Contains(item, actual.Select(e => e.Name.Value));
-		}
+	[Then(@"I have (?!nothing)(.*) equipped")]
+	public void ThenIHaveSwordEquipped(string item)
+	{
+		var actual = writer.Equipment;
+		Assert.Contains(item, actual.Select(e => e.Name.Value));
+	}
 
-		[Then(@"I equipped sword")]
-		public void ThenIEquippedSword()
-		{
-			var actual = writer.Action;
-			Assert.Equal(OutputDataType.Wield, actual.Type);
-			Assert.Equal("sword", actual.Specifier);
-		}
+	[Then(@"I equipped sword")]
+	public void ThenIEquippedSword()
+	{
+		var actual = writer.Action;
+		Assert.Equal(OutputDataType.Wield, actual.Type);
+		Assert.Equal("sword", actual.Specifier);
+	}
 
-		[Then(@"I get notified that the (.*) can not be equipped")]
-		public void ThenIGetNotifiedThatTheItemCanNotBeEquipped(string item)
-		{
-			var actual = writer.InvalidCommand;
-			Assert.Equal(InvalidCommandType.CanNotWield, actual.CommandType);
-			Assert.Equal(item, actual.Specifier);
-		}
+	[Then(@"I get notified that the (.*) can not be equipped")]
+	public void ThenIGetNotifiedThatTheItemCanNotBeEquipped(string item)
+	{
+		var actual = writer.InvalidCommand;
+		Assert.Equal(InvalidCommandType.CanNotWield, actual.CommandType);
+		Assert.Equal(item, actual.Specifier);
+	}
 
-		[Then(@"I get notified that something is already equipped")]
-		public void ThenIGetNotifiedThatSomethingIsAlreadyEquipped()
-		{
-			var actual = writer.InvalidCommand;
-			Assert.Equal(InvalidCommandType.AlreadyWielding, actual.CommandType);
-		}
+	[Then(@"I get notified that something is already equipped")]
+	public void ThenIGetNotifiedThatSomethingIsAlreadyEquipped()
+	{
+		var actual = writer.InvalidCommand;
+		Assert.Equal(InvalidCommandType.AlreadyWielding, actual.CommandType);
+	}
 
-		[Then(@"I have (.*) hp")]
-		public void ThenIHaveHp(int healthPointsValue)
-		{
-			Assert.Equal(healthPointsValue, game.Player.HealthPoints.Current);
-		}
+	[Then(@"I have (.*) hp")]
+	public void ThenIHaveHp(int healthPointsValue)
+	{
+		Assert.Equal(healthPointsValue, game.Player.HealthPoints.Current);
+	}
 
 
-		[StepArgumentTransformation]
-		public static string[] TransformToStringArray(string str) => str.Split(',');
+	[StepArgumentTransformation]
+	public static string[] TransformToStringArray(string str) => str.Split(',');
 
-		class MockRandom : IRandom
-		{
-			/// <inheritdoc />
-			public int Next(int i) => 1;
-		}
+	class MockRandom : IRandom
+	{
+		/// <inheritdoc />
+		public int Next(int i) => 1;
 	}
 }

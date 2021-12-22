@@ -1,57 +1,56 @@
 ﻿using Xunit;
 
-namespace BusinessLogic.Tests
+namespace BusinessLogic.Tests;
+
+public class ItemCollectionToStringTest
 {
-	public class ItemCollectionToStringTest
+	[Fact]
+	public void EmptyItems()
 	{
-		[Fact]
-		public void EmptyItems()
-		{
-			var itemCollection = new ItemCollection();
-			var text = ItemCollectionToString.GetItemNameConcat(itemCollection);
-			Assert.Equal("", text);
-		}
+		var itemCollection = new ItemCollection();
+		var text = ItemCollectionToString.GetItemNameConcat(itemCollection);
+		Assert.Equal("", text);
+	}
 
-		[Fact]
-		public void SingleItem()
+	[Fact]
+	public void SingleItem()
+	{
+		var itemCollection = new ItemCollection
 		{
-			var itemCollection = new ItemCollection
-			{
-				new DummyItem("Thing", "TestThing"),
-			};
-			var text = ItemCollectionToString.GetItemNameConcat(itemCollection);
-			Assert.Equal("a Thing", text);
-		}
+			new DummyItem("Thing", "TestThing"),
+		};
+		var text = ItemCollectionToString.GetItemNameConcat(itemCollection);
+		Assert.Equal("a Thing", text);
+	}
 
-		[Fact]
-		public void ThreeOrMoreItems()
+	[Fact]
+	public void ThreeOrMoreItems()
+	{
+		var itemCollection = new ItemCollection
 		{
-			var itemCollection = new ItemCollection
-			{
-				new DummyItem("Thing", "TestThing"),
-				new DummyItem("Thing2", "TestThing"),
-				new DummyItem("Thing3", "TestThing"),
-			};
-			var text = ItemCollectionToString.GetItemNameConcat(itemCollection);
-			Assert.Equal("a Thing, a Thing2 and a Thing3", text);
-		}
+			new DummyItem("Thing", "TestThing"),
+			new DummyItem("Thing2", "TestThing"),
+			new DummyItem("Thing3", "TestThing"),
+		};
+		var text = ItemCollectionToString.GetItemNameConcat(itemCollection);
+		Assert.Equal("a Thing, a Thing2 and a Thing3", text);
+	}
 
-		[Fact]
-		public void TwoItems()
+	[Fact]
+	public void TwoItems()
+	{
+		var itemCollection = new ItemCollection
 		{
-			var itemCollection = new ItemCollection
-			{
-				new DummyItem("Thing", "TestThing"),
-				new DummyItem("Thing2", "TestThing"),
-			};
-			var text = ItemCollectionToString.GetItemNameConcat(itemCollection);
-			Assert.Equal("a Thing and a Thing2", text);
-		}
+			new DummyItem("Thing", "TestThing"),
+			new DummyItem("Thing2", "TestThing"),
+		};
+		var text = ItemCollectionToString.GetItemNameConcat(itemCollection);
+		Assert.Equal("a Thing and a Thing2", text);
+	}
 
-		class DummyItem : Item
-		{
-			/// <inheritdoc />
-			public DummyItem(string name, string description) : base(new(name), description) { }
-		}
+	class DummyItem : Item
+	{
+		/// <inheritdoc />
+		public DummyItem(string name, string description) : base(new(name), description) { }
 	}
 }

@@ -1,8 +1,7 @@
-﻿namespace BusinessLogic
+﻿namespace BusinessLogic;
+
+public interface IRoomRepository
 {
-	public interface IRoomRepository
-	{
-		Room GetStartRoom();
-		Room GetRoomById(RoomId id);
-	}
+	Room GetStartRoom();
+	Room GetRoomById(RoomId id);
 }

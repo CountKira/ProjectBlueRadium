@@ -1,46 +1,44 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using SadConsole;
 using Game = SadConsole.Game;
 
-namespace SadConsoleView
+namespace SadConsoleView;
+
+public static class Program
 {
-	public static class Program
+	static readonly MainScreen screen = new();
+	static DateTime? exitTime;
+
+	static void Main()
 	{
-		static readonly MainScreen screen = new();
-		static DateTime? exitTime;
+		Game.Create(80, 25);
 
-		static void Main()
+		Game.OnInitialize = Init;
+		Game.OnUpdate = Update;
+
+		Game.Instance.Run();
+		Game.Instance.Dispose();
+	}
+
+	static void Update(GameTime obj)
+	{
+		if (exitTime.HasValue)
 		{
-			Game.Create(80, 25);
-
-			Game.OnInitialize = Init;
-			Game.OnUpdate = Update;
-
-			Game.Instance.Run();
-			Game.Instance.Dispose();
+			if (DateTime.Now > exitTime)
+				Game.Instance.Exit();
+			else
+				return;
 		}
 
-		static void Update(GameTime obj)
+		if (!screen.IsRunning)
 		{
-			if (exitTime.HasValue)
-			{
-				if (DateTime.Now > exitTime)
-					Game.Instance.Exit();
-				else
-					return;
-			}
-
-			if (!screen.IsRunning)
-			{
-				screen.ShutDown();
-				exitTime = DateTime.Now + TimeSpan.FromSeconds(3);
-			}
+			screen.ShutDown();
+			exitTime = DateTime.Now + TimeSpan.FromSeconds(3);
 		}
+	}
 
-		static void Init()
-		{
-			Global.CurrentScreen = screen;
-		}
+	static void Init()
+	{
+		Global.CurrentScreen = screen;
 	}
 }

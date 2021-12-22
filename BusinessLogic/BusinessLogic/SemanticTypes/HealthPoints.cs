@@ -1,45 +1,42 @@
-﻿using System;
+﻿namespace BusinessLogic.SemanticTypes;
 
-namespace BusinessLogic.SemanticTypes
+public class HealthPoints
 {
-	public class HealthPoints
+	readonly INotificationHandler<int>? healthPointsChanged;
+	int current;
+
+	public HealthPoints(int current, INotificationHandler<int>? healthPointsChanged)
 	{
-		readonly INotificationHandler<int>? healthPointsChanged;
-		int current;
+		this.healthPointsChanged = healthPointsChanged;
+		Current = current;
+		Max = current;
+	}
 
-		public HealthPoints(int current, INotificationHandler<int>? healthPointsChanged)
+	public int Current
+	{
+		get => current;
+		private set
 		{
-			this.healthPointsChanged = healthPointsChanged;
-			Current = current;
-			Max = current;
+			current = value;
+			healthPointsChanged?.Notify(value);
 		}
+	}
 
-		public int Current
-		{
-			get => current;
-			private set
-			{
-				current = value;
-				healthPointsChanged?.Notify(value);
-			}
-		}
+	public int Max { get; }
 
-		public int Max { get; }
+	public bool ZeroOrBelow => Current <= 0;
 
-		public bool ZeroOrBelow => Current <= 0;
+	public int Damage(Damage damage)
+	{
+		var then = Current;
+		Current -= damage.Value;
+		return then - Current;
+	}
 
-		public int Damage(Damage damage)
-		{
-			var then = Current;
-			Current -= damage.Value;
-			return then - Current;
-		}
-
-		public int Heal(Heal heal)
-		{
-			var then = Current;
-			Current = Math.Min(Max, Current + heal.Value);
-			return Current - then;
-		}
+	public int Heal(Heal heal)
+	{
+		var then = Current;
+		Current = Math.Min(Max, Current + heal.Value);
+		return Current - then;
 	}
 }
